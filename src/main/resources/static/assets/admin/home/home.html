@@ -1,0 +1,170 @@
+<div class="page-wrapper">
+	<div class="px-4 main-content">
+		<div class="row page-titles">
+			<div class="col-md-5 col-8 align-self-center">
+				<h3 class="text-themecolor">Dashboard</h3>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item active"><a href="javascript:void(0)">Trang chủ</a></li>
+					<!-- <li class="breadcrumb-item active">Dashboard</li> -->
+				</ol>
+			</div>
+			<div class="col-md-7 col-4 align-self-center text-end">
+				<button ng-click="tableToExcel()"
+					class="btn waves-effect waves-light btn-success pull-right hidden-sm-down">Tải File
+					Excel</button>
+			</div>
+		</div>
+		<!-- Small boxes (Stat box) -->
+		<div class="row">
+			<div class="col-lg-3 col-6">
+				<!-- small box -->
+				<div class="small-box " style="background-color:#17A2B8 ;padding: 20px;border-radius:5px 5px 0 0">
+					<div class="inner text-white row" style="position:none;">
+						<h2 class="text-white font-weight-bolder">{{revenueSum[0].sum| number:0}} <br>VND </h2>
+					</div>
+					<div class="row">
+						<h3 class="text-white float-start">Tổng doanh thu </h3>
+						<div class="icon float-end">
+							<svg class="float-end" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="72"
+								height="72">
+								<path fill="none" d="M0 0h24v24H0z" />
+								<path
+									d="M9 18H4v-8h5v8zm-2-2v-4H6v4h1zm6 0V8h-1v8h1zm2 2h-5V6h5v12zm4-2V4h-1v12h1zm2 2h-5V2h5v16zm1 4H3v-2h19v2z" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div class="alert text-center col-12"
+					style="background-color:#1591A5 ;height: 50px;border-radius: 0 0 5px 5px;">
+					<a href="#" class="text-white col-4 ">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-3 col-6">
+				<!-- small box -->
+				<div class="small-box " style="background-color:#28A745 ;padding: 20px;border-radius:5px 5px 0 0">
+					<div class="inner text-white col-5" style="position:none;">
+						<h1 class="text-white font-weight-bolder">{{revenueAll[0].count}}</h1>
+					</div>
+					<div class="row">
+						<h3 class="text-white float-start">Tổng đơn hàng <br> hiện có </h3>
+						<div class="icon float-end">
+							<svg class="float-end" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="72"
+								height="72">
+								<path fill="none" d="M0 0h24v24H0z" />
+								<path
+									d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h16V5H4zm4.5 9H14a.5.5 0 1 0 0-1h-4a2.5 2.5 0 1 1 0-5h1V6h2v2h2.5v2H10a.5.5 0 1 0 0 1h4a2.5 2.5 0 1 1 0 5h-1v2h-2v-2H8.5v-2z" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div class="alert text-center col-12"
+					style="background-color:#24963E ;height: 50px;border-radius: 0 0 5px 5px;">
+					<a href="#!order" class="text-white col-4 ">Xem chi tiết <i
+							class="fas fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-3 col-6">
+				<!-- small box -->
+				<div class="small-box " style="background-color:#FFC107 ;padding: 20px;border-radius:5px 5px 0 0">
+					<div class="inner text-white col-5" style="position:none;">
+						<h1 class="text-white font-weight-bolder">{{products.length}}</h1>
+					</div>
+					<div class="row">
+						<h3 class="text-white float-start">Sản phẩm <br> hiện có </h3>
+						<div class="icon float-end">
+							<svg class="float-end" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="72"
+								height="72">
+								<path fill="none" d="M0 0h24v24H0z" />
+								<path
+									d="M7 8V6a5 5 0 1 1 10 0v2h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3zm0 2H5v10h14V10h-2v2h-2v-2H9v2H7v-2zm2-2h6V6a3 3 0 0 0-6 0v2z" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div class="alert text-center col-12"
+					style="background-color:#E5AD06 ;height: 50px;border-radius: 0 0 5px 5px;">
+					<a href="#!product" class="text-white col-4 ">Xem chi tiết <i
+							class="fas fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-3 col-6">
+				<!-- small box -->
+				<div class="small-box " style="background-color:#DC3545 ;padding: 20px;border-radius:5px 5px 0 0">
+					<div class="inner text-white col-5" style="position:none;">
+						<h1 class="text-white font-weight-bolder">{{accounts.length}}</h1>
+					</div>
+					<div class="row">
+						<h3 class="text-white float-start">Người dùng <br> đăng ký </h3>
+						<div class="icon float-end">
+							<svg class="float-end" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="72"
+								height="72">
+								<path fill="none" d="M0 0h24v24H0z" />
+								<path
+									d="M15 4H5v16h14V8h-4V4zM3 2.992C3 2.444 3.447 2 3.999 2H16l5 5v13.993A1 1 0 0 1 20.007 22H3.993A1 1 0 0 1 3 21.008V2.992zm9 8.508a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zM7.527 17a4.5 4.5 0 0 1 8.946 0H7.527z" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div class="alert text-center col-12"
+					style="background-color:#C6303E ;height: 50px;border-radius: 0 0 5px 5px;">
+					<a href="#!account" class="text-white col-4 ">Xem chi tiết <i
+							class="fas fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			<!-- ./col -->
+		</div>
+		<div class="row report-style">
+			<ul class="nav nav-tabs" id="myTab" role="tablist" style="font-variant: small-caps;">
+				<li class="nav-item" role="presentation">
+					<button class="nav-link active" id="revenue-tab" data-bs-toggle="tab"
+						data-bs-target="#revenue-tab-pane" type="button" role="tab" aria-controls="revenue-tab-pane"
+						aria-selected="true">DOANH THU THEO THÁNG</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link " id="form-tab" data-bs-toggle="tab" data-bs-target="#form-tab-pane"
+						type="button" role="tab" aria-controls="form-tab-pane" aria-selected="false">DOANH THU THEO
+						LOẠI</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="table-tab" data-bs-toggle="tab" data-bs-target="#table-tab-pane"
+						type="button" role="tab" aria-controls="table-tab-pane" aria-selected="true">DOANH THU THEO
+						THƯƠNG HIỆU</button>
+				</li>
+
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="product-tab" data-bs-toggle="tab" data-bs-target="#product-tab-pane"
+						type="button" role="tab" aria-controls="product-tab-pane" aria-selected="true">DOANH THU SẢN
+						PHẨM THEO THÁNG</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer-tab-pane"
+						type="button" role="tab" aria-controls="customer-tab-pane" aria-selected="true">KHÁCH HÀNG CỦA
+						TÔI</button>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade " id="form-tab-pane" role="tabpanel" aria-labelledby="form-tab" tabindex="0">
+					<div ng-include="'/assets/admin/home/category_revenue.html'"></div>
+				</div>
+				<div class="tab-pane fade" id="table-tab-pane" role="tabpanel" aria-labelledby="table-tab" tabindex="0">
+					<div ng-include="'/assets/admin/home/brand_revenue.html'"></div>
+				</div>
+				<div class="tab-pane fade show active" id="revenue-tab-pane" role="tabpanel"
+					aria-labelledby="revenue-tab" tabindex="0">
+					<div ng-include="'/assets/admin/home/month_revenue.html'"></div>
+				</div>
+				<div class="tab-pane fade" id="product-tab-pane" role="tabpanel" aria-labelledby="product-tab"
+					tabindex="0">
+					<div ng-include="'/assets/admin/home/product_revenue.html'"></div>
+				</div>
+				<div class="tab-pane fade" id="customer-tab-pane" role="tabpanel" aria-labelledby="customer-tab"
+					tabindex="0">
+					<div ng-include="'/assets/admin/home/customer_revenue.html'"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

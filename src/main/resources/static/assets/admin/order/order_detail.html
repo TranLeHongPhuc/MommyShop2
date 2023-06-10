@@ -1,0 +1,423 @@
+<div class="page-wrapper">
+	<div class="px-4 main-content">
+		<div class="row page-titles">
+			<div class="col-md-5 col-8 align-self-center">
+				<h3 class="text-themecolor">Dashboard</h3>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#!admin">Trang chủ</a></li>
+					<li class="breadcrumb-item active">Quản lý chi tiết đơn hàng</li>
+				</ol>
+			</div>
+			<!-- <div class="col-md-7 col-4 align-self-center text-end">
+				<a href="https://themewagon.com/themes/bootstrap-4-responsive-admin-template/"
+					class="btn waves-effect waves-light btn-success pull-right hidden-sm-down">Tải File Excel</a>
+			</div> -->
+		</div>
+		<div class="row">
+			<div class="card">
+				<div class="card-header bg-primary">
+					<h5 class="text-light fw-bold">Thông tin đơn hàng</h5>
+				</div>
+				<div class="card-body">
+					<div class="info row">
+						<div class="col-6 px-4 border-end">
+							<div class="card card-info">
+								<div class="text-start fw-bold mb-2">
+									Mã đơn hàng: <span class="float-right">#{{info.id}}</span>
+								</div>
+								<div class="text-start fw-bold mb-2">Tên người dùng:
+									<span class="float-right">{{info.account.fullname}}</span>
+								</div>
+								<div class="text-start fw-bold mb-2">Email:
+									<span class="float-right">{{info.account.email}}</span>
+								</div>
+								<div class="text-start fw-bold mb-2">Số điện thoại:
+									<span ng-if="info.account.phoneNumber != ''"
+										class="float-right">{{info.account.phoneNumber}}</span>
+									<span ng-if="info.account.phoneNumber == '' && info.phoneNumberAnonymous != ''"
+										class="float-right">{{info.phoneNumberAnonymous}}</span>
+								</div>
+								<div class="text-start fw-bold mb-2">Ngày đặt hàng:
+									<span class="float-right">{{info.createDate | date:'HH:mm:ss - dd/MM/yyyy'}}</span>
+								</div>
+								<div class="text-start fw-bold mb-2">Phương thức thanh toán:
+									<span class="float-right text-info"><i>{{info.paymentMethod}}</i></span>
+								</div>
+								<div class="text-start fw-bold mb-2">Thanh toán:
+									<span class="float-right text-success"
+										ng-if="info.paymentMethod == 'CREDIT_CARD'"><i>Đã thanh toán</i></span>
+									<span class="float-right text-danger" ng-if="info.paymentMethod == 'COD'"><i>Chưa
+											thanh toán</i></span>
+								</div>
+								<div class="text-start fw-bold mb-2">Trạng thái:
+									<span class="float-right fst-italic text-danger"
+										ng-if="info.orderStatus == 'NEW'">Chưa xác nhận</span>
+									<span class="float-right fst-italic text-success"
+										ng-if="info.orderStatus== 'CONFIRMED'">Đã xác nhận</span>
+									<span class="float-right fst-italic text-success"
+										ng-if="info.orderStatus== 'DILIVERING'">Đang vận chuyển</span>
+									<span class="float-right fst-italic text-danger"
+										ng-if="info.orderStatus== 'CANCELLED'">Đã hủy đơn hàng</span>
+									<span class="float-right fst-italic text-info"
+										ng-if="info.orderStatus== 'FINISHED'">Đã hoàn thành</span>
+									<span class="float-right fst-italic text-info" ng-if="info.orderStatus== 'RATED'">Đã
+										hoàn thành</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 px-4 address-note">
+							<div class="address">
+								<div class="title">
+									<div class="fw-bold">Địa chỉ giao hàng: </div>
+								</div>
+								<div class="row mb-3">
+									<div class="fw-bold mb-2 text-dark">
+										{{info.address}}
+									</div>
+								</div>
+							</div>
+							<div class="note border-top pt-2">
+								<div class="title">
+									<div class="fw-bold">Ghi chú: </div>
+								</div>
+								<div class="row mb-3">
+									<div class="fw-bold mb-2 text-dark">
+										{{info.note}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer text-end">
+					<button class="btn btn-themecolor fw-bold" data-bs-toggle="modal" data-bs-target="#statusModal">
+						Xem trạng thái đơn hàng
+					</button>
+					<button
+						ng-if="info.orderStatus == 'CONFIRMED' || info.orderStatus == 'DILIVERING' "
+						class="btn btn-warning fw-bold" type="button" data-bs-toggle="modal"
+						data-bs-target="#statusModalElm">Cập nhật vận chuyển đơn hàng</button>
+					<button ng-if="info.orderStatus == 'NEW'" class="btn btn-success fw-bold"
+						ng-click="updateOrderStatus(info.id, 'CONFIRMED')">Xác nhận đơn hàng</button>
+					<button ng-if="info.orderStatus == 'CONFIRMED'" class="btn btn-success fw-bold"
+						ng-click="updateOrderStatus(info.id, 'DILIVERING')">Vận chuyển đơn hàng</button>
+					<button ng-if="info.orderStatus == 'RATED'" class="btn ratebtn fw-bold" data-bs-toggle="modal"
+						data-bs-target="#ratedOrder">Xem đánh giá</button>
+					<button
+						ng-if="info.orderStatus != 'FINISHED' && info.orderStatus != 'CANCELLED' && info.orderStatus != 'RATED'"
+						class="btn btn-danger fw-bold" type="button" data-bs-toggle="modal"
+						data-bs-target="#exampleModal">Hủy đơn hàng</button>
+						
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade delete_order" id="statusModalElm" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title fw-bold text-danger" id="exampleModalLabel">Vận chuyển đơn hàng</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<div ng-if="info.orderStatus == 'CONFIRMED' || info.orderStatus == 'DILIVERING'  ">
+									<h6>Đang chuẩn bị : {{timeConfirm | date:'HH:mm:ss - dd/MM/yyyy'}}</h6>
+									<h6 class="modal-title fw-bold text-success" ><span style="white-space:pre-wrap;">{{statusConfirmElm}}</span></h6>
+								</div>
+								<hr>
+								<div ng-if="info.orderStatus == 'DILIVERING'  ">
+									<h6>Đang vận chuyển : {{timeDilivery | date:'HH:mm:ss - dd/MM/yyyy'}}</h6>
+									<h6 class="modal-title fw-bold text-success"><span style="white-space:pre-wrap;">{{statusDiliveryElm}}</span></h6>
+								</div>
+								<hr><br>
+								<div class="d-flex">
+									
+									<label for="" class="fw-bold col-auto me-4">Chi tiết: </label>
+									<select onchange="showHideStatus(this.value)"  for="" class="form-select" ng-model="statusElm"
+										 aria-label="Default select example">
+										<option value="" >Chọn chi tiết gợi ý</option>
+										<option value="Người bán đang chuẩn bị hàng">Người bán đang chuẩn bị hàng</option>
+										<option value="Đơn hàng đã được đóng gói">Đơn hàng đã được đóng gói </option>
+										<option value="Lấy hàng không thành công vì Người gửi hẹn lại ngày lấy">Lấy hàng không thành công vì Người gửi hẹn lại ngày lấy</option>
+										<option value="Đơn hàng đang được bàn giao cho đơn vị vận chuyển">Đơn hàng đang được bàn giao cho đơn vị vận chuyển</option>
+										<option value="Đơn hàng đã đến bưu cục">Đơn hàng đã đến bưu cục</option>
+										<option value="Đơn hàng đang trên đường giao đến bạn">Đơn hàng đang trên đường giao đến bạng </option>
+										<option value="other-detail" id="other-detail">Chi tiết khác...</option>
+									</select>
+									
+								</div>
+								<textarea placeholder="Nhập chi tiết khác của bạn..." class="form-control  mt-3" name=""
+									id="content-detail" cols="" rows="5"></textarea>
+								<label for="" class="fw-bold col-auto me-4">Tại địa chỉ :  </label>
+								<input class="form-control" id="place" ng-model="place" type="text" value="" placeholder="Default input" aria-label="default input example">
+									 
+									
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" ng-if="info.orderStatus == 'CONFIRMED'" class="btn btn-primary" ng-click="updateOrderStatusElm(info.id,'CONFIRMED',statusElm)">Cập nhật trạng thái vận chuyển
+							</button>
+							<button type="button" ng-if="info.orderStatus == 'DILIVERING'" class="btn btn-primary" ng-click="updateOrderStatusElm(info.id,'DILIVERING',statusElm)">Cập nhật trạng thái vận chuyển
+							</button>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade delete_order" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title fw-bold text-danger" id="exampleModalLabel">HỦY ĐƠN HÀNG</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<div class="d-flex">
+									<label for="" class="fw-bold col-auto me-4">Lý do: </label>
+									<select onchange="showHide(this.value)" for="" class="form-select"
+										id="content-cancel" aria-label="Default select example">
+										<option value="">Chọn lý do gợi ý</option>
+										<option value="1">Sản phẩm đã hết hàng</option>
+										<option value="2">Sản phẩm ngừng kinh doanh</option>
+										<option value="3">Không thể kết nối với vận chuyển</option>
+										<option value="4">Sản phẩm đã hết hạn sử dụng</option>
+										<option value="other-reason" id="other-reason">Lý do khác...</option>
+									</select>
+								</div>
+								<textarea placeholder="Nhập lý do của bạn..." class="form-control  mt-3" name=""
+									id="content-reason" cols="" rows="5"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" ng-click="updateOrderStatusCancel(info.id)">Đồng
+							ý</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade status_order" id="statusModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title fw-bold text-info" id="exampleModalLabel">TRẠNG THÁI ĐƠN HÀNG</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="container padding-bottom-3x mb-1">
+							<div class="card mb-3">
+								<div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span
+										class="text-uppercase">Theo dõi đơn hàng số - </span><span
+										class="text-medium">#{{info.id}}</span></div>
+								<div
+									class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+									<div class="w-100 text-center py-1 px-2"><span class="text-medium">Vận chuyển
+											qua:</span><br>Giao hàng nhanh</div>
+									<div ng-if="info.orderStatus == 'NEW'" class="w-100 text-center py-1 px-2"><span
+											class="text-medium">Trạng thái:</span>
+										Chưa xác nhận</div>
+									<div ng-if="info.orderStatus == 'CONFIRMED'" class="w-100 text-center py-1 px-2">
+										<span class="text-medium">Trạng thái:</span>
+										Đã xác nhận
+									</div>
+									<div ng-if="info.orderStatus == 'DILIVERING'" class="w-100 text-center py-1 px-2">
+										<span class="text-medium">Trạng thái:</span>
+										Đang vận chuyển
+									</div>
+									<div ng-if="info.orderStatus == 'FINISHED'" class="w-100 text-center py-1 px-2">
+										<span class="text-medium">Trạng thái:</span>
+										Hoàn thành
+									</div>
+									<div class="w-100 text-center py-1 px-2"><span class="text-medium">Expected
+											Date:</span> SEP 09, 2017</div>
+								</div>
+								<div class="card-body">
+									<div
+										class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+										<div ng-if="info.orderStatus == 'NEW'" class="step">
+											<div class="step-icon-wrap">
+												<div class="step-icon"><i class="pe-7s-cart"></i></div>
+											</div>
+											<h4 class="step-title">Đã xác nhận đơn hàng</h4>
+										</div>
+										<div ng-if="statusConfirm == 'CONFIRMED'" class="step completed">
+											<div class="step-icon-wrap">
+												<div class="step-icon"><i class="pe-7s-cart"></i></div>
+											</div>
+											<h4 class="step-title">Đã xác nhận đơn hàng</h4>
+											<span>{{timeConfirm | date:'HH:mm:ss - dd/MM/yyyy'}}</span>
+											<span style="white-space:pre-wrap;">{{statusConfirmElm}}</span>
+										</div>
+										<div ng-if="statusDilivery == 'DILIVERING'" class="step completed">
+											<div class="step-icon-wrap">
+												<div class="step-icon"><i class="pe-7s-car"></i></div>
+											</div>
+											<h4 class="step-title">Đang vận chuyển</h4>
+											<span>{{timeDilivery | date:'HH:mm:ss - dd/MM/yyyy'}}</span>
+											<span  style="white-space:pre-wrap;">{{statusDiliveryElm}}</span>
+										</div>
+										<div ng-if="statusDilivery != 'DILIVERING'" class="step">
+											<div class="step-icon-wrap">
+												<div class="step-icon"><i class="pe-7s-car"></i></div>
+											</div>
+											<h4 class="step-title">Đang vận chuyển</h4>
+										</div>
+										<div ng-if="statusFinish == 'FINISHED'" class="step completed">
+											<div class="step-icon-wrap">
+												<div class="step-icon"><i class="pe-7s-home"></i></div>
+											</div>
+											<h4 class="step-title">Đơn hàng đã được giao</h4>
+											<span>{{timeFinish | date:'HH:mm:ss - dd/MM/yyyy'}}</span>
+										</div>
+										<div ng-if="statusFinish != 'FINISHED'" class="step">
+											<div class="step-icon-wrap">
+												<div class="step-icon"><i class="pe-7s-home"></i></div>
+											</div>
+											<h4 class="step-title">Đơn hàng đã được giao</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- <div
+								class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+								<div class="custom-control custom-checkbox mr-3">
+									<input class="custom-control-input" type="checkbox" id="notify_me" checked="">
+									<label class="custom-control-label" for="notify_me">Notify me when order is
+										delivered</label>
+								</div>
+								<div class="text-left text-sm-right"><a
+										class="btn btn-outline-primary btn-rounded btn-sm" href="orderDetails"
+										data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
+							</div> -->
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" ng-click="closeModal()">Trở lại</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade status_order" id="ratedOrder" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title fw-bold text-info" id="exampleModalLabel">ĐÁNH GIÁ CỦA KHÁCH HÀNG</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="container padding-bottom-3x mb-1">
+							<div class="card mb-3">
+								<div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span
+										class="text-uppercase">Đánh giá đơn hàng số - </span><span
+										class="text-medium">#{{info.id}}</span></div>
+								<div
+									class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+									<div class="w-100 text-center py-1 px-2"><span class="text-medium">Tên khách hàng:
+										</span><i>{{info.account.fullname}}</i></div>
+									<div class="w-100 text-center py-1 px-2"><span class="text-medium">Email:</span>
+										<i>{{info.account.email}}</i></div>
+								</div>
+								<div class="card-body">
+									<table class="table table-condensed" style="width: 100%;">
+										<thead class="bg-success">
+											<tr>
+												<th>#</th>
+												<th>Tên sản phẩm</th>
+												<th>Hình ảnh</th>
+												<th>Đánh giá</th>
+												<th>Tóm tắt</th>
+												<th style="width: 300px;">Chi tiết</th>
+											</tr>
+										</thead>
+										<tbody
+											ng-repeat="item in ratings | filter:searchName | limitTo: pageSize: start">
+											<td style="width: 5%;">{{item.product.id}}</td>
+											<td style="width: 20%;">{{item.product.name}}</td>
+											<td style="width: 13%;"><img
+													src="/assets/images/products/{{item.product.mainImage}}"
+													style="width: 100px;" height="100px"></td>
+											<td style="width: 10%;">{{item.star}} <span
+													style="color: rgb(216, 216, 11);"><i
+														class="fa-solid fa-star"></i></span></td>
+											<td style="width: 13%;" ng-if="item.features != ''">{{item.features}}</td>
+											<td style="width: 35%; word-wrap: break-word;" class="content-reviewed">
+												{{item.review}}</td>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" ng-click="closeModal()">Trở lại</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="card my-4">
+				<div class="card-header bg-primary">
+					<h5 class="text-light fw-bold">Chi tiết đơn hàng</h5>
+				</div>
+				<div class="card-body">
+					<table class="table table-condensed">
+						<thead class="bg-success">
+							<tr>
+								<th>#</th>
+								<th>Tên sản phẩm</th>
+								<th>Hình ảnh</th>
+								<th>Số lượng</th>
+								<th>Giá</th>
+								<th>Tổng giá / Sản phẩm</th>
+							</tr>
+						</thead>
+						<tbody ng-repeat="item in items | filter:searchName | limitTo: pageSize: start">
+							<td>{{item.id}}</td>
+							<td>{{item.product.name}}</td>
+							<td><img src="/assets/images/products/{{item.product.mainImage}}" style="width: 100px;"
+									height="100px"></td>
+							<td>{{item.quantity}}</td>
+							<td>{{item.price | number : 0}} VNĐ</td>
+							<td>{{item.quantity*item.price | number : 0}}&#8363;</td>
+						</tbody>
+					</table>
+					<div class="m-4">
+						<h4 class="text-end"><b>TỔNG ĐƠN HÀNG: <span>{{getTotal() | number : 0}}&#8363;</span></b></h4>
+					</div>
+				</div>
+				<div class="card-footer text-center">
+					<button ng-click="first();" class="btn">
+						Trang đầu
+					</button>
+					<button ng-click="prev();" class="btn">
+						<i class="fa-solid fa-chevron-left"></i>
+					</button>
+					<button class="btn">{{pageIndex + 1}} / {{count()}}</button>
+					<button ng-click="next();" class="btn">
+						<i class="fa-solid fa-chevron-right"></i>
+					</button>
+					<button ng-click="last();" class="btn">
+						Trang cuối
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

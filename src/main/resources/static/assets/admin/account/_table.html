@@ -1,0 +1,55 @@
+<div class="card my-4">
+    <div class="card-header bg-primary">
+        <h5 class="text-light fw-bold">DANH SÁCH NGƯỜI DÙNG</h5>
+    </div>
+    <nav class="navbar navbar-light bg-light my-3">
+        <div class="container">
+            <input ng-model="searchName" type="text" class="form-control" id="keyword" placeholder="Bạn muốn tìm kiếm...">
+        </div>
+    </nav>
+    <div class="card-body">
+        <table class="table table-condensed">
+            <thead class="bg-success">
+                <tr>
+                    <th>#</th>
+                    <th>Họ và tên</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Hình ảnh</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="item in items | limitTo: pageSize: start | filter:searchName">
+                <td>{{$index + 1}}</td>
+                <td>{{item.fullname}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.phoneNumber}}</td>
+                <td>
+                	<img ng-if="!item.photo" ng-src="/assets/images/default.png" style="width: 100px; height: 120px;">
+                	<img ng-if="item.photo" ng-src="/assets/images/accounts/{{item.photo}}" style="width: 100px; height: 120px;">
+                </td>
+                <td class="float-end">
+                    <div class="btn-group-xs">
+                        <button ng-click="edit(item)" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button ng-click="delete(item)" class="btn"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                </td>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-center">
+        <button ng-click="first();" class="btn">
+            Trang đầu
+        </button>
+        <button ng-click="prev();" class="btn">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="btn">{{pageIndex + 1}} / {{count()}}</button>
+        <button ng-click="next();" class="btn">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <button ng-click="last();" class="btn">
+            Trang cuối
+        </button>
+    </div>
+</div>

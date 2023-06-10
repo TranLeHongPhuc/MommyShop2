@@ -1,0 +1,56 @@
+<div class="card my-4">
+    <div class="card-header bg-primary">
+        <h5 class="text-light fw-bold">THÔNG TIN SẢN PHẨM</h5>
+    </div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="font-variant: small-caps;">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview-tab" type="button"
+                role="tab">Chung</button>
+        </li>
+        <li class="nav-item" ng-click="richText()" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#description-tab" type="button" role="tab">Mô
+                tả</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#image-tab" type="button" role="tab">Hình
+                ảnh</button>
+        </li>
+        <!-- <li class="nav-item" role="presentation">
+            <button class="nav-link" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detail-tab" type="button"
+                role="tab">Chi tiết</button>
+        </li> -->
+    </ul>
+    <div class="card-body">
+        <div class="row">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="overview-tab" role="tabpanel" aria-labelledby="overview-tab"
+                    tabindex="0">
+                    <div ng-include="'/assets/admin/product/_overview.html'"></div>
+                </div>
+                <div class="tab-pane fade" id="description-tab" role="tabpanel" aria-labelledby="decription-tab"
+                    tabindex="1">
+                    <div ng-include="'/assets/admin/product/_description.html'"></div>
+                </div>
+                <div class="tab-pane fade" id="image-tab" role="tabpanel" aria-labelledby="decription-tab" tabindex="2">
+                    <div ng-include="'/assets/admin/product/_image.html'"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-footer text-end text-white bg-white">
+                <button ng-click="create()" class="btn btn-primary">
+                    Thêm
+                </button>
+                <button ng-click="update()" class="btn btn-success">
+                    Sửa
+                </button>
+                <button ng-click="delete(form)" class="btn btn-danger">
+                    Xóa
+                </button>
+                <button ng-click="reset()" class="btn btn-info">
+                    Làm mới
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

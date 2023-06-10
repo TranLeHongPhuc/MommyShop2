@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+	<main ng-controller="address-controller">
+		<div class="address-index">
+			<div class="container">
+				<div class="header-address">
+					<h1>Địa chỉ của bạn</h1>
+					<div class="float-right">
+						<button class="btn" data-toggle="modal" data-target="#editAddress">thêm</button>
+					</div>
+				</div>
+				<div class="row" id="address-row">
+					<div th:unless="${#lists.size(addresses) > 0}" class="mb-5">
+						<div class="text-center no-address-found">
+							<h4>Không tìm thấy địa chỉ nào :(</h4>
+						</div>
+					</div>
+					<div th:if="${#lists.size(addresses) > 0}" th:each="address, status : ${addresses}"
+						th:id="'address' + ${address.id}" class="col-md-4 card" style="">
+						<label th:for="${'isDefault' + address.id}">
+							<div class="form-group card-content">
+								<div class="radio-address">
+									<input name="isDefault" th:id="${'isDefault' + address.id}" type="radio"
+										th:checked="${address.isDefault} == true" th:value="${address.id}"
+										onchange="setDefaultAddress($(this))">
+								</div>
+								<div class="remove-address">
+									<button class="btn delete-address" th:data-aid="${address.id}"
+										onclick="deleteAddress($(this))">
+										<i class="fa-solid fa-xmark"></i></button>
+								</div>
+								<div class="text-address">[[${address.address}]]</div>
+							</div>
+						</label>
+					</div>
+				</div>
+				<div id="editAddress" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<form action="">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title" style="color: red;">THÊM ĐỊA CHỈ</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group">
+										<label>Thành phố / Tỉnh <span></span></label>
+										<select class="form-control" id="cityAddress" required>
+											<option value="" selected>Chọn tỉnh thành</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Quận / Huyện <span></span></label>
+										<select id="districtAddress" class="form-control" required>
+											<option value="" selected>Chọn quận huyện</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Phường / Xã <span></span></label>
+										<select id="wardAddress" class="form-control" required>
+											<option value="" selected>Chọn phường xã</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="address_line_1">Số nhà, Đường <span></span></label>
+										<input id="address_line_1" class="form-control" required>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" ng-click="save()" class="btn">LƯU LẠI</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			var citis = document.getElementById("cityAddress");
+			var districts = document.getElementById("districtAddress");
+			var wards = document.getElementById("wardAddress");
+			var Parameter = {
+				url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+				method: "GET",
+				responseType: "application/json",
+			};
+			var promise = axios(Parameter);
+			promise.then(function (result) {
+				renderCity(result.data);
+			});
+
+			function renderCity(data) {
+				for (const x of data) {
+					citis.options[citis.options.length] = new Option(x.Name, x.Id);
+				}
+				citis.onchange = function () {
+					districts.length = 1;
+					wards.length = 1;
+					if (this.value != "") {
+						const result = data.filter(n => n.Id === this.value);
+
+						for (const k of result[0].Districts) {
+							districts.options[districts.options.length] = new Option(k.Name, k.Id);
+						}
+					}
+				};
+				districts.onchange = function () {
+					wards.length = 1;
+					const dataCity = data.filter((n) => n.Id === citis.value);
+					if (this.value != "") {
+						const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+						for (const w of dataWards) {
+							wards.options[wards.options.length] = new Option(w.Name, w.Id);
+						}
+					}
+				};
+			}
+
+			const setDefaultAddress = (input) => {
+				const id = input.val();
+				let Parameter = {
+					url: `http://localhost:8080/profile/address/set-default/${id}`,
+					method: "GET",
+					responseType: "application/json",
+				};
+				let promise = axios(Parameter);
+				promise.then(function (result) {
+					swal("Thay đổi địa chỉ mặc định thành công!", {
+						icon: "success",
+					});
+				}).catch(error => {
+					showErrorToast("Lỗi hệ thống!");
+					console.log(error);
+				});
+			};
+
+			const deleteAddress = (button) => {
+				swal({
+					title: "Bạn có chắc muốn xóa?",
+					text: "Khi đã xóa, bạn không thể khôi phục địa chỉ này",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true,
+				})
+					.then((willDelete) => {
+						if (willDelete) {
+							const id = button.attr('data-aid');
+							let Parameter = {
+								url: `http://localhost:8080/profile/address/delete/${id}`,
+								method: "DELETE",
+								responseType: "",
+							};
+							let promise = axios(Parameter);
+							promise.then(function (result) {
+								if (result.data === true) {
+									$(`#address${id}`).remove();
+									swal("Địa chỉ của bạn đã được xóa!", {
+										icon: "success",
+									});
+								} else if (result.data === false) {
+									showWarningToast("Không thể xoá địa chỉ mặc định!");
+								} else {
+									showErrorToast("Lỗi hệ thống 1!");
+									console.log(error);
+								}
+							}).catch(error => {
+								showErrorToast("Lỗi hệ thống 2!");
+								console.log(error);
+							});
+						}
+					});
+			}
+		</script>
+	</main>
+</body>
+
+</html>

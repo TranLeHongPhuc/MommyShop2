@@ -1,0 +1,110 @@
+<div class="card my-4">
+    <div class="card-header bg-primary">
+        <h5 class="text-light fw-bold">THÔNG TIN NGƯỜI DÙNG</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-4 text-center" ng-if="form.photo == null">
+                <label for="image">
+                    <img ng-src="/assets/images/default.png" style="max-width: 100%;" height="100%">
+                </label>
+            </div>
+            <div class="col-sm-4 text-center" ng-if="form.photo != null">
+                <label for="photo">
+                	<img ng-if="!form.photo" ng-src="/assets/images/default.png" style="max-width: 100%;" height="100%">
+                    <img ng-if="form.photo" ng-src="/assets/images/accounts/{{form.photo}}" style="max-width: 100%;" height="100%">
+                </label>
+            </div>
+            <div class="col-sm-8 fw-bold">
+            <form name="form1"  novalidate>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <div>Email</div>
+                        <input ng-model="form.email" class="form-control" readonly="true">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div>Họ và tên</div>
+                        <input ng-model="form.fullname" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <div>Hình ảnh</div>
+                        <input type="file" class="form-control" id="photo"
+                            onchange="angular.element(this).scope().imageChanged(this.files)">
+                    </div>
+                    <div class="form-group col-sm-6">
+                    
+                        <div>Số điện thoại</div>
+                        <input ng-model="form.phoneNumber" id="phoneNumber" name="phoneNumber" class="form-control"  ng-pattern="/(84|0[3|5|7|8|9])+([0-9]{8})\b/g" required>
+                    	<div id="phone" style="display:none">{{form1.phoneNumber.$valid}}</div>
+                    	<i class="fa fa-check text-success" ng-show="form1.phoneNumber.$dirty && form1.phoneNumber.$valid"></i>
+						<p class="text-danger" ng-show="form1.phoneNumber.$invalid">Nhập đúng định dạng số điện thoại</p>
+                    </div>
+                </div>
+                
+               
+                <div class="row">
+                    <div class="card-footer text-end text-white bg-white">
+                        <!-- <button ng-click="create()" class="btn btn-primary">
+                            Create
+                        </button> -->
+                        <button ng-click="update()" class="btn btn-success" ng-disabled="form1.$invalid">
+                            Update
+                        </button>
+                        <button ng-click="delete(form)" class="btn btn-danger">
+                            Delete
+                        </button>
+                        <button ng-click="reset()" class="btn btn-info">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // render province city, district, ward
+    var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+        var Parameter = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
+        });
+
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(x.Name, x.Id);
+            }
+            citis.onchange = function () {
+                district.length = 1;
+                ward.length = 1;
+                if (this.value != "") {
+                    const result = data.filter(n => n.Id === this.value);
+
+                    for (const k of result[0].Districts) {
+                        district.options[district.options.length] = new Option(k.Name, k.Id);
+                    }
+                }
+            };
+            district.onchange = function () {
+                ward.length = 1;
+                const dataCity = data.filter((n) => n.Id === citis.value);
+                if (this.value != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+                    for (const w of dataWards) {
+                        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                    }
+                }
+            };
+        }
+</script>

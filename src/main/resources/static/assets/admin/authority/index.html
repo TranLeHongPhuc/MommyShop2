@@ -1,0 +1,68 @@
+<div class="page-wrapper">
+    <div class="px-4 main-content">
+        <div class="row page-titles">
+            <div class="col-md-5 col-8 align-self-center">
+                <h3 class="text-themecolor">Dashboard</h3>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!admin">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Phân quyền sử dụng</li>
+                </ol>
+            </div>
+            <div class="col-md-7 col-4 align-self-center text-end">
+                <a href="https://themewagon.com/themes/bootstrap-4-responsive-admin-template/"
+                    class="btn waves-effect waves-light btn-success pull-right hidden-sm-down">Tải File Excel</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="card-header bg-primary row">
+                    <h5 class="text-light fw-bold col-9">DANH SÁCH & PHÂN QUYỀN NGƯỜI DÙNG</h5>
+                    <div class="col-3 text-end">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Xem số người dùng
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><button class="dropdown-item" ng-click="changeSize(5)">5 người dùng</button></li>
+                                <li><button class="dropdown-item" ng-click="changeSize(10)">10 người dùng</button></li>
+                                <li><button class="dropdown-item" ng-click="changeSize(20)">20 người dùng</button></li>
+                                <li><button class="dropdown-item" ng-click="changeSize(30)">30 người dùng</button></li>
+                                <li><button class="dropdown-item" ng-click="changeSize(50)">50 người dùng</button></li>
+                                <li><button class="dropdown-item" ng-click="changeSize(-1)">Tất cả người dùng</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-border">
+                        <thead class="bg-success" style="font-variant: small-caps;">
+                            <tr>
+                                <th ng-click="orderByField='fullname'; reverseSort = !reverseSort" style="cursor: pointer;">Họ và tên</th>
+                                <th ng-repeat="role in roles" class="text-center">{{role.name}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form action="" method="post">
+                                <tr dir-paginate="acc in admins | orderBy:orderByField:reverseSort | itemsPerPage:pageSize">
+                                    <td>{{acc.fullname}}</td>
+                                    <th ng-repeat="role in roles" class="text-center">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input"
+                                                ng-checked="authority_of(acc, role)"
+                                                ng-click="authority_changed(acc, role)" id="{{role.id}}{{acc.id}}">
+                                            <label class="" for="{{role.id}}{{acc.id}}"></label>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </form>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer text-center">
+                    <dir-pagination-controls boundary-links="true" direction-links="true"></dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

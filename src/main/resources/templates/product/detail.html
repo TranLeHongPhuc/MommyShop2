@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+	<main th:object="${item}">
+		<div class="single-product">
+			<div class="container">
+				<div class="wrapper">
+					<div class="breadcrumb">
+						<ul class="flexitem">
+							<li><a href="/">Trang chủ</a></li>
+							<li><a href="/products">Sản phẩm</a></li>
+							<li><a href="/products">[[${item.category.name}]]</a></li>
+							<li><a href="#">[[${item.name}]]</a></li>
+						</ul>
+					</div>
+
+					<div class="column">
+						<div class="products one">
+							<div class="flexwrap">
+								<div class="row center-block">
+									<div class="item is_sticky">
+										<div th:if="${item.discount > 0}" class="sale_off-list">
+											<span class="sale">
+												- [[${#numbers.formatDecimal(item.discount, 0, 'COMMA', 0,
+												'POINT')}]]%
+											</span>
+										</div>
+										<div class="new-box_ribon" th:if="${#dates.month(#dates.createNow())} == ${#dates.month(item.createDate)} and 
+										${#dates.year(#dates.createNow())} == ${#dates.year(item.createDate)}">
+											<span class="new">
+												NEW
+											</span>
+										</div>
+										<div class="big-image">
+											<div class="big-image-wrapper swiper-wrapper">
+												<div class="image-show swiper-slide">
+													<a data-fslightbox
+														th:href="@{|/assets/images/products/*{mainImage}|}">
+														<img th:src="@{|/assets/images/products/*{mainImage}|}" alt="">
+													</a>
+												</div>
+												<div class="image-show swiper-slide" th:each="image : *{productImages}">
+													<a data-fslightbox
+														th:href="@{|/assets/images/products/${image.name}|}">
+														<img th:src="@{|/assets/images/products/${image.name}|}" alt="">
+													</a>
+												</div>
+											</div>
+											<div class="swiper-button-next"></div>
+											<div class="swiper-button-prev"></div>
+										</div>
+										<div thumbsSlider="" class="small-image">
+											<ul class="small-image-wrapper flexitem swiper-wrapper">
+												<li class="thumbnail-show swiper-slide">
+													<img th:src="@{|/assets/images/products/*{mainImage}|}">
+												</li>
+												<li class="thumbnail-show swiper-slide"
+													th:each="image : *{productImages}">
+													<img th:src="@{|/assets/images/products/${image.name}|}">
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="row center-block">
+									<div class="item">
+										<h1>[[${item.name}]]</h1>
+										<div class="content">
+											<div class="rating">
+												<div class="stars"></div>
+												<a href="" class="mini-text">[[${#lists.size(item.ratings)}]] đánh
+													giá</a>
+											</div>
+											<div class="stock-sku">
+												<span class="available" th:if="${item.inStock == true}">Hoạt động</span>
+												<span class="available" th:if="${item.inStock == false}">Không hoạt
+													động</span>
+											</div>
+											<div class="price">
+												<span
+													class="current"><span th:replace="fragment :: formatPrice(${item.realPrice})"></span></span>
+												<span th:if="${item.discount > 0}"
+													class="normal"><span th:replace="fragment :: formatPrice(${item.price})"></span></span>
+											</div>
+											<div class="actions">
+												<div class="button-cart">
+													<button th:attr="ng-click=@{|cart.add(${item.id})|}"
+														class="primary-button">Thêm vào giỏ hàng</button>
+												</div>
+											</div>
+											<div class="actions up">
+												<div class="wish-share">
+													<ul class="flexitem second-links">
+														<li>
+															<a th:class="'product_liked-' + ${item.id}"
+																th:if="${item.liked == 2}"
+																th:onclick="'addToFavorite(' + ${item.id} + ')'">
+																<span class="icon-large">
+																	<i class="ri-heart-line"></i>
+																</span>
+																<span>Yêu thích</span>
+															</a>
+															<a th:class="'heart-account product_liked-' + ${item.id}"
+																th:if="${item.liked == 1}"
+																th:onclick="'removeFromFavorite(' + ${item.id} + ')'">
+																<span class="icon-large">
+																	<i class="ri-heart-line"></i>
+																</span>
+																<span class="span-heart-account">Yêu thích</span>
+															</a>
+															<a th:class="'product_liked-' + ${item.id}"
+																th:if="${item.liked == 0}"
+																th:onclick="'addToFavorite(' + ${item.id} + ')'">
+																<span class="icon-large">
+																	<i class="ri-heart-line"></i>
+																</span>
+																<span class="span-heart-account">Yêu thích</span>
+															</a>
+															<a th:class="'product_liked-' + ${item.id}"
+																th:if="${item.liked == null}"
+																th:onclick="'addToFavorite(' + ${item.id} + ')'">
+																<span class="icon-large">
+																	<i class="ri-heart-line"></i>
+																</span>
+																<span class="span-heart-account">Yêu thích</span>
+															</a>
+														</li>
+														<li><a href="#">
+																<span class="icon-large"><i
+																		class="ri-share-line"></i></span>
+																<span>Chia sẻ</span>
+															</a></li>
+													</ul>
+												</div>
+											</div>
+											<div class="description collapse-des">
+												<ul>
+													<li class="has-child expand">
+														<a href="#0" class="icon-small">Thông tin sản phẩm</a>
+														<ul class="content">
+															<li><span>Thương
+																	hiệu</span><span>[[${item.brand.name}]]</span></li>
+															<li th:if="${item.inStock == true}"><span>Hoạt
+																	động</span><span>Có</span></li>
+															<li th:if="${item.inStock == false}"><span>Hoạt
+																	động</span><span>Không</span></li>
+															<li><span>Nhóm sản
+																	phẩm</span><span>[[${item.category.name}]]</span>
+															</li>
+														</ul>
+													</li>
+													<li class="has-child">
+														<a href="#0" class="icon-small">Mô tả</a>
+														<div class="content" th:utext="${item.shortDesc}">
+														</div>
+													</li>
+													<li class="has-child">
+														<a href="#0" class="icon-small">Mô tả chi tiết</a>
+														<div class="content" th:utext="${item.longDesc}">
+
+														</div>
+													</li>
+													<li class="has-child">
+														<a href="#" class="icon-small">Reviews<span
+																class="mini-text">[[${#lists.size(item.ratings)}]]</span></a>
+														<div class="content">
+															<div class="reviews">
+																<h4>Người dùng đánh giá</h4>
+																<div class="review-block">
+																	<div class="review-block-head">
+																		<div class="flexitem">
+																			<span
+																				class="rate-sum">[[${#numbers.formatDecimal(item.avgRating, 0, 'COMMA', 1, 'POINT')}]]</span>
+																			<span>[[${#lists.size(item.ratings)}]] Đánh
+																				giá</span>
+																		</div>
+																	</div>
+																	<div class="review-block-body">
+																		<ul>
+																			<li class="item" th:each="cmt : *{ratings}">
+																				<div class="rating-form">
+																					<img th:src="@{|/assets/images/accounts/${cmt.order.account.photo}|}"
+																						alt="">
+																					<div class="info">
+																						<p class="persion">Bình luận bởi
+																							<b>[[${cmt.order.account.fullname}]]</b>
+																						</p>
+																						<div
+																							class="review-rating rating">
+																							<div th:if="${cmt.star == 1}"
+																								class="stars"
+																								style="width: 16px;">
+																							</div>
+																							<div th:if="${cmt.star == 2}"
+																								class="stars"
+																								style="width: 32px;">
+																							</div>
+																							<div th:if="${cmt.star == 3}"
+																								class="stars"
+																								style="width: 48px;">
+																							</div>
+																							<div th:if="${cmt.star == 4}"
+																								class="stars"
+																								style="width: 64px;">
+																							</div>
+																							<div th:if="${cmt.star == 5}"
+																								class="stars"
+																								style="width: 80px;">
+																							</div>
+																						</div>
+																						<div class="date-rating">
+																							<p class="mini-text">
+																								[[${#dates.format(cmt.ratingDate,
+																								'dd-MM-yyyy')}]]</p>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="content-rating">
+																					<div class="review-title">
+																						<p>[[${cmt.features}]]</p>
+																					</div>
+																					<div class="review-text">
+																						<p>[[${cmt.review}]]</p>
+																					</div>
+																					<div
+																						class="review-images col-md-12">
+																						<div class="item-review col-md-3"
+																							th:each="img : ${cmt.ratingImages}">
+																							<a data-fslightbox
+																								th:href="@{|/assets/images/ratings/${img.name}|}">
+																								<img th:src="@{|/assets/images/ratings/${img.name}|}"
+																									alt="">
+																							</a>
+																							<!-- <img th:src="@{|/assets/images/ratings/${img.name}|}" alt=""> -->
+																						</div>
+																					</div>
+																				</div>
+																			</li>
+																		</ul>
+																		<!-- <div class="second-links">
+																			<a href="#" class="view-all">
+																				Xem thêm bình luận <i
+																					class="ri-arrow-right-line"></i>
+																			</a>
+																		</div> -->
+																	</div>
+																</div>
+															</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="related_products">
+			<div class="container_option">
+				<div class="wrapper">
+					<div class="sectop flexitem">
+						<h2>
+							<!-- <span class="circle"></span> -->
+							<span>Sản phẩm liên quan</span>
+						</h2>
+						<div class="second-links"><a href="#" class="view-all">Xem tất cả<i
+									class="ri-arrow-right-line"></i></a></div>
+					</div>
+				</div>
+			</div>
+			<div class="container_option">
+				<div class="wrapper">
+					<div class="column">
+						<div class="flexwrap">
+							<ul id="related-products" class="cs-hidden">
+								<li class="item-slide" th:each="p:*{category.products}">
+									<div class="products main">
+										<div class="item">
+											<div class="media">
+												<div class="thumbnails object-cover">
+													<a th:href="@{|/product/detail/${p.id}|}">
+														<img th:src="@{|/assets/images/products/${p.mainImage}|}"
+															alt="">
+													</a>
+												</div>
+												<div class="hoverable">
+													<ul>
+														<li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+														</li>
+														<li><a href=""><i class="ri-eye-line"></i></a></li>
+														<li><a href=""><i class="ri-shuffle-line"></i></a></li>
+													</ul>
+												</div>
+												<div th:if="${p.discount > 0}" class="discount circle flexcenter">
+													<span>[[${p.discount}]]%</span>
+												</div>
+											</div>
+											<div class="content">
+												<!-- <div class="rating">
+														<div class="stars"></div>
+														<span class="mini-text">(2,548)</span>
+													</div> -->
+												<h3 class="main-links">
+													<a th:href="@{|/product/detail/${p.id}|}">
+														[[${p.name}]]
+													</a>
+												</h3>
+												<div class="price text-center">
+													<div class="current"><span th:replace="fragment :: formatPrice(${p.realPrice})"></span></div>
+													<div th:if="${p.discount > 0}" class="normal mini-text"><span th:replace="fragment :: formatPrice(${p.price})"></span></div>
+												</div>
+												<div class="add-cart">
+													<button th:attr="ng-click=@{|cart.add(${p.id})|}">
+														<i class="fa-solid fa-cart-plus"></i>
+														<span>Chọn mua</span></button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+
+</html>

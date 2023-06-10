@@ -1,0 +1,43 @@
+<div class="card my-4">
+    <div class="card-header bg-primary">
+        <h5 class="text-light fw-bold">THÔNG TIN DANH MỤC</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-12 d-flex">
+                        <div class="form-group col-6">
+                            <label for="parentCategory" class="form-label">Nhóm sản phẩm:</label>
+                            <select ng-model="form.parentCategory.id" class="form-control" style="font-weight: 600;">
+                                <option ng-value="">Làm Danh mục chính</option>
+                                <option ng-repeat="parentCategory in parentCategories" ng-value="{{parentCategory.id}}">
+                                    {{parentCategory.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <div class="mb-2">Tên danh mục</div>
+                            <input ng-model="form.name" class="form-control" id="category_name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="card-footer text-end text-white bg-white">
+                        <button ng-show="!form.id" ng-click="create()" class="btn btn-primary">
+                            Thêm
+                        </button>
+                        <button ng-show="form.id" ng-click="update()" class="btn btn-success">
+                            Cập nhật
+                        </button>
+                        <button ng-show="form.id" ng-click="delete(form)" class="btn btn-danger">
+                            Xóa
+                        </button>
+                        <button ng-click="reset()" class="btn btn-info">
+                            Làm mới
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

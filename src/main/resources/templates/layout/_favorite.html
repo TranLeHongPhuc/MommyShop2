@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	th:replace="~{/layout/index :: dynamic(~{::main})}">
+	<body>
+		<main>
+			<div class="single-cart">
+                <div class="container_option">
+                    <div class="wrapper">
+                         <div class="breadcrumb">
+                        <ul class="flexitem">
+                            <li><a href="/">Trang chủ</a></li>
+                            <li>Danh sách yêu thích</li>
+                        </ul>
+                    </div>
+                        <div class="page-title">
+                            <h2>Danh sách Sản phẩm Yêu thích</h2>
+                        </div>
+                        <div class="products one cart favorite">
+                            <div class="item">
+								<table id="favorite-table">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Hình ảnh</th>
+											<th>Tên sản phẩm</th>
+											<th>Giá</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="favorite : ${listByAccount}" th:class="'fav' + ${favorite.id}">
+											<td style="padding-left: 10px;"><b>#[[${favorite.id}]]</b></td>
+											<td>
+												<img style="width: 100px;" th:src="@{|/assets/images/products/${favorite.product.mainImage}|}" alt="">
+											</td>
+											<td>[[${favorite.product.name}]]</td>
+											<td>[[${#numbers.formatCurrency(favorite.product.realPrice)}]]</td>
+											<td>
+												<a class="btn" th:href="@{'/product/detail/' + ${favorite.product.id}}">
+													<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+												</a>
+												<a class="btn" th:attr="ng-click=@{|favorite.remove(${favorite.id})|}">
+													<i class="fa-sharp fa-solid fa-xmark"></i>
+												</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+		</main>
+	</body>
+</html>

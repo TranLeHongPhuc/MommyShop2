@@ -1,0 +1,54 @@
+<div class="row my-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <h3 class="card-title">Thương hiệu sản phẩm</h3>
+                <h6 class="card-subtitle">Thống kê doanh thu theo các thương hiệu</h6>
+                <div class="row">
+                    <div class="text-end">
+                        <select ng-model="selectBrand" class="form-control col-4">
+                            <option value="">Chọn thương hiệu</option>
+                            <option ng-repeat="brand in brands" ng-value="{{brand.id}}">{{brand.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body w-100 ">
+                    <div id="chart_div_brand" style="width: 100%; height: 500px;"></div>
+                    
+                </div>
+                <div class="card-footer text-center">
+					<p>
+						
+						<button class="btn btn-primary" type="button" data-toggle="collapse"
+							data-target="#collapseExampleBrand" aria-expanded="false" aria-controls="collapseExampleBrand">
+							Tắt / hiện bảng thống kê
+						</button>
+					</p>
+					<div class="collapse" id="collapseExampleBrand">
+						<div class="card card-body">
+							<div id="table_div_brand" ></div>
+						</div>
+					</div>
+				</div>
+            </div>
+            <!-- <div>
+                <hr class="m-t-0 m-b-0">
+            </div>
+            <div class="card-block text-center ">
+                <ul class="list-inline m-b-0">
+                    <li>
+                        <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10 "></i>Mobile</h6>
+                    </li>
+                    <li>
+                        <h6 class="text-muted  text-primary"><i class="fa fa-circle font-10 m-r-10"></i>Desktop
+                        </h6>
+                    </li>
+                    <li>
+                        <h6 class="text-muted  text-success"><i class="fa fa-circle font-10 m-r-10"></i>Tablet
+                        </h6>
+                    </li>
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>

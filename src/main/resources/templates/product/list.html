@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+    <main>
+        <form th:action="@{/products/search/1}" onsubmit="return validateSearchForm(this);">
+            <input th:if="${keyword != null && keyword.length > 0}" type="hidden" name="keyword" th:value="${keyword}">
+
+            <div class="single-category">
+                <div class="container_option">
+                    <div class="wrapper">
+                        <div class="column">
+                            <div class="holder">
+                                <div class="row sidebar">
+                                    <div class="filter">
+                                        <div class="filter-block">
+                                            <h4>Danh mục</h4>
+                                            <ul class="categories" style="max-height: 135px;">
+                                                <li th:each="cat : ${categories}">
+                                                    <th:block th:if="${categoryIds != null}">
+                                                        <input type="checkbox" name="categoryIds" th:value="${cat.id}"
+                                                            th:checked="${#arrays.contains(categoryIds, cat.id)}"
+                                                            th:id="'cat' + ${cat.id}">
+                                                    </th:block>
+                                                    <th:block th:unless="${categoryIds != null}">
+                                                        <input type="checkbox" name="categoryIds" th:value="${cat.id}"
+                                                            th:id="'cat' + ${cat.id}">
+                                                    </th:block>
+                                                    <label th:for="'cat' + ${cat.id}">
+                                                        <span class="checked"></span>
+                                                        <span class="text">[[${cat.name}]]</span>
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="filter-block">
+                                            <h4>Thương hiệu</h4>
+                                            <ul class="brands" style="max-height: 135px;">
+                                                <li th:each="brand : ${brands}">
+                                                    <th:block th:if="${brandIds != null}">
+                                                        <input type="checkbox" name="brandIds" th:value="${brand.id}"
+                                                            th:checked="${#arrays.contains(brandIds, brand.id)}"
+                                                            th:id="'brand' + ${brand.id}">
+                                                    </th:block>
+                                                    <th:block th:unless="${brandIds != null}">
+                                                        <input type="checkbox" name="brandIds" th:value="${brand.id}"
+                                                            th:id="'brand' + ${brand.id}">
+                                                    </th:block>
+                                                    <label th:for="'brand' + ${brand.id}">
+                                                        <span class="checked"></span>
+                                                        <span>[[${brand.name}]]</span>
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="filter-block pricing">
+                                            <h4>Giá</h4>
+                                            <div class="byprice">
+                                                <!-- <div class="col-md-4">
+                                                    <input type="text">
+                                                </div> -->
+                                                <input class="form-control" name="minPrice" type="text"
+                                                    th:value="${minPrice != null ? #numbers.formatDecimal(minPrice, 0, 'COMMA', 0, 'POINT') : null}"
+                                                    maxlength="10" placeholder="&#8363; Từ" autocomplete="off">
+                                                <div class="to">
+                                                    &#8212;
+                                                </div>
+                                                <input class="form-control" name="maxPrice" type="text"
+                                                    th:value="${maxPrice != null ? #numbers.formatDecimal(maxPrice, 0, 'COMMA', 0, 'POINT') : null}"
+                                                    maxlength="10" placeholder="&#8363; Đến" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="filter-block action">
+                                            <div class="text-center">
+                                                <button type="submit" class="btn" style="margin-bottom: 10px;">ÁP DỤNG</button>
+                                                <a th:href="@{/products}" class="btn">XOÁ TẤT CẢ</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="section">
+                                    <div class="row">
+                                        <div class="cat-head">
+                                            <div class="breadcrumb">
+                                                <ul class="flexitem">
+                                                    <li>
+                                                        <a href="/">Home</a>
+                                                    </li>
+                                                    <li><a th:href="@{/products}">Sản phẩm</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="cat-navigation flexitem">
+                                                <div class="page-title">
+                                                    <p>có <i>[[${totalItems}]]</i> sản phẩm được tìm thấy</p>
+                                                </div>
+                                                <div class="item-sortir">
+                                                    <div class="label" style="font-size: 1.5rem;">Sắp xếp theo:</div>
+                                                </div>
+                                                <div class="item-sortir">
+                                                    <select name="sortType"
+                                                        style="font-size: 1.5rem; font-weight: 600;">
+                                                        <option th:selected="${sortType == 0}" value="0">Liên quan
+                                                        </option>
+                                                        <option th:selected="${sortType == 1}" value="1">Mới nhất
+                                                        </option>
+                                                        <option th:selected="${sortType == 3}" value="3">Yêu thích
+                                                        </option>
+                                                        <option th:selected="${sortType == 4}" value="4">Giá tăng dần
+                                                        </option>
+                                                        <option th:selected="${sortType == 5}" value="5">Giá giảm dần
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="item-perpage mobile-hide">
+                                                    <div class="btn-group">
+                                                        <button type="submit" class="btn"><i class="fas fa-filter"></i></button>
+                                                        <a class="btn" th:href="@{/products}"><i
+                                                                class="fa-solid fa-filter-circle-xmark"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="products main flexwrap list list-discount-new">
+                                        <div th:each="product : ${products}" class="item">
+                                            <div class="box_ribbon-blue"
+                                                th:if="${#dates.month(#dates.createNow())} == ${#dates.month(product.createDate)} and 
+                                                ${#dates.year(#dates.createNow())} == ${#dates.year(product.createDate)}">
+                                                NEW
+                                            </div>
+                                            <div class="list-item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a th:href="@{|/product/detail/${product.id}|}">
+                                                            <img th:src="@{|/assets/images/products/${product.mainImage}|}"
+                                                                alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active" id="product_liked-link">
+                                                                <a th:class="'product_liked-' + ${product.id}"
+                                                                    th:if="${product.liked == 2}"
+                                                                    th:onclick="'addToFavorite(' + ${product.id} + ')'"> <i
+                                                                        class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'heart-account product_liked-' + ${product.id}"
+                                                                    th:if="${product.liked == 1}"
+                                                                    th:onclick="'removeFromFavorite(' + ${product.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'product_liked-' + ${product.id}"
+                                                                    th:if="${product.liked == 0}"
+                                                                    th:onclick="'addToFavorite(' + ${product.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'product_liked-' + ${product.id}"
+                                                                    th:if="${product.liked == null}"
+                                                                    th:onclick="'addToFavorite(' + ${product.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div th:if="${product.discount > 0}" class="sale_off-list">
+                                                        <span class="sale">
+                                                            - [[${#numbers.formatDecimal(product.discount, 0, 'COMMA', 0,
+                                                            'POINT')}]]%
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="rating">
+                                                        <div th:if="${product.avgRating > 0} and ${product.avgRating <= 1}"
+                                                            class="stars" style="width: 8px;"></div>
+                                                        <div th:if="${product.avgRating > 1} and ${product.avgRating <= 1.5}"
+                                                            class="stars" style="width: 16px;"></div>
+                                                        <div th:if="${product.avgRating > 1.5} and ${product.avgRating <= 2}"
+                                                            class="stars" style="width: 24px;"></div>
+                                                        <div th:if="${product.avgRating > 2} and ${product.avgRating <= 2.5}"
+                                                            class="stars" style="width: 32px;">
+                                                        </div>
+                                                        <div th:if="${product.avgRating > 2.5} and ${product.avgRating <= 3}"
+                                                            class="stars" style="width: 40px;"></div>
+                                                        <div th:if="${product.avgRating > 3} and ${product.avgRating <= 3.5}"
+                                                            class="stars" style="width: 48px;">
+                                                        </div>
+                                                        <div th:if="${product.avgRating > 3.5} and ${product.avgRating <= 4}"
+                                                            class="stars" style="width: 56px;"></div>
+                                                        <div th:if="${product.avgRating > 4} and ${product.avgRating < 4.5}"
+                                                            class="stars" style="width: 64px;">
+                                                        </div>
+                                                        <div th:if="${product.avgRating >= 4.5} and ${product.avgRating <= 4.7}"
+                                                            class="stars" style="width: 72px;">
+                                                        </div>
+                                                        <div th:if="${product.avgRating > 4.7} and ${product.avgRating <= 5}"
+                                                            class="stars" style="width: 80px;">
+                                                        </div>
+                                                        <div class="stars"></div>
+                                                        <span th:if="${product.avgRating > 0}"
+                                                            class="mini-text"><i>([[${#lists.size(product.ratings)}]] đánh
+                                                                giá)</i></span>
+                                                        <span th:if="${product.avgRating == 0}" class="mini-text"><i>Chưa có
+                                                                đánh
+                                                                giá nào</i></span>
+                                                    </div>
+                                                    <h3>
+                                                        <a th:href="@{|/product/detail/${product.id}|}">
+                                                            [[${product.name}]]
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price">
+                                                        <span class="current"><span th:replace="fragment :: formatPrice(${product.realPrice})"></span></span>
+                                                        <span th:if="${product.discount > 0}"
+                                                            class="normal mini-text"><span th:replace="fragment :: formatPrice(${product.price})"></span></span>
+                                                    </div>
+                                                </div>
+                                                <div class="add-cart">
+                                                    <a th:attr="ng-click=@{|cart.add(${product.id})|}">
+                                                        <i class="fa-solid fa-cart-plus"></i>
+                                                        <span>Chọn mua</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="load-more flexcenter">
+                                        <div th:replace="paging/paging_fragments :: pagination('sản phẩm')">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script>
+            const FtoShow = '.filter';
+            const Fpopup = document.querySelector(FtoShow);
+            const Ftrigger = document.querySelector('.filter-trigger');
+
+            Ftrigger.addEventListener('click', () => {
+                setTimeout(() => {
+                    if (!Fpopup.classList.contains('show')) {
+                        Fpopup.classList.add('show');
+                    }
+                }, 250);
+            });
+
+            // auto close by click outside .filter
+            document.addEventListener('click', (e) => {
+                const isClosest = e.target.closest(FtoShow);
+                if (!isClosest && Fpopup.classList.contains('show')) {
+                    Fpopup.classList.remove('show');
+                }
+            });
+        </script>
+    </main>
+</body>
+
+</html>

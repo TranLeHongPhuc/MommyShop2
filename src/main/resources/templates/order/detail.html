@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+	<main th:object="${order}">
+		<div class="single-cart">
+			<div class="container_option">
+				<div class="wrapper">
+					<div class="breadcrumb">
+						<ul class="flexitem">
+							<li><a href="/">Trang chủ</a></li>
+							<li><a href="/your-orders">Đơn hàng</a></li>
+							<li>Chi tiết đơn hàng</li>
+						</ul>
+					</div>
+					<div class="page-title your-order">
+						<h3>Thông tin</h3>
+					</div>
+					<div class="info row" th:if="${#request.remoteUser}">
+						<div class="col-xs-12 col-sm-6 border-end">
+							<div class="card card-info">
+								<div class="info-title">
+									Mã đơn hàng: <span class="float-right">#[[*{id}]]</span>
+								</div>
+								<div class="info-title">Tên người dùng:
+									<span class="float-right">[[*{account.fullname}]]</span>
+								</div>
+								<div class="info-title">Email:
+									<span class="float-right">[[*{account.email}]]</span>
+								</div>
+								<div class="info-title">Số điện thoại:
+									<span class="float-right"
+										th:if="*{account.phoneNumber != ''}">[[*{account.phoneNumber}]]</span>
+									<span class="float-right"
+										th:if="*{account.phoneNumber == ''} and *{phoneNumberAnonymous != ''}">[[*{phoneNumberAnonymous}]]</span>
+								</div>
+								<div class="info-title">Ngày đặt hàng:
+									<span class="float-right">[[*{#dates.format(createDate, 'dd-MM-yyyy')}]]</span>
+								</div>
+								<div class="info-title status">Trạng thái:
+									<span class="float-right text-danger"
+										th:if="*{#strings.toString(orderStatus)} == 'NEW'">Chưa xác nhận</span>
+									<span class="float-right text-info"
+										th:if="*{#strings.toString(orderStatus)} == 'CONFIRMED'">Đã xác nhận</span>
+									<span class="float-right text-success"
+										th:if="*{#strings.toString(orderStatus)} == 'DILIVERING'">Đang vận chuyển</span>
+									<span class="float-right text-danger"
+										th:if="*{#strings.toString(orderStatus)} == 'CANCELLED'">Đơn hàng đã hủy</span>
+									<span class="float-right text-info"
+										th:if="*{#strings.toString(orderStatus)} == 'FINISHED'">Đã hoàn thành</span>
+									<span class="float-right text-info"
+										th:if="*{#strings.toString(orderStatus)} == 'RATED'">Đã hoàn thành</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 address-note border-start">
+							<div class="address">
+								<div class="title">
+									<div class="fw-bold">Địa chỉ giao hàng: </div>
+								</div>
+								<div class="row">
+									<div class="">
+										[[*{address}]]
+									</div>
+								</div>
+							</div>
+							<div class="note border-top pt-2">
+								<div class="title">
+									<div class="fw-bold">Ghi chú: </div>
+								</div>
+								<div class="row" th:if="*{note != null}">
+									<div class="">
+										[[*{note}]]
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="info row" th:if="!${#request.remoteUser}">
+						<div class="col-xs-12 col-sm-6 border-end">
+							<div class="card card-info">
+								<div class="info-title">
+									Mã đơn hàng: <span class="float-right">#[[*{id}]]</span>
+								</div>
+								<div class="info-title">Tên người dùng:
+									<span class="float-right">#[[*{fullnameAnonymous}]]</span>
+								</div>
+								<div class="info-title">Email:
+									<span class="float-right">#[[*{emailAnonymous}]]</span>
+								</div>
+								<div class="info-title">Số điện thoại:
+									<span class="float-right">#[[*{phoneNumberAnonymous}]]</span>
+								</div>
+								<div class="info-title">Ngày đặt hàng:
+									<span class="float-right">[[*{#dates.format(createDate, 'dd-MM-yyyy')}]]</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 address-note border-start">
+							<div class="address">
+								<div class="title">
+									<div class="fw-bold">Địa chỉ giao hàng: </div>
+								</div>
+								<div class="row">
+									<div class="">
+										[[*{address}]]
+									</div>
+								</div>
+							</div>
+							<div class="note border-top pt-2" th:if="*{note != null}">
+								<div class="title">
+									<div class="fw-bold">Ghi chú: </div>
+								</div>
+								<div class="row">
+									<div class="">
+										[[*{note}]]
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row action-orderdetails">
+						<button class="btn status" data-toggle="modal" data-target="#statusOrder"
+							th:attr="ng-click=@{|checkOrderDetail(${id})|}">Xem trạng thái đơn
+							hàng</button>
+						<button class="btn" th:if="${#strings.toString(order.orderStatus)} == 'NEW'" data-toggle="modal"
+							data-target="#cancelOrder">Hủy đơn hàng</button>
+						<button class="btn dilivering" th:if="${#strings.toString(order.orderStatus)} == 'DILIVERING'"
+							th:attr="ng-click=@{|updateOrderStatus(*{id}, 'FINISHED')|}">Hoàn thành đơn hàng</button>
+						<!-- <a class="btn finish" th:if="${#strings.toString(order.orderStatus)} == 'FINISHED'">Đánh giá
+							ngay</a> -->
+						<button class="btn finish" th:if="${#strings.toString(order.orderStatus)} == 'FINISHED'"
+							data-toggle="modal" ng-model="test" th:attr="ng-click=@{|checkOrderDetail(${id})|}"
+							data-target="#ratingOrder">Đánh giá sản phẩm</button>
+						<button class="btn finish" th:if="${#strings.toString(order.orderStatus)} == 'RATED'"
+							disabled>Đánh giá sản phẩm</button>
+					</div>
+				</div>
+				<div id="cancelOrder" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title" style="color: red;">HỦY ĐƠN HÀNG</h4>
+							</div>
+							<div class="modal-body cancel-order">
+								<div class="form-group">
+									<label>Lý do hủy đơn hàng</label>
+									<select onchange="showHideCancelOrder(this.value)" id="content-cancel"
+										class="form-control">
+										<option value="" selected>Chọn lý do gợi ý</option>
+										<option value="">Tôi muốn đổi địa chỉ khác</option>
+										<option value="">Tôi đã đặt nhầm sản phẩm</option>
+										<option value="">Phí vận chuyển cao</option>
+										<option value="">Đơn hàng trùng</option>
+										<option value="">Đã mua tại cửa hàng</option>
+										<option value="">Tôi không muốn mua nữa</option>
+										<option value="">Không chờ giao hàng được</option>
+										<option value="other-reason" id="other-reason">Lý do khác...</option>
+									</select>
+									<div class="error" ng-if="reasonCancelError != ' '"></div>
+								</div>
+								<textarea placeholder="Nhập lý do của bạn..." class="form-control  mt-3" name=""
+									id="content-reason" cols="" rows="5"></textarea>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn"
+									th:attr="ng-click=@{|updateOrderStatusCancel(*{id})|}">Đồng ý hủy</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="statusOrder" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title fw-bold text-info" id="exampleModalLabel">TRẠNG THÁI ĐƠN HÀNG
+									</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+							</div>
+							<div class="modal-body tracking">
+								<div class="card mb-3">
+									<div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span
+											class="text-uppercase">Theo Dõi Đơn Hàng Số - </span><span
+											class="text-medium"> #[[*{id}]]</span></div>
+									<div
+										class="d-flex flex-wrap flex-nowrap justify-content-between py-3 px-2 bg-secondary">
+										<div class="w-100 text-center py-1 px-2"><span class="text-medium">Vận chuyển
+												qua:</span>Giao hàng nhanh</div>
+										<div th:if="${#strings.toString(order.orderStatus)} == 'NEW'"
+											class="w-100 text-center py-1 px-2"><span class="text-medium">Trạng
+												thái:</span>
+											Chưa xác nhận</div>
+										<div th:if="${#strings.toString(order.orderStatus)} == 'CONFIRMED'"
+											class="w-100 text-center py-1 px-2">
+											<span class="text-medium">Trạng thái:</span>
+											Đã xác nhận
+										</div>
+										<div th:if="${#strings.toString(order.orderStatus)} == 'DILIVERING'"
+											class="w-100 text-center py-1 px-2">
+											<span class="text-medium">Trạng thái:</span>
+											Đang vận chuyển
+										</div>
+										<div th:if="${#strings.toString(order.orderStatus)} == 'FINISHED'"
+											class="w-100 text-center py-1 px-2">
+											<span class="text-medium">Trạng thái:</span>
+											Hoàn thành
+										</div>
+										<div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày dự
+												kiến:</span> dd/MM/yyyy</div>
+									</div>
+									<div class="card-body">
+										<div
+											class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+											<div th:if="${#strings.toString(order.orderStatus)} == 'NEW'" class="step">
+												<div class="step-icon-wrap">
+													<div class="step-icon"><i class="pe-7s-cart"></i></div>
+												</div>
+												<h4 class="step-title">Đã xác nhận đơn hàng</h4>
+											</div>
+											<div ng-if="statusConfirm == 'CONFIRMED'" class="step completed">
+												<div class="step-icon-wrap">
+													<div class="step-icon"><i class="pe-7s-cart"></i></div>
+												</div>
+												<h4 class="step-title">Đã xác nhận đơn hàng</h4>
+												<span>{{timeConfirm | date:'HH:mm:ss - dd/MM/yyyy'}}</span>
+												<span style="white-space:pre-wrap;">{{statusConfirmElm}}</span>
+											</div>
+											<div ng-if="statusDilivery == 'DILIVERING'" class="step completed">
+												<div class="step-icon-wrap">
+													<div class="step-icon"><i class="pe-7s-car"></i></div>
+												</div>
+												<h4 class="step-title">Đang vận chuyển</h4>
+												<span>{{timeDilivery | date:'HH:mm:ss - dd/MM/yyyy'}}</span>
+												<span  style="white-space:pre-wrap;">{{statusDiliveryElm}}</span>
+											</div>
+											<div ng-if="statusDilivery != 'DILIVERING'" class="step">
+												<div class="step-icon-wrap">
+													<div class="step-icon"><i class="pe-7s-car"></i></div>
+												</div>
+												<h4 class="step-title">Đang vận chuyển</h4>
+											</div>
+											<div ng-if="statusFinish == 'FINISHED'" class="step completed">
+												<div class="step-icon-wrap">
+													<div class="step-icon"><i class="pe-7s-home"></i></div>
+												</div>
+												<h4 class="step-title">Đơn hàng đã được giao</h4>
+												<span>{{timeFinish | date:'HH:mm:ss - dd/MM/yyyy'}}</span>
+											</div>
+											<div ng-if="statusFinish != 'FINISHED'" class="step">
+												<div class="step-icon-wrap">
+													<div class="step-icon"><i class="pe-7s-home"></i></div>
+												</div>
+												<h4 class="step-title">Đơn hàng đã được giao</h4>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn" data-dismiss="modal">Trở lại</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="ratingOrder" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" ng-click="clearRate()"
+									data-dismiss="modal">&times;</button>
+								<h4 class="modal-title" style="color: rgb(1, 196, 134);">ĐÁNH GIÁ SẢN PHẨM</h4>
+							</div>
+							<div class="modal-body rating-order">
+								<div class="item">
+									<!-- <input type="radio" name="rating" id="star5" value="5" ng-model="star" ng-change="checkStar(star)"> -->
+									<div ng-repeat="item in details">
+										<div class="product">
+											<img style="width: 80px; height: 80px;"
+												ng-src="/assets/images/products/{{item.product.mainImage}}" alt="">
+											<a ng-href="/product/detail/{{item.product.id}}">{{item.product.name}}</a>
+
+										</div>
+										<div id="review-rorm" class="review-form">
+											<h4>Viết đánh giá của bạn</h4>
+											<div class="rating" id="item.product">
+												<p>Chất lượng sản phẩm</p>
+												<div class="rate-this"> {{item.product.id}}
+													<input type="radio" name="{{item.product.id}}rating"
+														id="{{item.product.id}}star5" value="5"
+														ng-model="item.rating.star"
+														ng-change="checkStar(item.product.id,item.rating.star)">
+													<label for="{{item.product.id}}star5"><i
+															class="ri-star-fill"></i></label>
+
+													<input type="radio" name="{{item.product.id}}rating"
+														id="{{item.product.id}}star4" value="4"
+														ng-model="item.rating.star"
+														ng-change="checkStar(item.product.id,item.rating.star)">
+													<label for="{{item.product.id}}star4"><i
+															class="ri-star-fill"></i></label>
+
+													<input type="radio" name="{{item.product.id}}rating"
+														id="{{item.product.id}}star3" value="3"
+														ng-model="item.rating.star"
+														ng-change="checkStar(item.product.id,item.rating.star)">
+													<label for="{{item.product.id}}star3"><i
+															class="ri-star-fill"></i></label>
+
+													<input type="radio" name="{{item.product.id}}rating"
+														id="{{item.product.id}}star2" value="2"
+														ng-model="item.rating.star"
+														ng-change="checkStar(item.product.id,item.rating.star)">
+													<label for="{{item.product.id}}star2"><i
+															class="ri-star-fill"></i></label>
+
+													<input type="radio" name="{{item.product.id}}rating"
+														id="{{item.product.id}}star1" value="1"
+														ng-model="item.rating.star"
+														ng-change="checkStar(item.product.id,item.rating.star)">
+													<label for="{{item.product.id}}star1"><i
+															class="ri-star-fill"></i></label>
+												</div>
+
+											</div>
+
+											<div class="content-review">
+												<div class="form-group"><label for="">
+														Chất lượng sản phẩm
+													</label>
+													<input type="text" placeholder="Để lại đánh giá..."
+														value="{{item.review}}">
+												</div>
+												<div class="form-group">
+													<label for="">
+														Tính năng nổi bật
+													</label>
+													<textarea name="" id="" cols="30" rows="2"
+														ng-model="item.rating.features" placeholder="..."></textarea>
+													<hr>
+													<textarea name="" id="" cols="30" rows="5"
+														ng-model="item.rating.review"
+														placeholder="Hãy chia sẻ những điều bạn thích về sản phẩm này với những người mua khác nhé..."></textarea>
+													<div class="note-text">Tối đa 255 ký tự</div>
+												</div>
+											</div>
+											<label for="{{item.product.id}}" class="btn btn-addImage"
+												name="{{item.product.id}}">
+												<div class="float-end">Chọn hình ảnh chi tiết
+													&emsp;<i class="fa-sharp fa-solid fa-folder-open"></i>
+													<input type="file" name="{{item.product.id}}"
+														onchange="angular.element(this).scope().extraImageChangedNew(this.id,this.files)"
+														id="{{item.product.id}}" style="display:none">
+												</div>
+											</label>
+											<ul class="nav-bar nav nav-image" style="width: 100%;">
+												<li ng-repeat="img in item.ratingImages track by $index"
+													class="more-image" style="width: 20%;display: inline-block;">
+													<label for="ratingImage">
+														<img ng-src="/assets/images/ratings/{{img.name}}" alt=""
+															width="150px" height="150px">
+													</label>
+													<div class="delete-image">
+														<button ng-if="img.id != null" class="btn"
+															ng-click="deleteImage(img.id)"><i
+																class="fa-solid fa-xmark"></i></button>
+														<button ng-if="img.id == null" class="btn"
+															ng-click="deleteImageNew(img,item.product.id,$index)"><i
+																class="fa-solid fa-xmark"></i></button>
+													</div>
+												</li>
+											</ul>
+										</div>
+										<hr>
+
+									</div>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-close" ng-click="clearRate()"
+									data-dismiss="modal">TRỞ LẠI</button>
+								<button type="button" class="btn" th:attr="ng-click=@{|rates(*{id})|}">HOÀN
+									THÀNH</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container_option">
+				<div class="wrapper">
+					<div class="page-title your-order">
+						<h3>Chi tiết đơn hàng</h3>
+					</div>
+					<div class="products one cart favorite">
+						<div class="item">
+							<table id="favorite-table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Hình ảnh</th>
+										<th>Tên sản phẩm</th>
+										<th>Giá</th>
+										<th>Số lượng</th>
+										<th>Tổng giá/Sản phẩm</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody class="detail-order">
+									<tr th:each="detail : ${orderDetails}">
+										<td style="padding-left: 10px;"><b>#[[${detail.id}]]</b></td>
+										<td>
+											<img style="width: 100px;"
+												th:src="@{|/assets/images/products/${detail.product.mainImage}|}"
+												alt="">
+										</td>
+										<td><a
+												th:href="@{'/product/detail/' + ${detail.product.id}}">[[${detail.product.name}]]</a>
+										</td>
+										<td>
+											<div class="price detail">
+												<span
+													class="current">[[${#numbers.formatCurrency(detail.product.realPrice)}]]</span><br>
+												<span th:if="${detail.product.discount > 0}"
+													class="normal mini-text">[[${#numbers.formatCurrency(detail.product.Price)}]]</span>
+											</div>
+										</td>
+										<td>[[${detail.quantity}]]</td>
+										<td class="sum">[[${#numbers.formatCurrency(detail.quantity *
+											detail.product.realPrice)}]]
+										</td>
+										<td>
+											<a class="btn" th:href="@{'/product/detail/' + ${detail.product.id}}">
+												<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="total-detail">
+								<b>TỔNG: <span>[[${#numbers.formatCurrency(totalPrice)}]]</span></b>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+
+</html>

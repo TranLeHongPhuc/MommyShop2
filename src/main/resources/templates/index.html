@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mommy Shop</title>
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&subset=latin-ext" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.8.0/angular-route.min.js"></script>
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/slider.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <!-- <script src="path-to-the-script/splide-extension-auto-scroll.min.js"></script> -->
+    <link rel="stylesheet" href="/assets/css/lightsilder.css">
+    <script src="/assets/js/lightslider.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Toast Message -->
+    <script src="/assets/js/toast.js"></script>
+    <link href="/assets/css/toast.css" rel="stylesheet">
+</head>
+
+<body ng-app="myApp" ng-controller="shopping-cart-ctrl">
+
+    <div id="preloader"></div>
+
+    <div id="page" class="site page-home">
+
+        <aside class="site-off desktop-hide">
+            <div class="off-canvas">
+                <div class="canvas-head flexitem">
+                    <div class="logo"><a href="/"><span class="circle"></span>.Store</a></div>
+                    <a href="#" class="t-close flexcenter"><i class="ri-close-line"></i></a>
+                </div>
+                <div class="departments"></div>
+                <nav></nav>
+                <div class="thetop-nav"></div>
+            </div>
+        </aside>
+
+        <header th:replace="/layout/_header :: page_header()"></header>
+
+        <main>
+            <div class="slider">
+                <div class="container">
+                    <div class="wrapper">
+                        <div class="myslider swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <div class="image object-cover">
+                                            <img src="/assets/images/banner-1.png" alt="">
+                                        </div>
+                                        <div class="text-content flexcol">
+                                            <h4>Đồ chơi cho bé</h4>
+                                            <h2>sale off 50%</h2>
+                                            <a th:href="@{/products/discount-new/search/1}" class="primary-button">Xem ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <div class="image object-cover">
+                                            <img src="/assets/images/banner-2.png" alt="">
+                                        </div>
+                                        <div class="text-content flexcol">
+                                            <h4>Quần áo cho bé</h4>
+                                            <h2>Hàng mới về</h2>
+                                            <a th:href="@{/products/discount-new/search/1}" class="primary-button">Xem ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <div class="image object-cover">
+                                            <img src="/assets/images/banner-3.png" alt="">
+                                        </div>
+                                        <div class="text-content flexcol">
+                                            <h4>Sản phẩm cho mẹ</h4>
+                                            <h2>Thương hiệu hot</h2>
+                                            <a th:href="@{/products/discount-new/search/1}" class="primary-button">Xem ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <div class="image object-cover">
+                                            <img src="/assets/images/banner-4.png" alt="">
+                                        </div>
+                                        <div class="text-content flexcol">
+                                            <h4>Bình sữa cho bé</h4>
+                                            <h2>Lựa chọn ưu tiên</h2>
+                                            <a href="#" class="primary-button">Xem ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="selling_products">
+                <div class="container_option">
+                    <div class="wrapper">
+                        <div class="sectop flexitem">
+                            <h2>
+                                <span class="circle"></span>
+                                <span>Sản Phẩm Bán Chạy</span>
+                            </h2>
+                            <div class="second-links"><a th:href="@{/products}" class="view-all">Xem tất cả<i
+                                        class="ri-arrow-right-line"></i></a></div>
+                        </div>
+                        <div class="column">
+                            <div class="products main flexwrap">
+                                <ul id="selling-products" class="cs-hidden">
+                                    <li class="item-slide" th:each="p : ${sellingProducts}">
+                                        <div class="products main sell">
+                                            <div th:if="${p.discount > 0}" class="box_ribbon">
+                                                - [[${#numbers.formatDecimal(p.discount, 0, 'COMMA', 0, 'POINT')}]]%
+                                            </div>
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a th:href="@{|/product/detail/${p.id}|}">
+                                                            <img th:src="@{|/assets/images/products/${p.mainImage}|}"
+                                                                alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active" id="product_liked-link">
+                                                                <a th:class="'product_liked-' + ${p.id}"
+                                                                    th:if="${p.liked == 2}"
+                                                                    th:onclick="'addToFavorite(' + ${p.id} + ')'"> <i
+                                                                        class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'heart-account product_liked-' + ${p.id}"
+                                                                    th:if="${p.liked == 1}"
+                                                                    th:onclick="'removeFromFavorite(' + ${p.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'product_liked-' + ${p.id}"
+                                                                    th:if="${p.liked == 0}"
+                                                                    th:onclick="'addToFavorite(' + ${p.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'product_liked-' + ${p.id}"
+                                                                    th:if="${p.liked == null}"
+                                                                    th:onclick="'addToFavorite(' + ${p.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="content">
+                                                    <h3 class="main-links">
+                                                        <a th:href="@{|/product/detail/${p.id}|}">
+                                                            [[${p.name}]]
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current"><span th:replace="fragment :: formatPrice(${p.realPrice})"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button th:attr="ng-click=@{|cart.add(${p.id})|}">
+                                                            <i class="fa-solid fa-cart-plus"></i>
+                                                            <span>Chọn mua</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature" id="product_featured">
+                <div class="container_option">
+                    <div class="wrapper">
+                        <div class="sectop flexitem">
+                            <h2>
+                                <span class="circle"></span>
+                                <span>Sản Phẩm Nổi Bật</span>
+                            </h2>
+                            <div class="second-links"><a th:href="@{/products}" class="view-all">Xem tất cả<i
+                                        class="ri-arrow-right-line"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container_option content">
+                    <div class="wrapper">
+                        <div class="column">
+                            <div class="flexwrap">
+                                <div class="row products big">
+                                    <div class="border-animation">
+                                        <div class="item">
+                                            <div class="bulb-animation">
+                                                <div class="bulb-holder">
+                                                    <div class="bulb">
+                                                        <div class="light"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="bulb-holder" id="b1">
+                                                    <div class="bulb">
+                                                        <div class="light"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="bulb-holder" id="b2">
+                                                    <div class="bulb">
+                                                        <div class="light"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="media">
+                                                <div class="image">
+                                                    <a th:href="@{|/product/detail/${productDiscountest.id}|}">
+                                                        <img th:src="@{|/assets/images/products/${productDiscountest.mainImage}|}"
+                                                            alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="hoverable">
+                                                    <ul>
+                                                        <li class="active" id="product_liked-link">
+                                                            <a th:class="'product_liked-' + ${productDiscountest.id}"
+                                                                th:if="${productDiscountest.liked == 2}"
+                                                                th:onclick="'addToFavorite(' + ${productDiscountest.id} + ')'"> <i
+                                                                    class="ri-heart-line"></i>
+                                                            </a>
+                                                            <a th:class="'heart-account product_liked-' + ${productDiscountest.id}"
+                                                                th:if="${productDiscountest.liked == 1}"
+                                                                th:onclick="'removeFromFavorite(' + ${productDiscountest.id} + ')'">
+                                                                <i class="ri-heart-line"></i>
+                                                            </a>
+                                                            <a th:class="'product_liked-' + ${productDiscountest.id}"
+                                                                th:if="${productDiscountest.liked == 0}"
+                                                                th:onclick="'addToFavorite(' + ${productDiscountest.id} + ')'">
+                                                                <i class="ri-heart-line"></i>
+                                                            </a>
+                                                            <a th:class="'product_liked-' + ${productDiscountest.id}"
+                                                                th:if="${productDiscountest.liked == null}"
+                                                                th:onclick="'addToFavorite(' + ${productDiscountest.id} + ')'">
+                                                                <i class="ri-heart-line"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                        <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="sale-off">
+                                                    <!-- <span>[[${productDiscountest.discount}]]%</span> -->
+                                                    <span class="sale">
+                                                        - [[${#numbers.formatDecimal(productDiscountest.discount, 0,
+                                                        'COMMA', 0, 'POINT')}]]%
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                <div class="rating">
+                                                    <div th:if="${productDiscountest.avgRating > 0} and ${productDiscountest.avgRating < 1}"
+                                                        class="stars" style="width: 8px;"></div>
+                                                    <div th:if="${productDiscountest.avgRating > 1} and ${productDiscountest.avgRating < 1.5}"
+                                                        class="stars" style="width: 16px;"></div>
+                                                    <div th:if="${productDiscountest.avgRating == 2}" class="stars"
+                                                        style="width: 32px;"></div>
+                                                    <div th:if="${productDiscountest.avgRating == 3}" class="stars"
+                                                        style="width: 48px;"></div>
+                                                    <div th:if="${productDiscountest.avgRating == 4}" class="stars"
+                                                        style="width: 64px;"></div>
+                                                    <div th:if="${productDiscountest.avgRating == 5}" class="stars"
+                                                        style="width: 80px;"></div>
+                                                    <!-- <div class="stars"></div> -->
+                                                    <span th:if="${productDiscountest.avgRating > 0}"
+                                                        class="mini-text"><i>[[${#lists.size(productDiscountest.ratings)}]] đánh giá</i></span>
+                                                    <span th:if="${productDiscountest.avgRating == 0}"
+                                                        class="mini-text"><i>Chưa có đánh giá nào</i></span>
+                                                </div>
+                                                <h3 class="main-links">
+                                                    <a th:href="@{|/product/detail/${productDiscountest.id}|}">
+                                                        [[${productDiscountest.name}]]
+                                                    </a>
+                                                </h3>
+                                                <div class="price">
+                                                    <span
+                                                        class="current"><span th:replace="fragment :: formatPrice(${productDiscountest.realPrice})"></span></span>
+                                                    <span
+                                                        class="normal mini-text"><span th:replace="fragment :: formatPrice(${productDiscountest.price})"></span></span>
+                                                </div>
+                                                <div class="stock mini-text">
+                                                    <div class="qty">
+                                                        <span> <strong class="qty-available"></strong></span>
+                                                        <span>Đã bán: <strong
+                                                                class="qty-sold">[[${productDiscountest.saled}]]</strong></span>
+                                                    </div>
+                                                    <div class="bar">
+                                                        <div class="available"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row products mini">
+                                    <div class="discount-products">
+                                        <div class="item" th:each="d : ${discountProducts}">
+                                            <div class="media">
+                                                <div class="thumbnails object-cover">
+                                                    <a th:href="@{|/product/detail/${d.id}|}">
+                                                        <img th:src="@{|/assets/images/products/${d.mainImage}|}"
+                                                            alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="hoverable">
+                                                    <ul>
+                                                        <li class="active" id="product_liked-link">
+                                                            <a th:class="'product_liked-' + ${d.id}"
+                                                                th:if="${d.liked == 2}"
+                                                                th:onclick="'addToFavorite(' + ${d.id} + ')'"> <i
+                                                                    class="ri-heart-line"></i>
+                                                            </a>
+                                                            <a th:class="'heart-account product_liked-' + ${d.id}"
+                                                                th:if="${d.liked == 1}"
+                                                                th:onclick="'removeFromFavorite(' + ${d.id} + ')'">
+                                                                <i class="ri-heart-line"></i>
+                                                            </a>
+                                                            <a th:class="'product_liked-' + ${d.id}"
+                                                                th:if="${d.liked == 0}"
+                                                                th:onclick="'addToFavorite(' + ${d.id} + ')'">
+                                                                <i class="ri-heart-line"></i>
+                                                            </a>
+                                                            <a th:class="'product_liked-' + ${d.id}"
+                                                                th:if="${d.liked == null}"
+                                                                th:onclick="'addToFavorite(' + ${d.id} + ')'">
+                                                                <i class="ri-heart-line"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                        <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="sale_off-list">
+                                                    <span class="sale">
+                                                        - [[${#numbers.formatDecimal(d.discount, 0, 'COMMA', 0,
+                                                        'POINT')}]]%
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                <h3 class="main-links">
+                                                    <a th:href="@{|/product/detail/${d.id}|}">
+                                                        [[${d.name}]]
+                                                    </a>
+                                                </h3>
+                                                <div class="rating">
+                                                    <div th:if="${d.avgRating > 0} and ${d.avgRating < 1}" class="stars"
+                                                        style="width: 8px;"></div>
+                                                    <div th:if="${d.avgRating > 1} and ${d.avgRating < 1.5}"
+                                                        class="stars" style="width: 16px;"></div>
+                                                    <div th:if="${d.avgRating == 2}" class="stars" style="width: 32px;">
+                                                    </div>
+                                                    <div th:if="${d.avgRating == 3}" class="stars" style="width: 48px;">
+                                                    </div>
+                                                    <div th:if="${d.avgRating == 4}" class="stars" style="width: 64px;">
+                                                    </div>
+                                                    <div th:if="${d.avgRating == 5}" class="stars" style="width: 80px;">
+                                                    </div>
+                                                    <span th:if="${d.avgRating > 0}"
+                                                        class="mini-text">([[${#lists.size(d.ratings)}]])</span>
+                                                    <span th:if="${d.avgRating == 0}" class="mini-text"><i>Chưa có đánh
+                                                            giá nào</i></span>
+                                                </div>
+
+                                                <div class="price">
+                                                    <span
+                                                        class="current"><span th:replace="fragment :: formatPrice(${d.price})"></span></span>
+                                                    <span
+                                                        class="normal mini-text"><span th:replace="fragment :: formatPrice(${d.price})"></span></span>
+                                                </div>
+                                                <div class="mini-text">
+                                                    <p>Đã bán [[${d.saled}]]</p>
+                                                    <!-- <p>Freeship</p> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="new_products">
+                <div class="container_option">
+                    <div class="wrapper">
+                        <div class="sectop flexitem">
+                            <h2>
+                                <span class="circle"></span>
+                                <span>Trải nghiệm sản phẩm mới</span>
+                            </h2>
+                            <div class="second-links"><a th:href="@{/products/search/1?sortType=1}" class="view-all">Xem
+                                    tất cả<i class="ri-arrow-right-line"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container_option">
+                    <div class="wrapper">
+                        <div class="column">
+                            <div class="flexwrap">
+                                <ul id="newProducts" class="cs-hidden">
+                                    <li class="item-slide" th:each="n:${newProducts}">
+                                        <div class="products main new">
+                                            <div class="box_ribbon-blue">NEW</div>
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a th:href="@{/product/detail/} + ${n.id}">
+                                                            <img th:src="@{|/assets/images/products/${n.mainImage}|}"
+                                                                alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active" id="product_liked-link">
+                                                                <a th:class="'product_liked-' + ${n.id}"
+                                                                    th:if="${n.liked == 2}"
+                                                                    th:onclick="'addToFavorite(' + ${n.id} + ')'"> <i
+                                                                        class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'heart-account product_liked-' + ${n.id}"
+                                                                    th:if="${n.liked == 1}"
+                                                                    th:onclick="'removeFromFavorite(' + ${n.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'product_liked-' + ${n.id}"
+                                                                    th:if="${n.liked == 0}"
+                                                                    th:onclick="'addToFavorite(' + ${n.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                                <a th:class="'product_liked-' + ${n.id}"
+                                                                    th:if="${n.liked == null}"
+                                                                    th:onclick="'addToFavorite(' + ${n.id} + ')'">
+                                                                    <i class="ri-heart-line"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="new circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <div class="rating">
+                                                        <div th:if="${n.avgRating > 0} and ${n.avgRating < 1}"
+                                                            class="stars" style="width: 8px;"></div>
+                                                        <div th:if="${n.avgRating > 1} and ${n.avgRating < 1.5}"
+                                                            class="stars" style="width: 16px;"></div>
+                                                        <div th:if="${n.avgRating == 2}" class="stars"
+                                                            style="width: 32px;"></div>
+                                                        <div th:if="${n.avgRating == 3}" class="stars"
+                                                            style="width: 48px;"></div>
+                                                        <div th:if="${n.avgRating == 4}" class="stars"
+                                                            style="width: 64px;"></div>
+                                                        <div th:if="${n.avgRating == 5}" class="stars"
+                                                            style="width: 80px;"></div>
+                                                        <span th:if="${n.avgRating > 0}"
+                                                            class="mini-text">[[${#lists.size(n.ratings)}]]</span>
+                                                        <span th:if="${n.avgRating == 0}" class="mini-text"><i>Chưa có
+                                                                đánh giá nào</i></span>
+                                                    </div>
+                                                    <h3 class="main-links">
+                                                        <a th:href="@{/product/detail/} + ${n.id}">
+                                                            [[${n.name}]]
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current"><span th:replace="fragment :: formatPrice(${n.realPrice})"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button th:attr="ng-click=@{|cart.add(${n.id})|}">
+                                                            <i class="fa-solid fa-cart-plus"></i>
+                                                            <span>Chọn mua</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="brands">
+                <div class="container_option">
+                    <div class="wrapper">
+                        <div class="sectop flexitem">
+                            <h2>
+                                <span class="circle"></span>
+                                <span>Thương hiệu chính hãng</span>
+                            </h2>
+                            <div class="second-links"><a href="@{/products}" class="view-all">Xem tất cả<i
+                                        class="ri-arrow-right-line"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container_option">
+                    <div class="wrapper flexitem">
+                        <ul id="brands" class="cs-hidden">
+                            <li class="item-a" th:each="b:${listBrands}">
+                                <div class="item">
+                                    <a th:href="@{/products/search/1?brandIds=} + ${b.id}">
+                                        <img th:src="@{|/assets/images/brands/${b.logo}|}" alt="">
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="newsletter">
+                <div class="container">
+                    <div class="wrapper">
+                        <div class="box">
+                            <div class="content">
+                                <h3>Nhận Cẩm Nang</h3>
+                                <p>Chúng tôi không chia sẻ email của bạn cho đơn vị khác.</p>
+                            </div>
+                            <form class="search">
+                                <span class="icon-large"><i class="ri-mail-line"></i></span>
+                                <input type="mail" placeholder="Email của bạn..." required>
+                                <button type="submit">Đăng ký</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widgets">
+                <div class="container-fluid">
+                    <div class="wrapper">
+                        <div class="flexwrap row">
+                            <div class="col-lg-2 col-md-6 col-sm-4 col-xs-6 col-style">
+                                <div class="item mini-links">
+                                    <h4>Hỗ trợ khách hàng</h4>
+                                    <ul class="flexcol">
+                                        <li><a href="#">Hotline 1900 0000</a></li>
+                                        <li><a href="#">Mở cửa: 8:00 - 22:00</a></li>
+                                        <li><a href="#">Email: chamsockhachhang@mommy.com</a></li>
+                                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                                        <li><a href="#">Chính sách đổi trả</a></li>
+                                        <li><a href="#">Cửa hàng gần nhất</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6 col-sm-4 col-xs-6 col-style">
+                                <div class="item mini-links">
+                                    <h4>Về chúng tôi</h4>
+                                    <ul class="flexcol">
+                                        <li><a href="#">Giới thiệu về Mommy Shop</a></li>
+                                        <li><a href="#">Tuyển dụng</a></li>
+                                        <li><a href="#">Chính sách bảo mật thông tin</a></li>
+                                        <li><a href="#">Chính sách giải quyết khiếu nại</a></li>
+                                        <li><a href="#">Điều kiện vận chuyển</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6 col-sm-4 col-xs-6 col-style">
+                                <div class="item mini-links ">
+                                    <h4>Kết nối với chúng tôi</h4>
+                                    <ul class="flexcol info">
+                                        <li><a href="#"><i class="ri-facebook-line"></i></a></li>
+                                        <li><a href="#"><i class="ri-youtube-line"></i></a></li>
+                                        <li><a href="#"><i class="ri-instagram-line"></i></a></li>
+                                        <li><a href="#"><i class="ri-linkedin-line"></i></a></li>
+                                        <li><a href="#"><i class="ri-map-pin-line"></i></a></li>
+                                    </ul>
+                                    <h4>Chứng nhận bởi</h4>
+                                    <img src="/assets/images/logoSaleNoti.png">
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-6 col-sm-4 col-xs-6 col-style">
+                                <div class="item mini-links">
+                                    <h4>MOMMY SHOP ONLINE - MUA HÀNG ONLINE, CHỐT ĐƠN ĐÃ TAY</h4>
+                                    <p>
+                                        - Cung cấp các mặt hàng cho mẹ và bé <br>
+                                        - Hàng tươi sống mỗi ngày <br>
+                                        - Lựa chọn thông minh với Hàng nhãn riêng Mommy<br>
+                                        - Freeship trong phạm vi 6km với hóa đơn từ 200.000 VNĐ<br>
+                                        - Nhiều ưu đãi độc quyền hấp dẫn<br>
+                                        - Tích điểm hăng say với thẻ khách hàng thành viên<br>
+                                        Nhanh tay mua sắm tại Mommyshop với các sản phẩm chất lượng và tiết kiệm nhất
+                                        nhé!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="mini-text">Copyright 2022 &copy; .Store. All right reserved</p>
+            </div>
+        </footer>
+
+        <div class="menu-bottom desktop-hide">
+            <div class="container">
+                <div class="wrapper">
+                    <nav>
+                        <ul class="flexitem">
+                            <li>
+                                <a href="#">
+                                    <i class="ri-bar-chart-line"></i>
+                                    <span>Xu hướng</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="ri-user-6-line"></i>
+                                    <span>Tài khoản</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="ri-heart-line"></i>
+                                    <span>Yêu thích</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="t-search">
+                                    <i class="ri-search-line"></i>
+                                    <span>Tìm kiếm</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="cart-trigger">
+                                    <i class="ri-shopping-cart-line"></i>
+                                    <span>Giỏ hàng</span>
+                                    <div class="fly-item">
+                                        <span class="item-number">0</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-bottom desktop-hide">
+            <div class="container">
+                <div class="wrapper">
+                    <form action="" class="search">
+                        <a href="#" class="t-close search-close flexcenter"><i class="ri-close-line"></i></a>
+                        <span class="icon-large"><i class="ri-search-line"></i></span>
+                        <input type="search" placeholder="Bạn muốn tìm...">
+                        <button type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="back-top" style="display: none;"><i class="ri-arrow-up-line"></i></div>
+
+    <div class="overlay"></div>
+
+    </div>
+
+    <div id="toast-id"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.3.1/index.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/app.js"></script>
+</body>
+
+</html>

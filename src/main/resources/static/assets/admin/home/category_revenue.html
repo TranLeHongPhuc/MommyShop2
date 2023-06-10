@@ -1,0 +1,69 @@
+<div class="row my-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <h3 class="card-title">Danh mục sản phẩm </h3>
+                <h6 class="card-subtitle">Thống kê doanh thu theo các danh mục</h6>
+                <div class="row">
+                    <select ng-model="selectCate" class="form-control col-xs-12 col-md-3 m-auto" ng-change="change(selectCate)">
+                        <option  ng-value="">Chọn loại danh muc</option>
+                        <option ng-repeat="cate in cates_parent" ng-value="{{cate}}">{{cate.name}}
+                        </option>
+                    </select>
+                
+                    <select ng-model="selectCateChild" class="form-control col-xs-12 col-md-4 m-auto" ng-change="changeChild(selectCateChild)">
+                        <option ng-value="">Chọn danh mục sản phẩm</option>
+                        <option ng-repeat="cate in cates_child" ng-value="{{cate}}">{{cate.name}}
+                        </option>
+                    </select>
+                    <select ng-model="selectMonth" class="form-control col-xs-12 col-md-3 m-auto" ng-change="changeMonth(selectMonth,selectCate,selectCateChild)" style="display: none;">
+                        <option ng-value="">Tất cả tháng</option>
+                        <option  ng-value="01">1
+                        </option>
+                        <option  ng-value="02">2
+                        </option>
+                        <option  ng-value="03">3
+                        </option>
+                        <option  ng-value="04">4
+                        </option>
+                        <option  ng-value="05">5
+                        </option>
+                        <option  ng-value="06">6
+                        </option>
+                        <option  ng-value="07">7
+                        </option>
+                        <option  ng-value="08">8
+                        </option>
+                        <option  ng-value="09">9
+                        </option>
+                        <option  ng-value="10">10
+                        </option>
+                        <option  ng-value="11">11
+                        </option>
+                        <option  ng-value="12">12
+                        </option>
+                    </select>
+                </div>
+                <div class="card-body w-200 ">
+                    <div id="top_x_div" ng-if="!charProduct" style="width: 100%; height: 500px;"></div>
+                    <div id="top_x_div_product" ng-if="charProduct" style="width: 100%; height: 500px;"></div>
+                      
+						
+                </div>
+                <div class="card-footer text-center">
+                    <p>
+						<button class="btn btn-primary" type="button" data-toggle="collapse"
+							data-target="#collapseCate" aria-expanded="false" aria-controls="collapseCate">
+							Tắt / hiện bảng thống kê
+						</button>
+					</p>
+					<div class="collapse" id="collapseCate">
+						<div class="card card-body">
+							<div id="table_div_category"></div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

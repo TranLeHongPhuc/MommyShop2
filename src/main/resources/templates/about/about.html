@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+	<main>
+		<div class="single-cart">
+			<div class="container_option">
+				<div class="wrapper">
+					<div class="breadcrumb">
+						<ul class="flexitem">
+							<li><a href="#">Trang chủ</a></li>
+							<li>Đơn hàng</li>
+						</ul>
+					</div>
+					<div class="page-title your-order">
+						<h3>Đơn hàng của bạn</h3>
+					</div>
+					<div class="products one cart favorite">
+						<div class="item">
+							<table id="favorite-table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Tên khách hàng</th>
+										<th>Địa chỉ</th>
+										<th>Ngày đặt hàng</th>
+										<th>Trạng thái</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="order : ${orders}">
+										<td style="padding-left: 10px;"><b>#[[${order.id}]]</b></td>
+										<td>[[${order.account.fullname}]]</td>
+										<td>[[${order.address}]]</td>
+										<td>[[${#dates.format(order.createDate, 'dd-MM-yyyy')}]]</td>
+										<td th:if="${#strings.toString(order.orderStatus)} == 'CONFIRMED'"
+											class="text-success"><strong><em>Đã xác
+													nhận</em></strong>
+										</td>
+										<td th:if="${#strings.toString(order.orderStatus)} == 'NEW'"
+											class="text-danger"><strong><em>Chưa xác nhận</em></strong>
+										</td>
+										<td th:if="${#strings.toString(order.orderStatus)} == 'DILIVERING'"
+											class="text-success"><strong><em>Đang vận chuyển</em></strong>
+										</td>
+										<td th:if="${#strings.toString(order.orderStatus)} == 'CANCELLED'"
+											class="text-danger"><strong><em>Đã hủy</em></strong>
+										</td>
+										<td th:if="${#strings.toString(order.orderStatus)} == 'FINISHED'"
+											class="text-info"><strong><em>Đã hoàn thành</em></strong>
+										</td>
+										<td>
+											<a class="btn" th:href="@{'/order/detail/' + ${order.id}}">
+												<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+
+</html>

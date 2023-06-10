@@ -1,0 +1,202 @@
+<div class="page-wrapper">
+    <div class="px-4 main-content profile">
+        <div class="row page-titles">
+            <div class="col-md-5 col-8 align-self-center">
+                <h3 class="text-themecolor">Profile</h3>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#!admin">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Thông tin của bạn</li>
+                </ol>
+            </div>
+            <div class="col-md-7 col-4 align-self-center text-end">
+                <a href="https://themewagon.com/themes/bootstrap-4-responsive-admin-template/"
+                    class="btn waves-effect waves-light btn-success pull-right hidden-sm-down">Tải file Excel</a>
+            </div>
+        </div>
+        <form>
+            <div class="row">
+                <!-- Column -->
+                <div class="col-lg-4 col-xlg-3 col-md-5">
+                    <div class="card" style="height: 470px;">
+                        <div class="card-block text-center">
+                            <div class="upload my-4">
+                                <img ng-if="session.photo" width=200 height=200 id="output" alt="your image"
+                                    src="/assets/images/accounts/{{session.photo}}">
+                                <img ng-if="!session.photo" width=200 height=200 id="output" alt="your image"
+                                    src="/assets/images/avt_default.png">
+                                <div class="round">
+                                    <input type="file" class="form-control" id="photo"
+                                        onchange="angular.element(this).scope().imageChanged(this.files)">
+                                    <i class="fa-solid fa-camera"></i>
+                                </div>
+                            </div>
+                            <div class="my-4">
+                                <h4 class="card-title">{{session.fullname}}</h4>
+                                <h6 class="card-subtitle mt-1">{{session.email}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-xlg-9 col-md-7">
+                    <div class="card" style="height: 470px;">
+                        <div class="card-block">
+                            <div class="form-horizontal form-material row">
+                                <input hidden ng-model="session.id">
+                                <div class="form-group col-6">
+                                    <label class="col-md-12">Họ và tên</label>
+                                    <div class="col-md-12">
+                                        <input ng-model="session.fullname" type="text"
+                                            class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-md-12">Mật khẩu</label>
+                                    <div class="col-md-12">
+                                        <input ng-model="session.password" type="password"
+                                            class="form-control form-control-line">
+                                        <span class="text-secondary small float-right text-danger"><i>Nhập vào nếu muốn
+                                                đổi mật khẩu</i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-md-12">Email</label>
+                                    <div class="col-md-12">
+                                        <input ng-model="session.email" type="email"
+                                            class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-md-12">Số điện thoại</label>
+                                    <div class="col-md-12">
+                                        <input ng-model="session.phoneNumber" type="text"
+                                            class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div style="height: 200px; overflow: auto;">
+                                    <div class="form-group col-12 m-0 px-1" ng-repeat="address in addresses">
+                                        <label class="col-md-12">Địa chỉ {{$index + 1}} <span
+                                                ng-if="address.isDefault == true" class="text-secondary is-default"><i>(Địa
+                                                    chỉ mặc định)</i></span></label>
+                                        <div class="d-flex">
+                                            <div class="col-md-11 mt-2">
+                                                <textarea ng-model="address.address" type="text"
+                                                    class="form-control form-control-line">{{address.address}}</textarea>
+                                            </div>
+                                            <div class="col-md-1 mt-2 float-end">
+                                                <button class="btn btn-danger" ng-click="deleteAddress(address)"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa">X</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade delete_order" id="exampleModal" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title fw-bold text-dark" id="exampleModalLabel">THÊM ĐỊA
+                                                CHỈ</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-horizontal form-material row">
+                                                <div class="form-group col-12">
+                                                    <label class="col-md-12">Thành phố / Tỉnh</label>
+                                                    <div class="col-12">
+                                                        <select class="form-control" id="city">
+                                                            <option value="" selected>Chọn tỉnh thành</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-12">
+                                                    <label class="col-12">Quận / Huyện <span></span></label>
+                                                    <div class="col-12">
+                                                        <select id="district" class="form-control">
+                                                            <option value="" selected>Chọn quận huyện</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-12">
+                                                    <label class="col-12">Phường / Xã <span></span></label>
+                                                    <div class="col-12">
+                                                        <select id="ward" class="form-control">
+                                                            <option value="" selected>Chọn phường xã</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-12">
+                                                    <label class="col-12" for="address_line_1">Số nhà, Đường
+                                                        <span></span></label>
+                                                    <div class="col-12">
+                                                        <input id="address_line1" class="form-control"
+                                                            placeholder="Số nhà, Đường...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary"
+                                                ng-click="addAddress()">Đồng ý</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d-flex justify-content-between">
+                                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary">Thêm
+                                        địa chỉ khác</button>
+                                    <button type="button" ng-click="update()" class="btn btn-success">Cập nhật thông tin</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    var citis = document.getElementById("city");
+    var districts = document.getElementById("district");
+    var wards = document.getElementById("ward");
+    var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const x of data) {
+            citis.options[citis.options.length] = new Option(x.Name, x.Id);
+        }
+        citis.onchange = function () {
+            district.length = 1;
+            ward.length = 1;
+            if (this.value != "") {
+                const result = data.filter(n => n.Id === this.value);
+
+                for (const k of result[0].Districts) {
+                    district.options[district.options.length] = new Option(k.Name, k.Id);
+                }
+            }
+        };
+        district.onchange = function () {
+            ward.length = 1;
+            const dataCity = data.filter((n) => n.Id === citis.value);
+            if (this.value != "") {
+                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+                for (const w of dataWards) {
+                    wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                }
+            }
+        };
+    }
+</script>

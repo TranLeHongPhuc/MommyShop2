@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.8.0/angular-route.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&subset=latin-ext" rel="stylesheet">
+
+    <title>Shop Online Mommy</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/slider.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <script src="path-to-the-script/splide-extension-auto-scroll.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/lightsilder.css">
+    <script src="/assets/js/lightslider.js"></script>
+</head>
+
+<body>
+
+    <div id="page" class="site page-single">
+
+        <aside class="site-off desktop-hide">
+            <div class="off-canvas">
+                <div class="canvas-head flexitem">
+                    <div class="logo"><a href="/"><span class="circle"></span>.Store</a></div>
+                    <a href="#" class="t-close flexcenter"><i class="ri-close-line"></i></a>
+                </div>
+                <div class="departments"></div>
+                <nav></nav>
+                <div class="thetop-nav"></div>
+            </div>
+        </aside>
+
+        <header>
+            <div class="header-top mobile-hide">
+                <div class="wrapper flexitem">
+                    <div class="left">
+                        <ul class="flexitem main-links">
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Sản phẩm nổi bật</a></li>
+                            <li><a href="#">Danh sách mong muốn</a></li>
+                        </ul>
+                    </div>
+                    <div class="right">
+                        <ul class="flexitem main-links">
+                            <li><a class="login-link" data-toggle="modal" data-target="#loginModal">Đăng nhập</a></li>
+                            <li><a href="#">Tài khoản</a></li>
+                            <li><a href="#">Đơn hàng</a></li>
+                            <li>
+                                <a href="#">VNĐ
+                                    <span class="icon-small">
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
+                                    <ul>
+                                        <li class="current"><a href="#">VNĐ</a></li>
+                                        <li><a href="#">USD</a></li>
+                                        <li><a href="#">EUR</a></li>
+                                        <li><a href="#">GBP</a></li>
+                                    </ul>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Vietnamese
+                                    <span class="icon-small">
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </span>
+                                    <ul>
+                                        <li class="current"><a href="#">Vietnamese</a></li>
+                                        <li><a href="#">English</a></li>
+                                        <li><a href="#">Germany</a></li>
+                                        <li><a href="#">Spain</a></li>
+                                    </ul>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="loginModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <!-- <h4 class="modal-title">Modal Header</h4> -->
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <p class="first-text">Đăng nhập bằng:</p>
+                                <div class="row login-social">
+                                    <div class="col-xs-12 col-lg-6 pull-left">
+                                        <button class="btn btn-block btn-social btn-facebook">
+                                            <i class="fa-brands fa-facebook-f"></i> Facebook
+                                        </button>
+                                    </div>
+
+                                    <div class="col-xs-12 col-lg-6 pull-right">
+                                        <button class="btn btn-block btn-social btn-google" id="loginGoogleButton">
+                                            <i class="fa-brands fa-google"></i> Google
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 separate">
+                                    <div class="col-xs-12 separate__inner">
+                                        <span class="separate__text">Hoặc</span>
+                                    </div>
+                                </div>
+
+                                <form id="loginForm">
+                                    <input type="text" name="IsRedirectMember" style="display: none;" value="false">
+                                    <div class="col-sm-12 p-0 login-form">
+                                        <div class="form-group mb-3">
+                                            <label class="control-label hidden-sm">Email / Số điện thoại</label>
+                                            <input type="text" class="form-control input-lg" name="EmailPhoneDN"
+                                                required="">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="control-label hidden-sm">Mật khẩu </label>
+                                            <div class="clearfix"></div>
+                                            <input type="password" class="form-control input-lg" maxlength="50"
+                                                pattern=".{6,}"
+                                                onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Mật khẩu tối thiểu 6 ký tự' : '');"
+                                                name="PasswordDN" required="">
+                                            <small class="text-danger errorMsg"></small>
+                                        </div>
+                                        <span class="float-end mb-3"><a href="#" target="_blank"
+                                                class="forgot-link"><i>Quên mật khẩu?</i> </a></span>
+
+                                        <div class="col-xs-12 text-center">
+                                            <button type="submit" class="btn btn-login col-xs-12">Đăng nhập</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--header-nav-->
+            <div class="header-nav">
+                <div class="container-fluid">
+                    <div class="wrapper flexitem">
+                        <a href="#" class="trigger desktop-hide">
+                            <span><i class="fa-solid fa-bars"></i></span>
+                        </a>
+                        <div class="left flexitem">
+                            <div class="logo"><a href="/"><span class="circle"></span>.Store</a></div>
+                            <nav class="mobile-hide">
+                                <ul class="flexitem second-links">
+                                    <li><a href="#">Trang chủ</a></li>
+                                    <li class="has-child">
+                                        <a href="#">Cửa hàng
+                                            <span class="icon-small">
+                                                <i class="ri-arrow-down-s-line"></i>
+                                            </span>
+                                        </a>
+                                        <div class="mega">
+                                            <div class="container">
+                                                <div class="wrapper">
+                                                    <div class="flexcol">
+                                                        <div class="row">
+                                                            <h4>Nhóm Bình Sữa & Phụ Kiện
+                                                                <div class="fly-item"><span>New!</span></div>
+                                                            </h4>
+                                                            <ul>
+                                                                <li><a href="">Bình sữa cảm biến nhiệt</a></li>
+                                                                <li><a href="">Bình sữa nhựa PA</a></li>
+                                                                <li><a href="">Bình sữa nhựa PP</a></li>
+                                                                <li><a href="">Bình sữa nhựa PPSU</a></li>
+                                                                <li><a href="">Bình sữa thủy tinh</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flexcol">
+                                                        <div class="row">
+                                                            <h4>Ti giả</h4>
+                                                            <ul>
+                                                                <li><a href="">Dây Đeo Ti Giả</a></li>
+                                                                <li><a href="">Ti Giả Silicone Sensitive</a></li>
+                                                                <li><a href="">Ti Giả Silicone Space</a></li>
+                                                                <li><a href="">Ti Giả Cao Su</a></li>
+                                                                <li><a href="">Ti Giả Silicone Genius</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flexcol">
+                                                        <div class="row">
+                                                            <h4>CHO BÉ NGỦ</h4>
+                                                            <ul>
+                                                                <li><a href="">Giường cũi trẻ em</a></li>
+                                                                <li><a href="">Nôi trẻ em</a></li>
+                                                                <li><a href="">Giường tầng</a></li>
+                                                                <li><a href="">Chăn, chiếu, màn</a></li>
+                                                                <li><a href="">Túi ngủ cho bé</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flexcol">
+                                                        <div class="row">
+                                                            <h4>Top mặt hàng</h4>
+                                                            <ul class="top-brands">
+                                                                <li><a href="">Gap Kids</a></li>
+                                                                <li><a href="">Paul and Paula</a></li>
+                                                                <li><a href="">H&M Kids</a></li>
+                                                                <li><a href="">Zara Kids</a></li>
+                                                                <li><a href="">Boss Kids</a></li>
+                                                                <li><a href="">Bobo Choses</a></li>
+                                                                <li><a href="">Burberry</a></li>
+                                                                <li><a href="">American Apparel Kids</a></li>
+                                                                <li><a href="">Armani Junior</a></li>
+                                                                <li><a href="">Munster Kids</a></li>
+                                                                <li><a href="">Canada Goose Kids</a></li>
+                                                                <li><a href="">Little Marc Jacobs</a></li>
+                                                            </ul>
+                                                            <a href="#" class="view-all">Xem tất cả
+                                                                <i class="ri-arrow-right-line"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flexcol products">
+                                                        <div class="row">
+                                                            <div class="media">
+                                                                <div class="thumbnail object-cover">
+                                                                    <a href="#">
+                                                                        <img src="/assets/images/binh-sua-template.png"
+                                                                            alt="">
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-content">
+                                                                <h4>Most Wanted</h4>
+                                                                <a href="#" class="primary-button">
+                                                                    Order Now
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><a href="#">Đồ sơ sinh</a></li>
+                                    <li><a href="#">Máy hút sữa - Máy vắt sữa</a></li>
+                                    <li>
+                                        <a href="#">Khuyến mãi - Hàng mới
+                                            <div class="fly-item"><span>New!</span></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="right">
+                            <ul class="flexitem second-links">
+                                <li class="mobile-hide"><a href="#">
+                                        <div class="icon-large">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </div>
+                                        <div class="fly-item"><span class="item-number">0</span></div>
+                                    </a></li>
+                                <li><a href="#" class="iscart">
+                                        <div class="icon-large">
+                                            <i class="ri-shopping-cart-2-line"></i>
+                                            <div class="fly-item"><span class="item-number">0</span></div>
+                                        </div>
+                                        <div class="icon-text">
+                                            <div class="mini-text">Tổng:</div>
+                                            <div class="cart-total">0 VNĐ</div>
+                                        </div>
+                                    </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-main mobile-hide">
+                <div class="container">
+                    <div class="wrapper flexitem">
+                        <div class="left">
+                            <div class="dpt-cat">
+                                <div class="dpt-head">
+                                    <div class="main-text">
+                                        DANH MỤC SẢN PHẨM
+                                    </div>
+                                    <div class="mini-text mobile-hide">
+                                        Tổng cộng 1059 sản phẩm
+                                    </div>
+                                    <a href="#" class="dpt-trigger mobile-hide">
+                                        <i class="ri-menu-3-line ri-xl"></i>
+                                        <i class="ri-close-line ri-xl"></i>
+                                    </a>
+                                </div>
+                                <div class="dpt-menu">
+                                    <ul class="second-links">
+                                        <li class="has-child eat">
+                                            <a href="#">
+                                                <div class="icon-large"><i class="fa-solid fa-bowl-rice"></i></div>
+                                                Cho bé ăn
+                                                <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                            </a>
+                                            <ul>
+                                                <li><a href="#">Bánh ăn dặm</a></li>
+                                                <li><a href="#">Váng sữa, sữa chua và phô mai</a></li>
+                                                <li><a href="#">Sữa bột cho trẻ em</a></li>
+                                                <li><a href="#">Bình sữa</a></li>
+                                                <li><a href="#">Thực phẩm bổ sung khác</a></li>
+                                                <li><a href="#">Dụng cụ ăn dặm, tập ăn cho bé</a></li>
+                                                <li><a href="#">Bột, cháo ăn dặm</a></li>
+                                                <li><a href="#">Vệ sinh bình sữa</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child clothes">
+                                            <a href="#">
+                                                <div class="icon-large"><i class="fa-solid fa-shirt"></i></div>
+                                                Cho bé mặc
+                                                <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                            </a>
+                                            <ul>
+                                                <li><a href="#">Đồ sơ sinh</a></li>
+                                                <li><a href="#">Thời trang trẻ em</a></li>
+                                                <li><a href="#">Giày dép trẻ em</a></li>
+                                                <li><a href="#">Phụ kiện thời trang</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child hangout">
+                                            <a href="#">
+                                                <div class="icon-large"><i class="fa-solid fa-car"></i></div>
+                                                Cho bé đi chơi
+                                                <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                            </a>
+                                            <ul>
+                                                <li><a href="#">Xe đẩy em bé</a></li>
+                                                <li><a href="#">Xe đẩy trẻ em</a></li>
+                                                <li><a href="#">Sữa bột cho trẻ em</a></li>
+                                                <li><a href="#">Xe tập đi</a></li>
+                                                <li><a href="#">Ghế ngồi cho bé</a></li>
+                                                <li><a href="#">Đai, địu giữ bé</a></li>
+                                                <li><a href="#">Xe máy điện trẻ em</a></li>
+                                                <li><a href="#">Ô tô điện trẻ em</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child bed">
+                                            <a href="#">
+                                                <div class="icon-large"><i class="fa-solid fa-bed"></i></div>
+                                                Cho bé ngủ
+                                                <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                            </a>
+                                            <ul>
+                                                <li><a href="#">Giường cũi trẻ em</a></li>
+                                                <li><a href="#">Đệm, ga, quây cũi</a></li>
+                                                <li><a href="#">Giường lưới, giường nằm chung</a></li>
+                                                <li><a href="#">Nôi trẻ em</a></li>
+                                                <li><a href="#">Giường tầng</a></li>
+                                                <li><a href="#">Chăn chiếu màn</a></li>
+                                                <li><a href="#">Gối, bộ chăn</a></li>
+                                                <li><a href="#">Túi cho bé ngủ</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child toilet">
+                                            <a href="#">
+                                                <div class="icon-large"><i class="fa-solid fa-toilet-paper"></i></div>
+                                                Vệ sinh cho bé
+                                                <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                            </a>
+                                            <ul>
+                                                <li><a href="#">Khăn ướt, giấy ướt</a></li>
+                                                <li><a href="#">Dung dịch giặt xả</a></li>
+                                                <li><a href="#">Bô, đệm bồn cầu</a></li>
+                                                <li><a href="#">Bỉm và Tã giấy</a></li>
+                                                <li><a href="#">Đồ cho bé tắm</a></li>
+                                                <li><a href="#">Tông đơ, kéo cắt tóc</a></li>
+                                                <li><a href="#">Cắt móng tay trẻ em</a></li>
+                                                <li><a href="#">Vệ sinh tai mũi họng</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child healthy">
+                                            <a href="#">
+                                                <div class="icon-large"><i class="fa-solid fa-notes-medical"></i></div>
+                                                Bé khỏe & An toàn
+                                                <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                            </a>
+                                            <ul>
+                                                <li><a href="#">Sản phẩm tự nhiên</a></li>
+                                                <li><a href="#">Nhiệt kế, ẩm kế</a></li>
+                                                <li><a href="#">Tủ thuốc gia đình</a></li>
+                                                <li><a href="#">Dụng cụ cho bé uống thuốc</a></li>
+                                                <li><a href="#">Dụng cụ đuổi muỗi, bắt muỗi</a></li>
+                                                <li><a href="#">Máy phun sương tạo ẩm</a></li>
+                                                <li><a href="#">Túi chườm</a></li>
+                                                <li><a href="#">Mỹ phẩm cho bé</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child toy">
+                                            <a href="#">
+                                                <div class="icon-large"><i class="fa-solid fa-puzzle-piece"></i></div>
+                                                Đồ chơi trẻ em
+                                                <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                            </a>
+                                            <ul>
+                                                <li><a href="#">Đồ chơi phát nhạc</a></li>
+                                                <li><a href="#">Đồ chơi gỗ</a></li>
+                                                <li><a href="#">Đồ chơi cho trẻ sơ sinh</a></li>
+                                                <li><a href="#">Đồ chơi LEGO</a></li>
+                                                <li><a href="#">Đồ chơi nhà tắm</a></li>
+                                                <li><a href="#">Đồ chơi vận động thể chất</a></li>
+                                                <li><a href="#">Đồ chơi búp bê</a></li>
+                                                <li><a href="#">Đồ chơi giáo dục</a></li>
+                                                <li><a href="#">Đồ chơi Lắp ráp - Lắp ghép</a></li>
+                                            </ul>
+                                        </li>
+                                        <!-- <li class="has-child homekit">
+                                            <a href="#">
+                                                <div class="icon-large"><i class="fa-solid fa-puzzle-piece"></i></div>
+                                                Đồ chơi trẻ em
+                                                <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                            </a>
+                                            <ul>
+                                                <li><a href="#">Đồ chơi phát nhạc</a></li>
+                                                <li><a href="#">Đồ chơi gỗ</a></li>
+                                                <li><a href="#">Đồ chơi cho trẻ sơ sinh</a></li>
+                                                <li><a href="#">Đồ chơi LEGO</a></li>
+                                                <li><a href="#">Đồ chơi nhà tắm</a></li>
+                                                <li><a href="#">Đồ chơi vận động thể chất</a></li>
+                                                <li><a href="#">Đồ chơi búp bê</a></li>
+                                                <li><a href="#">Đồ chơi giáo dục</a></li>
+                                                <li><a href="#">Đồ chơi Lắp ráp - Lắp ghép</a></li>
+                                            </ul>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="search-box">
+                                <form th:replace="paging/paging_fragments :: search_bar"></form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="single-product">
+                <div class="container">
+                    <div class="wrapper">
+                        <div class="breadcrumb">
+                            <ul class="flexitem">
+                                <li><a href="#"></a>Trang chủ</li>
+                                <li><a href="#"></a>Category</li>
+                            </ul>
+                        </div>
+
+                        <div class="column">
+                            <div class="products one">
+                                <div class="flexwrap">
+                                    <div class="row center-block">
+                                        <div class="item is_sticky">
+                                            <div class="price">
+                                                <span class="discount">32%<br>OFF</span>
+                                            </div>
+                                            <div class="big-image">
+                                                <div class="big-image-wrapper swiper-wrapper">
+                                                    <div class="image-show swiper-slide">
+                                                        <a data-fslightbox href="/assets/images/giay.png">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="image-show swiper-slide">
+                                                        <a data-fslightbox href="/assets/images/giay2.png">
+                                                            <img src="/assets/images/giay2.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="image-show swiper-slide">
+                                                        <a data-fslightbox href="/assets/images/giay3.png">
+                                                            <img src="/assets/images/giay3.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="image-show swiper-slide">
+                                                        <a data-fslightbox href="/assets/images/giay4.png">
+                                                            <img src="/assets/images/giay4.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-button-next"></div>
+                                                <div class="swiper-button-prev"></div>
+                                            </div>
+                                            <div thumbsSlider="" class="small-image">
+                                                <ul class="small-image-wrapper flexitem swiper-wrapper">
+                                                    <li class="thumbnail-show swiper-slide">
+                                                        <img src="/assets/images/giay.png">
+                                                    </li>
+                                                    <li class="thumbnail-show swiper-slide">
+                                                        <img src="/assets/images/giay2.png">
+                                                    </li>
+                                                    <li class="thumbnail-show swiper-slide">
+                                                        <img src="/assets/images/giay3.png">
+                                                    </li>
+                                                    <li class="thumbnail-show swiper-slide">
+                                                        <img src="/assets/images/giay4.png">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row center-block">
+                                        <div class="item">
+                                            <h1>Thùng 48 hộp sữa dinh dưỡng socola Vinamilk ADM 110ml</h1>
+                                            <div class="content">
+                                                <div class="rating">
+                                                    <div class="stars"></div>
+                                                    <a href="" class="mini-text">2.251 bình luận</a>
+                                                    <a href="" class="add-review mini-text">Thêm bình luận</a>
+                                                </div>
+                                                <div class="stock-sku">
+                                                    <span class="available">Còn hàng</span>
+                                                    <span class="sku mini-text">SKU-881</span>
+                                                </div>
+                                                <div class="price">
+                                                    <span class="current">259.000 VNĐ</span>
+                                                    <span class="normal">289.000 VNĐ</span>
+                                                </div>
+                                                <div class="colors">
+                                                    <p>Color</p>
+                                                    <div class="variant">
+                                                        <form action="">
+                                                            <p>
+                                                                <input type="radio" name="color" id="cogrey">
+                                                                <label for="cogrey" class="circle"></label>
+                                                            </p>
+                                                            <p>
+                                                                <input type="radio" name="color" id="coblue">
+                                                                <label for="coblue" class="circle"></label>
+                                                            </p>
+                                                            <p>
+                                                                <input type="radio" name="color" id="cogreen">
+                                                                <label for="cogreen" class="circle"></label>
+                                                            </p>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="sizes">
+                                                    <p>Size</p>
+                                                    <div class="variant">
+                                                        <form action="">
+                                                            <p>
+                                                                <input type="radio" name="size" id="size-40">
+                                                                <label for="size-40"
+                                                                    class="circle"><span>40</span></label>
+                                                            </p>
+                                                            <p>
+                                                                <input type="radio" name="size" id="size-41">
+                                                                <label for="size-41"
+                                                                    class="circle"><span>41</span></label>
+                                                            </p>
+                                                            <p>
+                                                                <input type="radio" name="size" id="size-42">
+                                                                <label for="size-42"
+                                                                    class="circle"><span>42</span></label>
+                                                            </p>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="actions">
+                                                    <div class="qty-control flexitem">
+                                                        <button class="minus circle">-</button>
+                                                        <input type="text" value="1">
+                                                        <button class="plus circle">+</button>
+                                                    </div>
+                                                    <div class="button-cart">
+                                                        <button class="primary-button">Thêm vào giỏ hàng</button>
+                                                    </div>
+                                                    <div class="wish-share">
+                                                        <ul class="flexitem second-links">
+                                                            <li><a href="#">
+                                                                    <span class="icon-large"><i
+                                                                            class="ri-heart-line"></i></span>
+                                                                    <span>Yêu thích</span>
+                                                                </a></li>
+                                                            <li><a href="#">
+                                                                    <span class="icon-large"><i
+                                                                            class="ri-share-line"></i></span>
+                                                                    <span>Chia sẻ</span>
+                                                                </a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="description collapse-des">
+                                                    <ul>
+                                                        <li class="has-child expand">
+                                                            <a href="#0" class="icon-small">Thông tin sản phẩm</a>
+                                                            <ul class="content">
+                                                                <li><span>Thương hiệu</span> <span>Nike</span></li>
+                                                                <li><span>Hoạt động</span> <span>Có</span></li>
+                                                                <li><span>Nhóm sản phẩm</span> <span>Giày</span></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="has-child">
+                                                            <a href="#0" class="icon-small">Mô tả</a>
+                                                            <div class="content">
+                                                                <p>Sữa Meiji số 9 800g phù hợp cho trẻ từ 1 - 3 tuổi,
+                                                                    không chỉ chứa các chất dinh dưỡng cơ bản như
+                                                                    protein, chất béo, carbohydrat mà còn có các vitamin
+                                                                    và khoáng chất rất khó có được từ sữa bò và thức ăn
+                                                                    dạng rắn. Sữa bột cho bé Meiji còn bổ sung cả axit
+                                                                    docosahexaenoic (DHA), các nucleotides và đặc biệt
+                                                                    là hệ chất xơ GOS hỗ trợ tiêu hóa làm nên đặc tính
+                                                                    mát của sữa giúp thúc đẩy sự phát triển toàn diện cả
+                                                                    về thể chất lẫn não bộ của trẻ trong suốt giai đoạn
+                                                                    thơ ấu. Sản phẩm được dùng bổ sung cùng các bữa ăn
+                                                                    hàng ngày của bé, đem đến nguồn năng lượng dồi dào
+                                                                    cho bé tiếp tục các hoạt động vui chơi và khám phá
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="has-child">
+                                                            <a href="#0" class="icon-small">Mô tả chi tiết</a>
+                                                            <div class="content">
+                                                                <table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Size</th>
+                                                                            <th>Bust<span class="mini-text">(cm)</span>
+                                                                            </th>
+                                                                            <th>Waist<span class="mini-text">(cm)</span>
+                                                                            </th>
+                                                                            <th>Hip<span class="mini-text">(cm)</span>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>XS</td>
+                                                                            <td>82,5</td>
+                                                                            <td>62</td>
+                                                                            <td>87.5</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>S</td>
+                                                                            <td>85</td>
+                                                                            <td>63,5</td>
+                                                                            <td>89</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>M</td>
+                                                                            <td>87,5</td>
+                                                                            <td>67,5</td>
+                                                                            <td>93</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>L</td>
+                                                                            <td>99</td>
+                                                                            <td>72,5</td>
+                                                                            <td>98</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>XL</td>
+                                                                            <td>93</td>
+                                                                            <td>77,5</td>
+                                                                            <td>103</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </li>
+                                                        <li class="has-child">
+                                                            <a href="#" class="icon-small">Reviews<span
+                                                                    class="mini-text">2.200</span></a>
+                                                            <div class="content">
+                                                                <div class="reviews">
+                                                                    <h4>Người dùng Reviews</h4>
+                                                                    <div class="review-block">
+                                                                        <div class="review-block-head">
+                                                                            <div class="flexitem">
+                                                                                <span class="rate-sum">4.9</span>
+                                                                                <span>2.200 Reviews</span>
+                                                                            </div>
+                                                                            <a href="#review-form"
+                                                                                class="secondary-button">Viết bình
+                                                                                luận</a>
+                                                                        </div>
+                                                                        <div class="review-block-body">
+                                                                            <ul>
+                                                                                <li class="item">
+                                                                                    <div class="review-form">
+                                                                                        <p class="persion">Bình luận bởi
+                                                                                            Chinh</p>
+                                                                                        <p class="mini-text">7/7/22</p>
+                                                                                    </div>
+                                                                                    <div class="review-rating rating">
+                                                                                        <div class="stars"></div>
+                                                                                    </div>
+                                                                                    <div class="review-title">
+                                                                                        <p>Awesome Product!</p>
+                                                                                    </div>
+                                                                                    <div class="review-text">
+                                                                                        <p>Lorem ipsum dolor, sit amet
+                                                                                            consectetur adipisicing
+                                                                                            elit. Pariatur, illo quidem.
+                                                                                            Id velit repellat sit,
+                                                                                            quibusdam commodi laudantium
+                                                                                            voluptates iure voluptatem
+                                                                                            minus recusandae nemo,
+                                                                                            accusantium voluptas
+                                                                                            excepturi. Dolores, vel
+                                                                                            quam?</p>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li class="item">
+                                                                                    <div class="review-form">
+                                                                                        <p class="persion">Bình luận bởi
+                                                                                            Chinh</p>
+                                                                                        <p class="mini-text">7/7/22</p>
+                                                                                    </div>
+                                                                                    <div class="review-rating rating">
+                                                                                        <div class="stars"></div>
+                                                                                    </div>
+                                                                                    <div class="review-title">
+                                                                                        <p>Awesome Product!</p>
+                                                                                    </div>
+                                                                                    <div class="review-text">
+                                                                                        <p>Lorem ipsum dolor, sit amet
+                                                                                            consectetur adipisicing
+                                                                                            elit. Pariatur, illo quidem.
+                                                                                            Id velit repellat sit,
+                                                                                            quibusdam commodi laudantium
+                                                                                            voluptates iure voluptatem
+                                                                                            minus recusandae nemo,
+                                                                                            accusantium voluptas
+                                                                                            excepturi. Dolores, vel
+                                                                                            quam?</p>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                            <div class="second-links">
+                                                                                <a href="#" class="view-all">
+                                                                                    Xem thêm bình luận <i
+                                                                                        class="ri-arrow-right-line"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div id="review-rorm" class="review-form">
+                                                                            <h4>Viết bình luận của bạn</h4>
+                                                                            <div class="rating">
+                                                                                <p>Bạn có hài lòng không?</p>
+                                                                                <div class="rate-this">
+                                                                                    <input type="radio" name="rating"
+                                                                                        id="star5">
+                                                                                    <label for="star5"><i
+                                                                                            class="ri-star-fill"></i></label>
+
+                                                                                    <input type="radio" name="rating"
+                                                                                        id="star4">
+                                                                                    <label for="star4"><i
+                                                                                            class="ri-star-fill"></i></label>
+
+                                                                                    <input type="radio" name="rating"
+                                                                                        id="star3">
+                                                                                    <label for="star3"><i
+                                                                                            class="ri-star-fill"></i></label>
+
+                                                                                    <input type="radio" name="rating"
+                                                                                        id="star2">
+                                                                                    <label for="star2"><i
+                                                                                            class="ri-star-fill"></i></label>
+
+                                                                                    <input type="radio" name="rating"
+                                                                                        id="star1">
+                                                                                    <label for="star1"><i
+                                                                                            class="ri-star-fill"></i></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <form action="">
+                                                                                <p>
+                                                                                    <label>Tên</label>
+                                                                                    <input type="text">
+                                                                                </p>
+                                                                                <p>
+                                                                                    <label>Tóm tắt</label>
+                                                                                    <input type="text">
+                                                                                </p>
+                                                                                <p>
+                                                                                    <label>Đánh giá</label>
+                                                                                    <textarea cols="30"
+                                                                                        rows="10"></textarea>
+                                                                                </p>
+                                                                                <p><a href="#"
+                                                                                        class="primary-button">Đánh
+                                                                                        giá</a></p>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related_products">
+                <div class="container_option">
+                    <div class="wrapper">
+                        <div class="sectop flexitem">
+                            <h2>
+                                <!-- <span class="circle"></span> -->
+                                <span>Sản phẩm liên quan</span>
+                            </h2>
+                            <div class="second-links"><a href="#" class="view-all">Xem tất cả<i
+                                        class="ri-arrow-right-line"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container_option">
+                    <div class="wrapper">
+                        <div class="column">
+                            <div class="flexwrap">
+                                <ul id="related-products" class="cs-hidden">
+                                    <li class="item-slide">
+                                        <div class="products main">
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a href="#">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="discount circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <!-- <div class="rating">
+                                                            <div class="stars"></div>
+                                                            <span class="mini-text">(2,548)</span>
+                                                        </div> -->
+                                                    <h3 class="main-links">
+                                                        <a href="#">
+                                                            Bộ trang phục hai mảnh vải nhung cho bé
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current">931.000 VNĐ</div>
+                                                        <div class="normal mini-text">605150 VNĐ</div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button><i class="fa-solid fa-cart-plus"></i><span>Chọn
+                                                                mua</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-slide">
+                                        <div class="products main">
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a href="#">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="discount circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <!-- <div class="rating">
+                                                            <div class="stars"></div>
+                                                            <span class="mini-text">(2,548)</span>
+                                                        </div> -->
+                                                    <h3 class="main-links">
+                                                        <a href="#">
+                                                            Bộ trang phục hai mảnh vải nhung cho bé
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current">931.000 VNĐ</div>
+                                                        <div class="normal mini-text">605150 VNĐ</div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button><i class="fa-solid fa-cart-plus"></i><span>Chọn
+                                                                mua</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-slide">
+                                        <div class="products main">
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a href="#">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="discount circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <!-- <div class="rating">
+                                                            <div class="stars"></div>
+                                                            <span class="mini-text">(2,548)</span>
+                                                        </div> -->
+                                                    <h3 class="main-links">
+                                                        <a href="#">
+                                                            Bộ trang phục hai mảnh vải nhung cho bé
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current">931.000 VNĐ</div>
+                                                        <div class="normal mini-text">605150 VNĐ</div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button><i class="fa-solid fa-cart-plus"></i><span>Chọn
+                                                                mua</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-slide">
+                                        <div class="products main">
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a href="#">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="discount circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <!-- <div class="rating">
+                                                            <div class="stars"></div>
+                                                            <span class="mini-text">(2,548)</span>
+                                                        </div> -->
+                                                    <h3 class="main-links">
+                                                        <a href="#">
+                                                            Bộ trang phục hai mảnh vải nhung cho bé
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current">931.000 VNĐ</div>
+                                                        <div class="normal mini-text">605150 VNĐ</div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button><i class="fa-solid fa-cart-plus"></i><span>Chọn
+                                                                mua</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-slide">
+                                        <div class="products main">
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a href="#">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="discount circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <!-- <div class="rating">
+                                                            <div class="stars"></div>
+                                                            <span class="mini-text">(2,548)</span>
+                                                        </div> -->
+                                                    <h3 class="main-links">
+                                                        <a href="#">
+                                                            Bộ trang phục hai mảnh vải nhung cho bé
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current">931.000 VNĐ</div>
+                                                        <div class="normal mini-text">605150 VNĐ</div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button><i class="fa-solid fa-cart-plus"></i><span>Chọn
+                                                                mua</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-slide">
+                                        <div class="products main">
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a href="#">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="discount circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <!-- <div class="rating">
+                                                            <div class="stars"></div>
+                                                            <span class="mini-text">(2,548)</span>
+                                                        </div> -->
+                                                    <h3 class="main-links">
+                                                        <a href="#">
+                                                            Bộ trang phục hai mảnh vải nhung cho bé
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current">931.000 VNĐ</div>
+                                                        <div class="normal mini-text">605150 VNĐ</div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button><i class="fa-solid fa-cart-plus"></i><span>Chọn
+                                                                mua</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-slide">
+                                        <div class="products main">
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a href="#">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="discount circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <!-- <div class="rating">
+                                                            <div class="stars"></div>
+                                                            <span class="mini-text">(2,548)</span>
+                                                        </div> -->
+                                                    <h3 class="main-links">
+                                                        <a href="#">
+                                                            Bộ trang phục hai mảnh vải nhung cho bé
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current">931.000 VNĐ</div>
+                                                        <div class="normal mini-text">605150 VNĐ</div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button><i class="fa-solid fa-cart-plus"></i><span>Chọn
+                                                                mua</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-slide">
+                                        <div class="products main">
+                                            <div class="item">
+                                                <div class="media">
+                                                    <div class="thumbnails object-cover">
+                                                        <a href="#">
+                                                            <img src="/assets/images/giay.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="hoverable">
+                                                        <ul>
+                                                            <li class="active"><a href="#"><i class="ri-heart-line"></i></a>
+                                                            </li>
+                                                            <li><a href=""><i class="ri-eye-line"></i></a></li>
+                                                            <li><a href=""><i class="ri-shuffle-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="discount circle flexcenter"><span>NEW</span></div> -->
+                                                </div>
+                                                <div class="content">
+                                                    <!-- <div class="rating">
+                                                            <div class="stars"></div>
+                                                            <span class="mini-text">(2,548)</span>
+                                                        </div> -->
+                                                    <h3 class="main-links">
+                                                        <a href="#">
+                                                            Bộ trang phục hai mảnh vải nhung cho bé
+                                                        </a>
+                                                    </h3>
+                                                    <div class="price text-center">
+                                                        <div class="current">931.000 VNĐ</div>
+                                                        <div class="normal mini-text">605150 VNĐ</div>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button><i class="fa-solid fa-cart-plus"></i><span>Chọn
+                                                                mua</span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="newsletter">
+                <div class="container">
+                    <div class="wrapper">
+                        <div class="box">
+                            <div class="content">
+                                <h3>Nhận Cẩm Nang</h3>
+                                <p>Chúng tôi không chia sẻ email của bạn cho đơn vị khác.</p>
+                            </div>
+                            <form action="" class="search">
+                                <span class="icon-large"><i class="ri-mail-line"></i></span>
+                                <input type="mail" placeholder="Email của bạn..." required>
+                                <button type="submit">Đăng ký</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widgets">
+                <div class="container-fluid">
+                    <div class="wrapper">
+                        <div class="flexwrap row">
+                            <div class="col-lg-2 col-md-6 col-sm-4 col-xs-6 col-style">
+                                <div class="item mini-links">
+                                    <h4>Hỗ trợ khách hàng</h4>
+                                    <ul class="flexcol">
+                                        <li><a href="#">Hotline 1900 0000</a></li>
+                                        <li><a href="#">Mở cửa: 8:00 - 22:00</a></li>
+                                        <li><a href="#">Email: chamsockhachhang@mommy.com</a></li>
+                                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                                        <li><a href="#">Chính sách đổi trả</a></li>
+                                        <li><a href="#">Cửa hàng gần nhất</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6 col-sm-4 col-xs-6 col-style">
+                                <div class="item mini-links">
+                                    <h4>Về chúng tôi</h4>
+                                    <ul class="flexcol">
+                                        <li><a href="#">Giới thiệu về Mommy Shop</a></li>
+                                        <li><a href="#">Tuyển dụng</a></li>
+                                        <li><a href="#">Chính sách bảo mật thông tin</a></li>
+                                        <li><a href="#">Chính sách giải quyết khiếu nại</a></li>
+                                        <li><a href="#">Điều kiện vận chuyển</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6 col-sm-4 col-xs-6 col-style">
+                                <div class="item mini-links ">
+                                    <h4>Kết nối với chúng tôi</h4>
+                                    <ul class="flexcol info">
+                                        <li><a href="#"><i class="ri-facebook-line"></i></a></li>
+                                        <li><a href="#"><i class="ri-youtube-line"></i></a></li>
+                                        <li><a href="#"><i class="ri-instagram-line"></i></a></li>
+                                        <li><a href="#"><i class="ri-linkedin-line"></i></a></li>
+                                        <li><a href="#"><i class="ri-map-pin-line"></i></a></li>
+                                    </ul>
+                                    <h4>Chứng nhận bởi</h4>
+                                    <img src="/assets/images/logoSaleNoti.png">
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-6 col-sm-4 col-xs-6 col-style">
+                                <div class="item mini-links">
+                                    <h4>MOMMY SHOP ONLINE - MUA HÀNG ONLINE, CHỐT ĐƠN ĐÃ TAY</h4>
+                                    <p>
+                                        - Cung cấp các mặt hàng cho mẹ và bé <br>
+                                        - Hàng tươi sống mỗi ngày <br>
+                                        - Lựa chọn thông minh với Hàng nhãn riêng Mommy<br>
+                                        - Freeship trong phạm vi 6km với hóa đơn từ 200.000 VNĐ<br>
+                                        - Nhiều ưu đãi độc quyền hấp dẫn<br>
+                                        - Tích điểm hăng say với thẻ khách hàng thành viên<br>
+                                        Nhanh tay mua sắm tại Mommyshop với các sản phẩm chất lượng và tiết kiệm nhất
+                                        nhé!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="mini-text">Copyright 2022 &copy; .Store. All right reserved</p>
+            </div>
+        </footer>
+
+        <div class="menu-bottom desktop-hide">
+            <div class="container">
+                <div class="wrapper">
+                    <nav>
+                        <ul class="flexitem">
+                            <li>
+                                <a href="#">
+                                    <i class="ri-bar-chart-line"></i>
+                                    <span>Xu hướng</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="ri-user-6-line"></i>
+                                    <span>Tài khoản</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="ri-heart-line"></i>
+                                    <span>Yêu thích</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="t-search">
+                                    <i class="ri-search-line"></i>
+                                    <span>Tìm kiếm</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="ri-shopping-cart-line"></i>
+                                    <span>Giỏ hàng</span>
+                                    <div class="fly-item">
+                                        <span class="item-number">0</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-bottom desktop-hide">
+            <div class="container">
+                <div class="wrapper">
+                    <form th:replace="paging/paging_fragments :: search_bar"></form>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay"></div>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.3.1/index.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/app.js"></script>
+</body>
+
+</html>

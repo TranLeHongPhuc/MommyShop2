@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+<main>
+	 <div class="main-register">
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Đăng Ký</h2>
+                        <form th:action="@{/register}" method="post" th:object="${userDTO}" class="register-form" id="register-form">
+                            
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i> </label> 
+                                <input type="email"  name="email" id="email" th:value=*{email} th:errorClass="is-invalid"  placeholder="Email của bạn?" ng-pattern="/^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/" ng-title="Bạn phải nhập đúng định dạng Email!">
+								<div th:if="${#fields.hasErrors('email')}"th:errors="*{email}"class="invalid-feedback" ></div> 
+                            </div>
+                            <div class="form-group">
+                                <label for="fullname"><i class="zmdi zmdi-account"></i></label>
+                                <input type="text" name="fullname" id="fullname" th:field="*{fullname}" th:errorClass="is-invalid" placeholder="Họ và Tên của bạn" >
+								<div th:each="err : ${#fields.errors('fullname')}" th:text="${err}" class="invalid-feedback"></div> 
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password"  name="password" id="password" th:value=*{password} th:errorClass="is-invalid" placeholder="Mật khẩu" ng-pattern="[a-z]{5,250}">
+								<div th:if="${#fields.hasErrors('password')}"th:errors="*{password}"class="invalid-feedback" ng-title="Bạn phải nhập ít nhất 5 ký tự!"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label> 
+                                <input type="password" name="rpassword"  id="re_pass" th:value=*{rpassword} th:errorClass="is-invalid" placeholder="Lặp lại mật khẩu của bạn">
+					            <div th:if="${#fields.hasErrors('rpassword')}"th:errors="*{rpassword}"class="invalid-feedback"></div>
+                            </div>
+                             <div class="form-group">
+                               <label for="phoneNumber"><i class="zmdi zmdi-phone"></i></label> 
+                               <input type="text"  name="phoneNumber" th:value=*{phoneNumber} th:errorClass="is-invalid" placeholder="Số điện thoại của bạn?" >
+							   <div th:if="${#fields.hasErrors('phoneNumber')}"th:errors="*{phoneNumber}"class="invalid-feedback" ></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="checkbox" ng-model="myVar" ng-init="myVar = true" name="agree-term" id="agree-term" class="agree-term" />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>Tôi đồng ý tất cả <a href="#" class="term-service" ><u>Điều khoản dịch vụ</u></a></label>
+                            </div>
+                            
+                             <div th:if="${message != null}">
+									<div class="error-messge" role="alert">[[${message}]]</div>
+								</div>
+                            <div class="form-group form-button" >
+                                <input type="submit" name="signup" ng-disabled="!myVar" id="signup" class="form-submit" value="Đăng ký"/>
+                            </div>
+                        </form>
+				 <br>
+					  <th:block th:if="${checkcode != null}">
+							<div class="form-group text-white ">
+								<div class="row justify-content-center">
+									<div class="col col-md-10  ">
+										
+										<div class="alert alert-light rounded-circle bg-gray  border-dark">
+										<div >Email nhận mã xác nhận</div>
+										<div id="user_email">[(${userDTO.email})]</div>
+										<br />
+											<input type="number" class="form-control" ng-model="code" name="mycode" id="mycode">
+											 <br>
+											 <input type="submit" name="signup" id="signup" class="form-submit" ng-click="register(code)" value="Xác nhận"/>		
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						 
+						 </th:block>
+						
+						
+                    </div>
+                    
+                    <div class="signup-image">
+                        <figure><img th:src="@{/assets/images/background/signup-image.jpg}" alt="hình ảnh đăng ký"></figure>
+                        <a href="/login" class="signup-image-link">Tôi đã là thành viên <u>Đăng nhập</u></a>
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+  	 </div>
+	</main>
+</body>
+</html>

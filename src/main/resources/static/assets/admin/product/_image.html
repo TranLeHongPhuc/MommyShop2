@@ -1,0 +1,43 @@
+<div class="col-sm-12 form_product">
+    <div class="form-group col-12">
+        <div class="row my-3">
+            <label class="h4" for="fileImage">Hình đại diện:</label>
+        </div>
+        <div class="text-center mt-3">
+            <label for="image" ng-if="!form.mainImage">
+                <img ng-src="/assets/images/default.png" class="img-fuild mx-5 mainImage" height="350px">
+            </label>
+            <label for="image" ng-if="form.mainImage">
+                <img ng-src="/assets/images/products/{{form.mainImage}}" class="img-fuild mx-5" height="350px">
+            </label>
+            <input type="file" class="form-control" id="image"
+                   onchange="angular.element(this).scope().imageChanged(this.files)" style="visibility:hidden;">
+        </div>
+    </div>
+    <hr>
+    <div class="form-group col-12">
+        <div class="row mt-3">
+            <label class="h4" for="fileImage">Hình ảnh chi tiết:</label>
+        </div>
+        <label for="productImage" class="col-12">
+            <div class="float-end">
+                <span class="btn upload_more-image">Chọn hình ảnh chi tiết&emsp;<i
+                        class="fa-sharp fa-solid fa-folder-open"></i></span>
+                <input type="file" onchange="angular.element(this).scope().extraImageChangedNew(this.files)"
+                       id="productImage" style="display:none">
+            </div>
+        </label>
+        <ul class="nav-bar nav nav-image">
+            <li ng-repeat="img in productImages track by $index" class="more-image">
+                <label for="productImage">
+                    <img ng-src="/assets/images/products/{{img.name}}" alt="" width="200px" height="200px">
+                </label>
+                <div class="delete-image">
+                    <button ng-if="img.id != null" class="btn" ng-click="deleteImage(img)"><i
+                            class="fa-solid fa-xmark"></i></button>
+                    <button ng-if="img.id == null" class="btn" ng-click="deleteImageNew($index,img)"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+            </li>
+        </ul>
+    </div>

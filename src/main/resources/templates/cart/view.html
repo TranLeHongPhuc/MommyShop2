@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+	<main>
+		<div class="single-cart">
+			<div class="container_option">
+				<div class="wrapper">
+					<div class="breadcrumb">
+						<ul class="flexitem">
+							<li><a href="/">Trang chủ</a></li>
+							<li>Giỏ hàng</li>
+						</ul>
+					</div>
+					<div class="page-title">
+						<h2>Giỏ hàng của bạn</h2>
+					</div>
+					<div class="products one cart">
+						<div class="flexwrap">
+							<form action="" class="form-cart">
+								<div class="item">
+									<table id="cart-table">
+										<thead>
+											<tr>
+												<th>Hình ảnh</th>
+												<th>Tên sản phẩm</th>
+												<th>Giá</th>
+												<th>Số lượng</th>
+												<th>Tổng giá</th>
+												<th></th>
+												<th class="action-check">
+													<div class="form-check all">
+														<input type="checkbox" id="_checkbox" ng-model="checkAll"
+															ng-checked="checkAll" class="form-check-input"
+															ng-click="checkout.selectAll()">
+														<label for="_checkbox">
+															<div id="tick_mark"></div>
+														</label>
+													</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody th:if="${#request.remoteUser}">
+											<tr ng-repeat="item in carts">
+												<!-- <td>{{item.id}}</td> -->
+												<td class="flexitem">
+													<div class="thumbnails object-cover">
+														<a href="#"><img
+																src="/assets/images/products/{{item.product.mainImage}}"
+																alt=""></a>
+													</div>
+												</td>
+												<td class="name-products">
+													<div class="content">
+														<strong><a href="#">{{item.product.name}}</a></strong>
+														<p>Trong kho: {{item.product.inventory}}</p>
+													</div>
+												</td>
+												<td>
+													<span class="current">{{item.product.realPrice | number:0}}&#8363;
+													</span><br>
+													<span ng-if="item.product.discount > 0"
+														class="normal mini-text">{{item.product.price |
+														number:0}}&#8363;</span>
+												</td>
+												<td>
+													<div class="qty-control flexitem">
+														<button type="button" class="minus"
+															ng-click="item.quantity <2 ? cart.remove(item.id):cart.plus(item,-1)">-</button>
+														<input type="text" disabled id="qtyCart"
+															ng-model="item.quantity" min="1">
+														<button type="button" class="plus"
+															ng-click="cart.plus(item,1)">+</button>
+													</div>
+												</td>
+												<td id="totalCart">{{item.quantity*item.product.realPrice | number :
+													0}}&#8363;
+												</td>
+
+												<td><a href="#" ng-click="cart.remove(item.id)" class="item-remove"><i
+															class="ri-close-line"></i></a></td>
+
+												<td>
+													<div class="form-check"><input ng-if="item.product.inventory > 0" type="checkbox"
+															class="form-check-input" ng-checked="item.selected"
+															ng-click="checkout.selectCart(item)" name="" id="">
+														<input ng-if="item.product.inventory < 1" type="checkbox" disabled></div>
+												</td>
+											</tr>
+										</tbody>
+										<tbody th:if="!${#request.remoteUser}">
+											<tr ng-repeat="item in cart.carts">
+												<td class="flexitem">
+													<div class="thumbnails object-cover">
+														<a href="#"><img
+																src="/assets/images/products/{{item.mainImage}}"
+																alt=""></a>
+													</div>
+												</td>
+												<td class="name-products">
+													<div class="content">
+														<strong><a href="#">{{item.name}}</a></strong>
+														<p>Trong kho: {{item.inventory}}</p>
+													</div>
+												</td>
+												<td>
+													<span class="current">{{item.realPrice | number:0}}&#8363;
+													</span><br>
+													<span ng-if="item.discount > 0"
+														class="normal mini-text">{{item.price |
+														number:0}}&#8363;</span>
+												</td>
+												<td>
+													<div class="qty-control flexitem">
+														<button type="button" class="minus"
+															ng-click="item.quantity < 2? cart.remove(item.id):cart.plus(item,-1)">-</button>
+														<input type="text" disabled id="qtyCart"
+															ng-model="item.quantity" min="1">
+														<button type="button" class="plus"
+															ng-click="cart.plus(item,1)">+</button>
+													</div>
+												</td>
+												<td id="totalCart">{{item.quantity*item.realPrice | number : 0}}&#8363;
+												</td>
+												<td><a href="#" ng-click="cart.remove(item.id)" class="item-remove"><i
+															class="ri-close-line"></i></a></td>
+												<td>
+													<div class="form-check">
+														<input ng-if="item.inventory > 0" type="checkbox"
+															class="form-check-input" ng-checked="item.selected"
+															ng-click="checkout.selectCart(item)" name="" id="">
+														<input ng-if="item.inventory < 1" type="checkbox" disabled>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
+
+							<div class="cart-summary styled">
+								<div class="item">
+									<div class="coupon">
+										<input type="text" placeholder="Nhập mã">
+										<button>Ứng dụng</button>
+									</div>
+									<div class="shipping-rate collapse">
+										<div class="has-child">
+											<a href="#" class="icon-small title">
+												Tổng tất cả giỏ hàng
+											</a>
+											<div class="content">
+												<div class="cart-total orders">
+													<table>
+														<tbody>
+															<tr>
+																<th>Tổng sản phẩm</th>
+																<td>{{cart.count}} sản phẩm</td>
+															</tr>
+															<tr>
+																<th>Giảm giá</th>
+																<td class="text-danger">- {{cart.discount | number : 0}}
+																	&#8363;</td>
+															</tr>
+															<!-- <tr>
+																	<th>Phí vận chuyển <span class="mini-text">(Flat)</span></th>
+																	<td>10000</td>
+																</tr> -->
+															<tr class="grand-total">
+																<th>Tổng đơn hàng</th>
+																<td><strong>{{cart.amount | number : 0}}
+																		&#8363;</strong></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="cart-total checkout">
+										<h3 class="title">&#8226; Tổng sản phẩm cần thanh toán</h3>
+										<table>
+											<tbody>
+												<tr>
+													<th>Giảm giá</th>
+													<td class="text-danger">- {{checkout.discount | number : 0}} &#8363;
+													</td>
+												</tr>
+												<tr class="grand-total">
+													<th>Tổng đơn hàng</th>
+													<td><strong>{{checkout.amount | number : 0}} &#8363;</strong></td>
+												</tr>
+											</tbody>
+										</table>
+										<a th:if="${#request.remoteUser}" ng-click="checkoutClick(carts)"
+											class="secondary-button link-checkout">Thanh toán</a>
+										<a th:if="!${#request.remoteUser}" ng-click="checkoutClick(cart.carts)"
+											class="secondary-button link-checkout">Thanh toán</a>
+										<a href="" ng-click="cart.clear()" class="secondary-button link-checkout">Xóa
+											tất cả</a>
+										<!-- <p class="text-danger">{{error}}</p> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+
+</html>

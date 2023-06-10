@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <!-- <span th:replace="fragment :: formatPrice(${price})"></span> -->
+    <span th:fragment="formatPrice(price)" th:remove="tag">[[${#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')}]] <small>&#8363;</small></span>
+</body>

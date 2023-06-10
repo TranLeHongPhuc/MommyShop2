@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+	<main th:object="${remoteCheckout}" ng-controller="paypal-ctrl">
+		<div class="single-checkout">
+			<div class="container_option">
+				<div class="wrapper">
+					<div th:if="${#request.remoteUser}" class="checkout flexwrap">
+						<div class="item left styled">
+							<h1>Thông tin liên hệ</h1>
+							<form action="">
+								<div class="form-group">
+									<label for="fullname">Họ và tên
+										<span></span>
+									</label>
+									<div class="form-control">[[*{fullname}]]</div>
+								</div>
+								<div class="form-group">
+									<label for="email">Email <span></span></label>
+									<div id="email" class="form-control">[[${#request.remoteUser}]]</div>
+								</div>
+								<div class="form-group">
+									<label for="phone">Số điện thoại <span></span></label>
+									<div th:if="*{phoneNumber.length > 0}" class="form-control">
+										[[*{phoneNumber}]]</div>
+									<input id="phone-account" th:if="*{phoneNumber.length == 0}" class="form-control"
+										ng-model="order.phoneNumberAnonymous"></input>
+								</div>
+								<div class="form-group" th:if="*{#lists.size(addresses) > 0}">
+									<label>Sổ địa chỉ <span></span></label>
+									<select class="form-control" id="addressSelect"
+										onchange="showHideAddress(this.value)">
+										<option th:each="address : *{addresses}"
+											th:selected="${address.isDefault} == true" th:value="${address.id}"
+											th:text="${address.address}">
+										</option>
+										<option value="other-address" id="other-address">Chọn địa chỉ khác...</option>
+									</select>
+								</div>
+								<div th:if="*{#lists.size(addresses) > 0}" th:id="content-other-address">
+									<div class="form-group">
+										<label>Thành phố / Tỉnh <span></span></label>
+										<select class="form-control" id="city">
+											<option value="" selected>Chọn tỉnh thành</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Quận / Huyện <span></span></label>
+										<select id="district" class="form-control">
+											<option value="" selected>Chọn quận huyện</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Phường / Xã <span></span></label>
+										<select id="ward" class="form-control">
+											<option value="" selected>Chọn phường xã</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="address_line_1">Số nhà, Đường <span></span></label>
+										<input class="form-control" ng-model="order.addressLine1" id="address_line_1"
+											required>
+									</div>
+								</div>
+								<div th:if="*{#lists.size(addresses) == 0}">
+									<div class="form-group">
+										<label>Thành phố / Tỉnh <span></span></label>
+										<select class="form-control" id="no-city">
+											<option value="" selected>Chọn tỉnh thành</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Quận / Huyện <span></span></label>
+										<select id="no-district" class="form-control">
+											<option value="" selected>Chọn quận huyện</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Phường / Xã <span></span></label>
+										<select id="no-ward" class="form-control">
+											<option value="" selected>Chọn phường xã</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="no-address_line_1">Số nhà, Đường <span></span></label>
+										<input class="form-control" ng-model="order.addressLine1" id="no-address"
+											name="abc" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label>Ghi chú (Không bắt buộc)</label>
+									<textarea class="form-control" cols="30" rows="10" ng-model="order.note" id="note-order"></textarea>
+								</div>
+							</form>
+
+							<div class="primary-checkout">
+								<button ng-click="order.purchase()" class="primary-button">Đặt hàng COD</button>
+								<hr>
+								<div class="d-flex">
+									<input id="check" type="checkbox">
+									<h4 for="">
+										Bấm chọn để chấp nhận Thanh toán bằng paypal <br>
+										<span class="text-danger">
+											(vui lòng nhập đầy đủ thông tin)
+										</span>
+									</h4>
+								</div>
+								<div id="smart-button-container">
+									<div class="convert-money d-flex">
+										<div class="input-group col-md-5">
+											<div class="form-control" type="text" ng-value="checkout.amount" id="priceVnd">{{checkout.amount}}</div>
+											<span class="input-group-addon">đ</i></span>
+										</div>
+										<div class="col-md-3">
+											&#8660;
+										</div>
+										<div class="input-group col-md-5">
+											<input class="form-control" ng-value="loader()" id="priceUsd" readonly="true">
+											<span class="input-group-addon">$</i></span>
+										</div>
+									</div>
+										<div id="paypal-button-container">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="item right">
+							<div class="summary-order is_sticky">
+								<h2>Đơn hàng</h2>
+								<div class="summary-totals">
+									<ul>
+										<li>
+											<span>Giá gốc</span>
+											<span>{{checkout.amount | number : 0}} đ</span>
+										</li>
+										<li>
+											<span>Giảm giá</span>
+											<span class="text-danger">- {{checkout.discount | number : 0}} đ</span>
+										</li>
+										<li>
+											<span>Sau giảm giá</span>
+											<span>{{(checkout.amount-checkout.discount) | number : 0}} đ</span>
+										</li>
+										<li>
+											<span>Phí vận chuyển</span>
+											<span><span class="shipping-rate">0</span> đ</span>
+										</li>
+										<li>
+											<span>Tổng</span>
+											<strong>{{(checkout.amount-checkout.discount) | number : 0}} đ</strong>
+										</li>
+									</ul>
+								</div>
+								<ul class="products mini">
+									<li ng-repeat="item in checkout.items" class="item">
+										<div class="thumbnails object-cover">
+											<img ng-src="/assets/images/products/{{item.product.mainImage}}" alt="">
+										</div>
+										<div class="item-content">
+											<a href="/product/detail/{{item.id}}">{{item.product.name}}</a>
+											<span class="price">
+												<span class="price_old">{{item.product.price | number:0}} đ</span>
+												<span class="price_new">{{item.product.realPrice | number:0}} đ x
+													{{item.quantity}}</span>
+											</span>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+
+					<div th:if="!${#request.remoteUser}" class="checkout flexwrap">
+						<form name="form" ng-submit="register()" novalidate>
+							<div class="item left styled">
+								<h1>Shipping Address</h1>
+								<div class="form-group">
+									<label for="fullname">Họ và tên khách ẩn danh
+										<span></span>
+									</label>
+									<input type="text" class="form-control" name="name"
+										ng-model="order.fullnameAnonymous" required ng-minlength="3" ng-maxlength="50">
+									<i class="fa fa-check text-success"
+										ng-show="form.name.$dirty && form.name.$valid"></i>
+									<p class="text-danger" ng-show="form.name.$invalid">Nhập họ tên từ 3 đến 50 ký tự
+									</p>
+
+								</div>
+								<div class="form-group">
+									<label for="email">Email <span></span></label>
+									<input type="email" name="email" id="email" class="form-control"
+										ng-model="order.emailAnonymous" required
+										ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
+									<i class="fa fa-check text-success"
+										ng-show="form.email.$dirty && form.email.$valid"></i>
+									<p class="text-danger" ng-show="form.email.$invalid">Nhập đúng định dạng email</p>
+								</div>
+								<div class="form-group">
+									<label for="phone">Số điện thoại <span></span></label>
+									<input type="number" name="phone" class="form-control"
+										ng-model="order.phoneNumberAnonymous" required
+										ng-pattern="/(84|0[3|5|7|8|9])+([0-9]{8})\b/g"></input>
+									<i class="fa fa-check text-success"
+										ng-show="form.phone.$dirty && form.phone.$valid"></i>
+									<p class="text-danger" ng-show="form.phone.$invalid">Nhập đúng định dạng số điện
+										thoại</p>
+								</div>
+								<div class="form-group">
+									<label>Thành phố / Tỉnh <span></span></label>
+									<select class="form-control" id="city">
+										<option value="" selected>Chọn tỉnh thành</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Quận / Huyện <span></span></label>
+									<select id="district" class="form-control">
+										<option value="" selected>Chọn quận huyện</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Phường / Xã <span></span></label>
+									<select id="ward" class="form-control">
+										<option value="" selected>Chọn phường xã</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="address_line_1">Số nhà, Đường <span></span></label>
+									<input class="form-control" name="address" ng-model="order.addressLine1" required
+										ng-minlength="3" ng-maxlength="70">
+									<i class="fa fa-check text-success"
+										ng-show="form.address.$dirty && form.address.$valid"></i>
+									<p class="text-danger" ng-show="form.address.$invalid">Nhập địa chỉ từ 3 đến 70 ký
+										tự</p>
+								</div>
+								<div class="form-group">
+									<label>Ghi chú (Không bắt buộc)</label>
+									<textarea class="form-control" cols="30" rows="10" ng-model="order.note"></textarea>
+								</div>
+								<div class="checkset">
+									<input type="checkbox" name="account" value="true" checked id="an_account"
+										ng-model="myVar" ng-init="myVar = true">
+									<label for="an_account">Đăng ký tài khoản?</label>
+								</div>
+								<div class="form-group" ng-if="myVar">
+									<label for="password">Mật khẩu <span></span></label>
+									<input id="r_password" class="form-control" type="password" name="password"
+										ng-model="acc.password" required
+										ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/">
+									<i class="fa fa-check text-success"
+										ng-show="form.password.$dirty && form.password.$valid"></i>
+									<p class="text-danger" ng-show="form.password.$invalid">Nhập đúng định dạng password
+										(chữ cái, ký tự và số)</p>
+								</div>
+								<div class="form-group" ng-if="myVar">
+									<label for="password1">Xác nhận Mật khẩu <span></span></label>
+									<input id="r_password1" class="form-control" type="password" name="password1"
+										ng-model="acc.password1" required
+										ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/">
+									<i class="fa fa-check text-success"
+										ng-show="form.password1.$dirty && form.password1.$valid"></i>
+									<p class="text-danger" ng-show="form.password1.$invalid">Nhập đúng định dạng
+										password (chữ cái, ký tự và số)</p>
+								</div>
+
+								<div class="primary-checkout">
+									<button value="register" ng-click="order.purchase()"
+										ng-disabled="form.$pristine || form.$invalid" class="primary-button">Đặt hàng
+										COD</button>
+									<hr>
+
+									<label><input id="check" type="checkbox"
+											ng-disabled="form.$pristine || form.$invalid"> Bấm chọn để chấp nhận Thanh
+										toán bằng paypal </br> ( vui lòng nhập đầy đủ thông tin )</label>
+									<div id="smart-button-container">
+										<div style="text-align: center;">
+											<input type="text" ng-value="checkout.amount" id="priceVnd">
+											<input ng-value="loader()" id="priceUsd">
+											<div id="paypal-button-container"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+						<div class="item right">
+							<div class="summary-order is_sticky">
+								<h2>Đơn hàng</h2>
+								<div class="summary-totals">
+									<ul>
+										<li>
+											<span>Giá gốc</span>
+											<span>{{checkout.amount | number : 0}} đ</span>
+										</li>
+										<li>
+											<span>Giảm giá</span>
+											<span class="text-danger">- {{checkout.discount | number : 0}} đ</span>
+										</li>
+										<li>
+											<span>Sau giảm giá</span>
+											<span>{{(checkout.amount-checkout.discount) | number : 0}} đ</span>
+										</li>
+										<li>
+											<span>Phí vận chuyển</span>
+											<span><span class="shipping-rate">0</span> đ</span>
+										</li>
+										<li>
+											<span>Tổng</span>
+											<strong>{{(checkout.amount-checkout.discount) | number : 0}} đ</strong>
+										</li>
+									</ul>
+								</div>
+
+								<ul th:if="!${#request.remoteUser}" class="products mini">
+									<li ng-repeat="item in checkout.items" class="item">
+										<div class="thumbnails object-cover">
+											<img ng-src="/assets/images/products/{{item.mainImage}}" alt="">
+										</div>
+										<div class="item-content">
+											<a href="/product/detail/{{item.id}}">{{item.name}}</a>
+											<span class="price">
+												<span class="price_old">{{item.price | number:0}} đ</span>
+												<span class="price_new">{{item.realPrice | number:0}} đ x
+													{{item.quantity}}</span>
+											</span>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<script>
+			var citis = document.getElementById("city");
+			var districts = document.getElementById("district");
+			var wards = document.getElementById("ward");
+			var Parameter = {
+				url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+				method: "GET",
+				responseType: "application/json",
+			};
+			var promise = axios(Parameter);
+			promise.then(function (result) {
+				renderCity(result.data);
+			});
+
+			function renderCity(data) {
+				for (const x of data) {
+					citis.options[citis.options.length] = new Option(x.Name, x.Id);
+				}
+				citis.onchange = function () {
+					district.length = 1;
+					ward.length = 1;
+					if (this.value != "") {
+						const result = data.filter(n => n.Id === this.value);
+
+						for (const k of result[0].Districts) {
+							district.options[district.options.length] = new Option(k.Name, k.Id);
+						}
+					}
+				};
+				district.onchange = function () {
+					ward.length = 1;
+					const dataCity = data.filter((n) => n.Id === citis.value);
+					if (this.value != "") {
+						const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+						for (const w of dataWards) {
+							wards.options[wards.options.length] = new Option(w.Name, w.Id);
+						}
+					}
+				};
+			}
+
+
+			var citis2 = document.getElementById("no-city");
+			var districts2 = document.getElementById("no-district");
+			var wards2 = document.getElementById("no-ward");
+			var Parameter2 = {
+				url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+				method: "GET",
+				responseType: "application/json",
+			};
+			var promise2 = axios(Parameter2);
+			promise2.then(function (result) {
+				renderCity2(result.data);
+			});
+
+			function renderCity2(data) {
+				for (const x of data) {
+					citis2.options[citis2.options.length] = new Option(x.Name, x.Id);
+				}
+				citis2.onchange = function () {
+					districts2.length = 1;
+					wards2.length = 1;
+					if (this.value != "") {
+						const result = data.filter(n => n.Id === this.value);
+
+						for (const k of result[0].Districts) {
+							districts2.options[districts2.options.length] = new Option(k.Name, k.Id);
+						}
+					}
+				};
+				districts2.onchange = function () {
+					wards2.length = 1;
+					const dataCity = data.filter((n) => n.Id === citis2.value);
+					if (this.value != "") {
+						const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+						for (const w of dataWards) {
+							wards2.options[wards2.options.length] = new Option(w.Name, w.Id);
+						}
+					}
+				};
+			}
+		</script>
+	</main>
+</body>
+
+</html>

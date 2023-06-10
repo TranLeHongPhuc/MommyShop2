@@ -1,0 +1,92 @@
+<div class="page-wrapper">
+	<div class="px-4 main-content">
+		<div class="row page-titles">
+			<div class="col-md-5 col-8 align-self-center">
+				<h3 class="text-themecolor">Dashboard</h3>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#!admin">Trang chủ</a></li>
+					<li class="breadcrumb-item active">Quản lý đơn hàng</li>
+				</ol>
+			</div>
+			<div class="col-md-7 col-4 align-self-center text-end">
+				<a href="https://themewagon.com/themes/bootstrap-4-responsive-admin-template/"
+					class="btn waves-effect waves-light btn-success pull-right hidden-sm-down">Tải File Excel</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="card mb-4">
+				<div class="card-header bg-primary row">
+					<h5 class="text-light fw-bold col-9">DANH SÁCH ĐƠN HÀNG</h5>
+					<div class="col-3 text-end">
+						<div class="dropdown">
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								Xem số đơn hàng
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+								<li><button class="dropdown-item" ng-click="changeSizeOrder(5)">5 sản phẩm</button></li>
+								<li><button class="dropdown-item" ng-click="changeSizeOrder(10)">10 sản phẩm</button></li>
+								<li><button class="dropdown-item" ng-click="changeSizeOrder(20)">20 sản phẩm</button></li>
+								<li><button class="dropdown-item" ng-click="changeSizeOrder(30)">30 sản phẩm</button></li>
+								<li><button class="dropdown-item" ng-click="changeSizeOrder(50)">50 sản phẩm</button></li>
+								<li><button class="dropdown-item" ng-click="changeSizeOrder(-1)">Tất cả sản phẩm</button></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<nav class="navbar navbar-light bg-light my-3">
+					<div class="container">
+						<input ng-model="searchName" type="text" class="form-control" id="keyword"
+							placeholder="Bạn muốn tìm kiếm...">
+					</div>
+				</nav>
+				<div class="card-body">
+					<table class="table table-condensed">
+						<thead class="bg-success">
+							<tr>
+								<th ng-click="orderByField='id'; reverseSort = !reverseSort" style="cursor: pointer;">#
+								</th>
+								<th ng-click="orderByField='account.fullname'; reverseSort = !reverseSort"
+									style="cursor: pointer;">Tên người dùng</th>
+								<th ng-click="orderByField='createDate'; reverseSort = !reverseSort"
+									style="cursor: pointer;">Ngày đặt hàng</th>
+								<th ng-click="orderByField='orderStatus'; reverseSort = !reverseSort"
+									style="cursor: pointer;">
+									Trạng thái
+								</th>
+								<th></th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr dir-paginate="item in items | orderBy:orderByField:reverseSort | filter:searchName | itemsPerPage:pageSize">
+								<td style="width: 10%;">#{{item.id}}</td>
+								<td style="width: 35%;">{{item.account.fullname}}</td>
+								<td style="width: 25%;">{{item.createDate | date:'HH:mm:ss - dd/MM/yyyy'}}</td>
+								<td style="width: 30%;" ng-if="item.orderStatus == 'NEW'" class="text-danger fst-italic">Chưa xác nhận</td>
+								<td style="width: 30%;" ng-if="item.orderStatus == 'CONFIRMED'" class="text-info fst-italic">Đã xác nhận</td>
+								<td style="width: 30%;" ng-if="item.orderStatus == 'DILIVERING'" class="text-success fst-italic">
+									Đang vận chuyển
+								</td>
+								<td style="width: 30%;" ng-if="item.orderStatus == 'CANCELLED'" class="text-danger fst-italic">Đã hủy</td>
+								<td style="width: 30%;" ng-if="item.orderStatus == 'FINISHED'" class="text-info fst-italic">Đã hoàn thành</td>
+								<td style="width: 30%;" ng-if="item.orderStatus == 'RATED'" class="text-warning fst-italic">Đã đánh giá</td>
+								<td style="width: 10%;">
+									<div class="btn-group-xs">
+										<button class="btn"><a class="text-dark" ng-href="#!details/{{item.id}}"><i
+													class="fa-sharp fa-solid fa-magnifying-glass"></i></a></button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-footer text-center">
+					<dir-pagination-controls direction-links="true" boundary-links="true">
+
+					</dir-pagination-controls>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

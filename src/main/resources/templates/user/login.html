@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+	<main>
+		<div class="main-login">
+
+			<section class="sign-in">
+				<div class="container">
+					<div class="signin-content">
+						<div class="signin-image">
+							<figure>
+								<img th:src="@{/assets/images/background/signin-image.jpg}" alt="sing up image">
+							</figure>
+							<p>Bạn chưa có tài khoản?
+								<span><a href="/register" class="link-signup">Đăng ký ngay</a></span>
+							</p>
+						</div>
+
+
+						<div class="signin-form">
+							<h2 class="form-title">ĐĂNG NHẬP</h2>
+							<form th:action="@{/login}" method="POST" class="register-form" id="login-form">
+								<div class="form-group">
+									<label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+									<input type="text" name="username" placeholder="Email" />
+								</div>
+								<div class="form-group">
+									<label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+									<input type="password" name="password" placeholder="Password" />
+								</div>
+								<div class="form-group">
+									<input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+									<label for="remember-me" class="label-agree-term"><span><span></span></span>Nhớ mật
+										khẩu?</label>
+									<span class="float-end"><a href="/forgot-password" class="link-forgot">Quên mật
+											khẩu</a></span>
+								</div>
+								<div th:if="${message != null}">
+									<div class="error-messge" role="alert">[[${message}]]</div>
+								</div>
+								<div class="form-group form-button">
+									<button class="form-submit">Đăng nhập</button>
+								</div>
+							</form>
+							<div class="social-login">
+								<span class="social-label">Hoặc đăng nhập bằng</span>
+								<ul class="socials">
+									<li><a href="/oauth2/authorization/facebook"><i
+												class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+									
+									<li><a href="/oauth2/authorization/google"><i
+												class="display-flex-center zmdi zmdi-google"></i></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+</body>
+
+</html>

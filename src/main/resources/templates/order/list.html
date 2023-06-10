@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/index :: dynamic(~{::main})}">
+
+<body>
+	<main>
+		<div class="single-cart list-order">
+			<div class="container_option">
+				<div class="wrapper">
+					<div class="breadcrumb">
+						<ul class="flexitem">
+							<li><a href="#">Trang chủ</a></li>
+							<li>Đơn hàng</li>
+						</ul>
+					</div>
+					<div class="page-title your-order">
+						<h3>Đơn hàng của bạn</h3>
+					</div>
+					<section>
+						<div class="container">
+							<div class="row">
+								<div class="board">
+									<!-- <h2>Welcome to IGHALO!<sup>™</sup></h2>-->
+									<div class="board-inner">
+										<ul class="nav nav-tabs" id="myTab">
+											<div class="liner"></div>
+											<li class="active">
+												<a href="#new" data-toggle="tab" title="welcome">
+													<span class="round-tabs one">
+														<i class="fa-solid fa-folder-plus"></i>
+													</span>
+												</a>
+											</li>
+
+											<li><a href="#confirm" data-toggle="tab" title="profile">
+													<span class="round-tabs two">
+														<i class="glyphicon glyphicon-ok"></i>
+													</span>
+												</a>
+											</li>
+											<li><a href="#track" data-toggle="tab" title="bootsnipp goodies">
+													<span class="round-tabs three">
+														<i class="fa-solid fa-truck"></i>
+													</span> </a>
+											</li>
+
+											<li><a href="#finish" data-toggle="tab" title="blah blah">
+													<span class="round-tabs four">
+														<i class="fa-solid fa-user-check"></i>
+													</span>
+												</a></li>
+
+											<li><a href="#rated" data-toggle="tab" title="blah blah">
+													<span class="round-tabs five">
+														<i class="fa-regular fa-star"></i>
+													</span>
+												</a></li>
+
+											<li><a href="#canceled" data-toggle="tab" title="completed">
+													<span class="round-tabs six">
+														<i class="fa-solid fa-ban"></i>
+													</span> </a>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="tab-content">
+								<div class="tab-pane fade in active" id="new">
+									<div class="products one cart favorite">
+										<div class="item">
+											<table id="new-table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Tên khách hàng</th>
+														<th>Địa chỉ</th>
+														<th>Ngày đặt hàng</th>
+														<th>Trạng thái</th>
+														<th></th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="order : ${orders}"
+														th:if="${#strings.toString(order.orderStatus)} == 'NEW'">
+														<td style="padding-left: 10px;"><b>#[[${order.id}]]</b></td>
+														<td>[[${order.account.fullname}]]</td>
+														<td>[[${order.address}]]</td>
+														<td>[[${#dates.format(order.createDate, 'dd-MM-yyyy')}]]</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'NEW'"
+															class="text-danger"><strong><em>Chưa xác nhận</em></strong>
+														</td>
+														<td>
+															<a class="btn" th:href="@{'/order/detail/' + ${order.id}}">
+																<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+															</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="confirm">
+									<div class="products one cart favorite">
+										<div class="item">
+											<table id="confirm-table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Tên khách hàng</th>
+														<th>Địa chỉ</th>
+														<th>Ngày đặt hàng</th>
+														<th>Trạng thái</th>
+														<th></th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="order : ${orders}"
+														th:if="${#strings.toString(order.orderStatus)} == 'CONFIRMED'">
+														<td style="padding-left: 10px;"><b>#[[${order.id}]]</b></td>
+														<td>[[${order.account.fullname}]]</td>
+														<td>[[${order.address}]]</td>
+														<td>[[${#dates.format(order.createDate, 'dd-MM-yyyy')}]]</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'CONFIRMED'"
+															class="text-success"><strong><em>Đã xác
+																	nhận</em></strong>
+														</td>
+														<!-- <td th:if="${#strings.toString(order.orderStatus)} == 'DILIVERING'"
+															class="text-success"><strong><em>Đang vận chuyển</em></strong>
+														</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'CANCELLED'"
+															class="text-danger"><strong><em>Đã hủy</em></strong>
+														</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'FINISHED'"
+															class="text-info"><strong><em>Đã hoàn thành</em></strong>
+														</td> -->
+														<td>
+															<a class="btn" th:href="@{'/order/detail/' + ${order.id}}">
+																<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+															</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="track">
+									<div class="products one cart favorite">
+										<div class="item">
+											<table id="dilivering-table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Tên khách hàng</th>
+														<th>Địa chỉ</th>
+														<th>Ngày đặt hàng</th>
+														<th>Trạng thái</th>
+														<th></th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="order : ${orders}"
+														th:if="${#strings.toString(order.orderStatus)} == 'DILIVERING'">
+														<td style="padding-left: 10px;"><b>#[[${order.id}]]</b></td>
+														<td>[[${order.account.fullname}]]</td>
+														<td>[[${order.address}]]</td>
+														<td>[[${#dates.format(order.createDate, 'dd-MM-yyyy')}]]</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'DILIVERING'"
+															class="text-success"><strong><em>Đang vận
+																	chuyển</em></strong>
+														</td>
+														<!-- <td th:if="${#strings.toString(order.orderStatus)} == 'CANCELLED'"
+															class="text-danger"><strong><em>Đã hủy</em></strong>
+														</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'FINISHED'"
+															class="text-info"><strong><em>Đã hoàn thành</em></strong>
+														</td> -->
+														<td>
+															<a class="btn" th:href="@{'/order/detail/' + ${order.id}}">
+																<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+															</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="finish">
+									<div class="products one cart favorite">
+										<div class="item">
+											<table id="finish-table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Tên khách hàng</th>
+														<th>Địa chỉ</th>
+														<th>Ngày đặt hàng</th>
+														<th>Trạng thái</th>
+														<th></th>
+														<!-- <th></th> -->
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="order : ${orders}"
+														th:if="${#strings.toString(order.orderStatus)} == 'FINISHED'">
+														<td style="padding-left: 10px;"><b>#[[${order.id}]]</b></td>
+														<td>[[${order.account.fullname}]]</td>
+														<td>[[${order.address}]]</td>
+														<td>[[${#dates.format(order.createDate, 'dd-MM-yyyy')}]]</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'FINISHED'"
+															class="text-info"><strong><em>Đã hoàn thành</em></strong>
+														</td>
+														<!-- <td th:if="${#strings.toString(order.orderStatus)} == 'DILIVERING'"
+															class="text-success"><strong><em>Đang vận
+																	chuyển</em></strong>
+														</td> -->
+														<td>
+															<a class="btn" th:href="@{'/order/detail/' + ${order.id}}">
+																<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+															</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="rated">
+									<div class="products one cart favorite">
+										<div class="item">
+											<table id="rated-table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Tên khách hàng</th>
+														<th>Địa chỉ</th>
+														<th>Ngày đặt hàng</th>
+														<th>Trạng thái</th>
+														<th></th>
+														<!-- <th></th> -->
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="order : ${orders}"
+														th:if="${#strings.toString(order.orderStatus)} == 'RATED'">
+														<td style="padding-left: 10px;"><b>#[[${order.id}]]</b></td>
+														<td>[[${order.account.fullname}]]</td>
+														<td>[[${order.address}]]</td>
+														<td>[[${#dates.format(order.createDate, 'dd-MM-yyyy')}]]</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'RATED'"
+															class="text-pink"><strong><em>Đã đánh giá</em></strong>
+														</td>
+														<!-- <td th:if="${#strings.toString(order.orderStatus)} == 'DILIVERING'"
+															class="text-success"><strong><em>Đang vận
+																	chuyển</em></strong>
+														</td> -->
+														<td>
+															<a class="btn" th:href="@{'/order/detail/' + ${order.id}}">
+																<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+															</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="canceled">
+									<div class="products one cart favorite">
+										<div class="item">
+											<table id="cancel-table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Tên khách hàng</th>
+														<th>Địa chỉ</th>
+														<th>Ngày đặt hàng</th>
+														<th>Trạng thái</th>
+														<th></th>
+														<!-- <th></th> -->
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="order : ${orders}"
+														th:if="${#strings.toString(order.orderStatus)} == 'CANCELLED'">
+														<td style="padding-left: 10px;"><b>#[[${order.id}]]</b></td>
+														<td>[[${order.account.fullname}]]</td>
+														<td>[[${order.address}]]</td>
+														<td>[[${#dates.format(order.createDate, 'dd-MM-yyyy')}]]</td>
+														<td th:if="${#strings.toString(order.orderStatus)} == 'CANCELLED'"
+															class="text-danger"><strong><em>Đã hủy</em></strong>
+														</td>
+														<td>
+															<a class="btn" th:href="@{'/order/detail/' + ${order.id}}">
+																<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+															</a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+		<script>
+			$("#new-table").fancyTable({
+				pagination: true,
+				perPage: 5,
+				searchable: false,
+			});
+			$("#confirm-table").fancyTable({
+				pagination: true,
+				perPage: 5,
+				searchable: false,
+			});
+			$("#dilivering-table").fancyTable({
+				pagination: true,
+				perPage: 5,
+				searchable: false,
+			});
+			$("#finish-table").fancyTable({
+				pagination: true,
+				perPage: 5,
+				searchable: false,
+			});
+			$("#rated-table").fancyTable({
+				pagination: true,
+				perPage: 5,
+				searchable: false,
+			});
+			$("#cancel-table").fancyTable({
+				pagination: true,
+				perPage: 5,
+				searchable: false,
+			});
+		</script>
+	</main>
+</body>
+
+</html>

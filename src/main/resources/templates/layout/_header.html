@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <header th:fragment="page_header()">
+        <div class="header-top mobile-hide">
+            <div class="wrapper flexitem">
+                <div class="left">
+                    <ul class="flexitem main-links">
+                        <li><a href="mailto:truongchinh.dev@gmail.com.com">fteam.pro@gmail.com</a></li>
+                        <li><a a href="tel:19008198">1900 8198</a></li>
+                        <li><a href="#product_featured">Sản phẩm nổi bật</a></li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <ul class="flexitem main-links">
+                        <th:block th:if="${#request.remoteUser}">
+                            <li><a class="a-drop" id="remoteEmail" href="#">[[${#request.remoteUser}]]</a></li>
+                            <input type="hidden" value="{{remote.id}}" id="remoteId">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                </button>
+                                <div class="btn dropdown-toggle text-dark" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tài khoản
+                                    <i class="ri-arrow-down-s-line link-drop_down"></i>
+                                </div>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" th:href="@{/profile}"><b>Thông tin</b></a>
+
+                                    <a class="dropdown-item" th:href="@{/profile/address}"><b>Sổ địa chỉ</b></a>
+                                    <a class="dropdown-item" th:href="@{/logoff}"><b>Đăng xuất</b></a>
+                                </div>
+                            </div>
+                            <li th:if="${#request.isUserInRole(1) or #request.isUserInRole(2)}"><a class="a-drop"
+                                    id="remoteEmail" href="/admin">Quản trị</a></li>
+                            <li><a class="a-drop" href="/your-orders">Đơn hàng</a></li>
+                        </th:block>
+                        <th:block th:unless="${#request.remoteUser}">
+                            <li><a th:href="@{/login}" class="login-link btn">Đăng nhập</a></li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--header-nav-->
+        <div class="header-nav">
+            <div class="container-fluid">
+                <div class="wrapper flexitem">
+                    <a href="#" class="trigger desktop-hide">
+                        <span><i class="fa-solid fa-bars"></i></span>
+                    </a>
+                    <div class="left flexitem">
+                        <div class="logo"><a href="/"><span class="circle"></span>.Store</a></div>
+                        <nav class="mobile-hide">
+                            <ul class="flexitem second-links">
+                                <li><a href="/">Trang chủ</a></li>
+                                <li class="has-child mega-menu">
+                                    <a href="#">Nhóm hàng thường mua
+                                        <div class="fly-item"><span>Hot!</span></div>
+                                        <span class="icon-small">
+                                            <i class="ri-arrow-down-s-line"></i>
+                                        </span>
+                                    </a>
+                                    <div class="mega">
+                                        <div class="container">
+                                            <div class="wrapper">
+                                                <div ng-repeat="parentCat in topListParentCategories" class="flexcol">
+                                                    <div class="row">
+                                                        <h4>{{parentCat.name}}
+                                                            <div class="fly-item"><span>New!</span></div>
+                                                        </h4>
+                                                        <ul>
+                                                            <li ng-repeat="parentChild in parentCat.categories">
+                                                                <a href="/products/search/1?categoryIds={{parentChild.id}}">{{parentChild.name}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="flexcol">
+                                                    <div class="row">
+                                                        <h4>Top mặt hàng</h4>
+                                                        <ul class="top-brands">
+                                                            <li ng-repeat="brand in topBrands">
+                                                                <a href="/products/search/1?brandIds={{brand.id}}">{{brand.name}}</a>
+                                                            </li>
+                                                        </ul>
+                                                        <a href="/products/search/1" class="view-all">Xem tất cả
+                                                            <i class="ri-arrow-right-line"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="flexcol products most-wanted">
+                                                    <div class="row">
+                                                        <div class="media">
+                                                            <div class="thumbnails object-cover">
+                                                                <a href="/product/detail/{{productMostWanted.id}}">
+                                                                    <img ng-src="/assets/images/products/{{productMostWanted.mainImage}}"
+                                                                        alt="">
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-content">
+                                                            <h4>Mua nhiều nhất</h4>
+                                                            <a href="#" class="primary-button">
+                                                                Mua ngay
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li><a th:href="@{/products/search/1?categoryIds=43}">Đồ sơ sinh</a></li>
+                                <li><a th:href="@{/products/search/1?categoryIds=105}">Máy hút sữa - Máy vắt sữa</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/products/discount-new/search/1}">Khuyến mãi - Hàng mới
+                                        <div class="fly-item"><span>New!</span></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="right">
+                        <ul class="flexitem second-links">
+                            <li th:if="${#request.remoteUser}" class="mobile-hide">
+                                <a href="/your-favorite/{{remote.id}}">
+                                    <div class="icon-large">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+                                    <div class="heart-fly fly-item"><span
+                                            class="item-number" id="count-fav"></span></div>
+                                </a>
+                            </li>
+                            <li class="is-cart">
+                                <a th:href="@{/cart}" class="iscart">
+                                    <div class="icon-large">
+                                        <i class="ri-shopping-cart-2-line"></i>
+                                        <div class="fly-item"><span class="item-number">{{cart.count}}</span></div>
+                                    </div>
+                                    <div class="icon-text">
+                                        <div class="mini-text">Tổng:</div>
+                                        <div class="cart-total">{{cart.amount | number : 0}} đ</div>
+                                    </div>
+                                </a>
+                                <div class="mini-cart">
+                                    <div class="content">
+                                        <div class="cart-head">
+                                            {{cart.count}} sản phẩm trong giỏ hàng
+                                        </div>
+                                        <div class="cart-body">
+                                            <ul class="products mini">
+                                                <li class="item" ng-repeat="item in carts">
+                                                    <div class="thumbnails image-cover">
+                                                        <a href="#"><img
+                                                                ng-src="/assets/images/products/{{item.product.mainImage}}"
+                                                                alt=""></a>
+                                                    </div>
+                                                    <div class="item-content">
+                                                        <p><a href="#">{{item.product.name}}</a></p>
+                                                        <span class="price">
+                                                            <span>{{item.product.price | number : 0}} đ</span>
+                                                            <span class="fly-item"
+                                                                ng-if="item.product.discount > 0"><span>{{item.product.discount
+                                                                    | number :
+                                                                    0}}%</span></span>
+                                                        </span>
+                                                    </div>
+                                                    <a href="" ng-click="cart.remove(item.id)"
+                                                        class="item-remove"><i class="ri-close-line"></i></a>
+                                                </li>
+                                            </ul>
+                                            <ul th:if="!${#request.remoteUser}" class="products mini">
+                                                <li class="item" ng-repeat="item in cart.carts">
+                                                    <div class="thumbnails image-cover">
+                                                        <a href="#"><img
+                                                                ng-src="/assets/images/products/{{item.mainImage}}"
+                                                                alt=""></a>
+                                                    </div>
+                                                    <div class="item-content">
+                                                        <p><a href="#">{{item.name}}</a></p>
+                                                        <span class="price">
+                                                            <span>{{item.price | number : 0}} đ</span>
+                                                            <span class="fly-item"
+                                                                ng-if="item.discount > 0"><span>{{item.discount |
+                                                                    number :
+                                                                    0}}%</span></span>
+                                                        </span>
+                                                    </div>
+                                                    <a href="" ng-click="cart.remove(item.id)"
+                                                        class="item-remove"><i class="ri-close-line"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- ------- -->
+                                        <div class="cart-footer" ng-if="carts.length > 0">
+                                            <div class="subtotal">
+                                                <p><b>Tổng: </b></p>
+                                                <p><strong>{{cart.amount | number : 0}} đ</strong></p>
+                                            </div>
+                                            <div class="actions">
+                                                
+                                                <a th:href="@{/cart}" class="secondary-button">Xem giỏ hàng</a>
+                                            </div>
+                                        </div>
+                                        <!-- ------- -->
+                                        <div th:if="!${#request.remoteUser}" class="cart-footer"
+                                            ng-if="cart.carts.length > 0">
+                                            <div class="subtotal">
+                                                <p><b>Tổng: </b></p>
+                                                <p><strong>{{cart.amount | number : 0}} đ</strong></p>
+                                            </div>
+                                            <div class="actions">
+                                                <a th:href="@{/order/checkout}" class="primary-button">Thanh
+                                                    toán</a>
+                                                <a th:href="@{/cart}" class="secondary-button">Xem giỏ hàng</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-main mobile-hide">
+            <div class="container">
+                <div class="wrapper flexitem">
+                    <div class="left">
+                        <div class="dpt-cat">
+                            <div class="dpt-head">
+                                <div class="main-text">
+                                    DANH MỤC SẢN PHẨM
+                                </div>
+                                <div class="mini-text mobile-hide">
+                                    Tổng cộng {{countAllProducts}} sản phẩm
+                                </div>
+                                <a href="#" class="dpt-trigger mobile-hide">
+                                    <i class="ri-menu-3-line ri-xl"></i>
+                                    <i class="ri-close-line ri-xl"></i>
+                                </a>
+                            </div>
+                            <div class="dpt-menu">
+                                <ul class="second-links">
+                                    <li ng-repeat="parentCat in listParentCategories" class="has-child eat">
+                                        <a >
+                                            <div ng-if="parentCat.icon != null" class="icon-large"><i
+                                                    ng-class="parentCat.icon"></i></div>
+                                            {{parentCat.name}}
+                                            <div class="icon-small"><i class="ri-arrow-right-s-line"></i></div>
+                                        </a>
+                                        <ul>
+                                            <li ng-repeat="childCat in parentCat.categories">
+                                                <a href="/products/search/1?categoryIds={{childCat.id}}">{{childCat.name}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="search-box">
+                            <form th:replace="paging/paging_fragments :: search_bar"></form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>

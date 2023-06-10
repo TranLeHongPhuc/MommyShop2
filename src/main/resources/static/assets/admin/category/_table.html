@@ -1,0 +1,53 @@
+<div class="card my-4">
+    <div class="card-header bg-primary row">
+        <h5 class="text-light fw-bold col-9">DANH SÁCH DANH MỤC</h5>
+        <div class="col-3 text-end">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Xem số danh mục
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><button class="dropdown-item" ng-click="changeSizeChild(5)">5 danh mục</button></li>
+                    <li><button class="dropdown-item" ng-click="changeSizeChild(10)">10 danh mục</button></li>
+                    <li><button class="dropdown-item" ng-click="changeSizeChild(20)">20 danh mục</button></li>
+                    <li><button class="dropdown-item" ng-click="changeSizeChild(30)">30 danh mục</button></li>
+                    <li><button class="dropdown-item" ng-click="changeSizeChild(50)">50 danh mục</button></li>
+                    <li><button class="dropdown-item" ng-click="changeSizeChild(-1)">Tất cả danh mục</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-light bg-light my-3">
+        <div class="container">
+            <input ng-model="searchName" type="text" class="form-control" id="keyword"
+                placeholder="Bạn muốn tìm kiếm...">
+        </div>
+    </nav>
+    <div class="card-body">
+        <table class="table table-condensed table-category">
+            <thead class="bg-success">
+                <tr>
+                    <th ng-click="orderByField='id'; reverseSort = !reverseSort" style="cursor: pointer; width: 100px">#</th>
+                    <th ng-click="orderByField='name'; reverseSort = !reverseSort" style="cursor: pointer;">Tên danh mục</th>
+                    <th ng-click="orderByField='parentCategory.name'; reverseSort = !reverseSort" style="cursor: pointer;">Nhóm sản phẩm</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody dir-paginate="item in childCategories | orderBy:orderByField:reverseSort | filter:searchName | itemsPerPage:pageSizeChild">
+                <td style="width: 100px">{{item.id}}</td>
+                <td style="width: 500px;">{{item.name}}</td>
+                <td>{{item.parentCategory.name}}</td>
+                <td class="float-end">
+                    <div class="btn-group-xs">
+                        <button ng-click="edit(item)" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button ng-click="delete(item)" class="btn"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                </td>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-center">
+        <dir-pagination-controls boundary-links="true" direction-links="true"></dir-pagination-controls>
+    </div>
+</div>
