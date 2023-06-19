@@ -106,7 +106,7 @@ public class AccountService {
             authority.setAccount(account);
             authorityService.create(authority);
         } else {
-            String[] roles = account.getAuthorities().stream().map(er -> er.getId().toString())
+            String[] roles = account.getAuthorities().stream().map(er -> er.getRole().getId().toString())
                 .collect(Collectors.toList()).toArray(new String[0]);
             user = User.withUsername(account.getEmail()).password(account.getPassword()).roles(roles).build();
         }
