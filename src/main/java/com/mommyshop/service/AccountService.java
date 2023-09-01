@@ -86,7 +86,7 @@ public class AccountService {
         String to = account.getEmail();
         body += "<p> <br><br> </p>";
         body += "<p><br><br><br><br><br><br>Thank you <br> FTeam</p>";
-        mailer.send(to, subject, body);
+        mailer.send(to, subject, "",randomCode, account.getFullname());
     }
 
     public void loginFromOAuth2(OAuth2AuthenticationToken oauth2) {

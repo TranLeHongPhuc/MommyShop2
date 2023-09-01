@@ -87,13 +87,7 @@ public class RatingService {
         repo.deleteAllByOrderId(id);
     }
 
-    public void sendRandomCodeToEmail(String subject, String body, String randomCode, Account account)
-        throws MessagingException {
-        String to = account.getEmail();
-        body += "<p> Your code <h2>" + randomCode + "</h2> </p>";
-        body += "<p>Thank you <br> Team</p>";
-        mailer.send(to, subject, body);
-    }
+   
 
     public List<Rating> getByOrder(Integer id) {
         return repo.getByOrder(id);
